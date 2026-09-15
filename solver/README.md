@@ -142,6 +142,11 @@ Propagator numeryczny lokalnego dipola przeszedł zamrożoną bramkę `epsilon=0
 `../docs/V2_LOCAL_DIPOLE_PROPAGATOR_RESULT.md`. Skan amplitudy i C-3 nie były
 jeszcze uruchamiane.
 
+Skan C-3 na dziewięciu amplitudach zakończył się trzema wartościami PASS:
+`epsilon=0,10`, `0,20`, `0,40`. Każda poprawia oba bieguny względem kontroli
+`epsilon=0` i zachowuje konsensus minimów oraz warunki fizyczne. Raport:
+`../docs/V2_LOCAL_DIPOLE_C3_SCAN_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -318,6 +323,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `identify_maxwell_response.py` | identyfikacja `P1/P3` na wymuszonej gałęzi i wspólnej kohorcie |
 | `maxwell_numeric.py` | numeryczny propagator lokalnego dipola z lustrem |
 | `validate_local_dipole_propagator.py` | bramka `epsilon=0` względem analitycznego `S3` |
+| `scan_local_dipole_c3.py` | numeryczny skan amplitudy dipola wyłącznie na C-3 |
 | `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
 | `scan_maxwell_radius.py` | zakończony skan `R` Maxwella przy stałym bezwzględnym `z0` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |

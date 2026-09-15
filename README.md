@@ -162,6 +162,12 @@ numerycznym propagatorem i lustrem. Zamrożona bramka `epsilon=0` odtwarza
 uruchomiono jeszcze skanu `epsilon` ani C-3. Szczegóły:
 [`docs/V2_LOCAL_DIPOLE_PROPAGATOR_RESULT.md`](docs/V2_LOCAL_DIPOLE_PROPAGATOR_RESULT.md).
 
+Tani skan C-3 wyłonił trzy amplitudy lokalnego dipola, które jednocześnie
+poprawiają oba bieguny: `epsilon=0,10`, `0,20`, `0,40`. Wszystkie ujemne
+wartości oraz `0,05` odpadły. Nie wybrano jeszcze jednego zwycięzcy i nie
+uruchomiono C-2. Szczegóły:
+[`docs/V2_LOCAL_DIPOLE_C3_SCAN_RESULT.md`](docs/V2_LOCAL_DIPOLE_C3_SCAN_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

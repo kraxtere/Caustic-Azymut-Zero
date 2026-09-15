@@ -28,6 +28,9 @@ dLopt/ds = n
 Na `r=R` stosowane jest specularne odbicie kierunku. Integracja kończy się po
 osiągnięciu zadanej długości optycznej. Dla `epsilon=0` i kąta centralnego
 `alpha` celem jest `Lopt=n0*R*alpha`, dokładnie jak w rozwiązaniu `S3`.
+Analityczny wzór pola pozostaje ewaluowalny w etapach pośrednich integratora
+tuż poza powierzchnią; fizyczny tor jest przycinany do dokładnego zdarzenia
+`r=R` i nie propaguje poza lustrem.
 
 ## Bramki przed danymi obserwacyjnymi
 

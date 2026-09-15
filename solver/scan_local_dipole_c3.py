@@ -30,11 +30,13 @@ def _curve_point(curve: LocalMaxwellCurve, alpha: float) -> np.ndarray:
     return curve.state_at_angle(alpha)[0]
 
 
-def _closest_alpha(curve: LocalMaxwellCurve, point: np.ndarray) -> float:
-    grid = np.linspace(ALPHA_MARGIN, math.pi - ALPHA_MARGIN, 129)
-    squared = np.array(
-        [float(np.sum((_curve_point(curve, alpha) - point) ** 2)) for alpha in grid]
-    )
+def _closest_alpha(
+    curve: LocalMaxwellCurve,
+    grid: np.ndarray,
+    sampled_points: np.ndarray,
+    point: np.ndarray,
+) -> float:
+    squared = np.sum((sampled_points - point) ** 2, axis=1)
     index = int(np.argmin(squared))
     low = grid[max(0, index - 1)]
     high = grid[min(len(grid) - 1, index + 1)]
@@ -49,6 +51,8 @@ def _closest_alpha(curve: LocalMaxwellCurve, point: np.ndarray) -> float:
 
 def _fit_from_start(
     curves: tuple[LocalMaxwellCurve, ...],
+    grid: np.ndarray,
+    sampled_curves: tuple[np.ndarray, ...],
     initial_alphas: np.ndarray,
     radius: float,
 ) -> dict[str, object]:
@@ -56,13 +60,18 @@ def _fit_from_start(
     points = np.array([_curve_point(curve, alpha) for curve, alpha in zip(curves, alphas)])
     source = np.mean(points, axis=0)
     converged = False
-    for iteration in range(60):
-        alphas = np.array([_closest_alpha(curve, source) for curve in curves])
+    for iteration in range(30):
+        alphas = np.array(
+            [
+                _closest_alpha(curve, grid, samples, source)
+                for curve, samples in zip(curves, sampled_curves, strict=True)
+            ]
+        )
         points = np.array(
             [_curve_point(curve, alpha) for curve, alpha in zip(curves, alphas)]
         )
         updated = np.mean(points, axis=0)
-        if float(np.linalg.norm(updated - source)) <= 1e-9 * radius:
+        if float(np.linalg.norm(updated - source)) <= 1e-7 * radius:
             source = updated
             converged = True
             break
@@ -93,6 +102,10 @@ def fit_group(
         build_local_maxwell_curve(origin, direction, params)
         for origin, direction in zip(group.origins, group.directions, strict=True)
     )
+    grid = np.linspace(ALPHA_MARGIN, math.pi - ALPHA_MARGIN, 129)
+    sampled_curves = tuple(
+        np.array([_curve_point(curve, alpha) for alpha in grid]) for curve in curves
+    )
     target = np.asarray(analytic_seed["common_point_s3_km"], dtype=float)
     parities = analytic_seed["selected_reflection_parities"]
     warm_alphas = np.array(
@@ -115,7 +128,12 @@ def fit_group(
             starts.append(warm_alphas + rng.normal(0.0, scale, len(warm_alphas)))
         else:
             starts.append(rng.uniform(ALPHA_MARGIN, math.pi - ALPHA_MARGIN, len(warm_alphas)))
-    runs = tuple(_fit_from_start(curves, start, SELECTED_RADIUS_KM) for start in starts)
+    runs = tuple(
+        _fit_from_start(
+            curves, grid, sampled_curves, start, SELECTED_RADIUS_KM
+        )
+        for start in starts
+    )
     best = min(runs, key=lambda run: run["rms_km"])
     best_squared = float(best["rms_km"]) ** 2
     competitive = [

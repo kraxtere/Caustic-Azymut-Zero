@@ -126,8 +126,6 @@ def n_and_grad(
                 scale**2 * denominator**2
             )
             return base_index, gradient
-        if radius > scale * (1.0 + 1e-12):
-            raise ValueError("local Maxwell dipole is defined inside its mirror")
         relative_z = float(relative[2])
         radius_squared = float(np.dot(relative, relative))
         exponent = epsilon * (relative_z / scale) * (
