@@ -9,7 +9,9 @@ Three.js ani od konstrukcji kopuły używanej w wizualizacji.
 wyłącznie jako odtwarzalny punkt odniesienia i nie powinny być dalej strojone.
 `field_lens.py` zachowuje oba analitycznie sprawdzone profile. Hybryda
 Luneburga ma status **v2-falsified-hybrid** po skanach `z0` i `(R,z0)`.
-Główną hipotezą jest teraz dokładny Maxwell oczekujący na jawny adapter lustra.
+Główną hipotezą jest teraz dokładny Maxwell. Analityczny adapter pierwszego
+interwału i lustra jest gotowy; następna bramka to rekonstrukcja wspólnego
+punktu ze złożonych krzywych wielu obserwatorów.
 
 ## Historyczna hipoteza v1
 
@@ -125,9 +127,9 @@ integratora, triangulacji ani metryk C-2/C-3:
   --output solver/results/v2-luneburg-default-validation.json
 ```
 
-Dokładny Maxwell pozostaje za tą bramką, ponieważ jego wariant ograniczony
-wymaga jawnego zdarzenia odbicia od lustra. Walidator odmawia uruchomienia go
-bez takiego kontraktu zamiast po cichu obcinać profil.
+Historyczny walidator nadal odmawia uruchomienia Maxwella przez ścieżkę RK45,
+zamiast po cichu obcinać profil. Jawny warunek odbicia jest już dostępny jako
+analityczna ścieżka `maxwell_mirror.py`; nie jest jeszcze podłączony do C-2/C-3.
 
 ### Zamknięty etapowy skan położenia Luneburga
 
@@ -172,6 +174,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `geometry_flat.py` | projekcja AE, lokalna baza E/N/U, alt-az |
 | `field.py` | archiwalne pole `v1-falsified` i jego gradient analityczny |
 | `field_lens.py` | Maxwell v2 oraz archiwalny Luneburg, gradienty i analityka |
+| `maxwell_mirror.py` | dokładny pierwszy interwał Maxwella na `S^3` i złożenie lustra |
 | `raytrace.py` | integracja eikonalna 3D i triangulacja prostych |
 | `demo_baseline.py` | kontrolny wynik bez pola |
 | `fit_field.py` | historyczne odtworzenie optymalizacji v1 |

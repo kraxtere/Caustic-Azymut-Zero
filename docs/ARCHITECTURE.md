@@ -62,10 +62,12 @@ Integrator prowadzi pełny promień 3D. Osiowa symetria zmniejsza liczbę zmienn
 
 `solver/field_lens.py` zawiera sferycznie symetryczne profile Maxwella i
 Luneburga. Hybryda Luneburga ma status `v2-falsified-hybrid` po zamrożonym
-skanie `(R,z0)`. Głównym kierunkiem jest dokładny Maxwell, który wymaga
-osobnego warunku lustra. Profil pola nadal korzysta z tego samego równania
-eikonalnego, lecz zamknięty układ lustrzany nie tworzy zewnętrznych
-asymptotycznych półprostych, więc jego rekonstrukcja wymaga jawnego kontraktu.
+skanie `(R,z0)`. Głównym kierunkiem jest dokładny Maxwell. Jego pierwszy
+interwał obrazowania i warunek lustra są zaimplementowane analitycznie w
+`solver/maxwell_mirror.py` jako wielkie okręgi na `S^3`, bez RK45. Zamknięty
+układ lustrzany nie tworzy zewnętrznych asymptotycznych półprostych, więc jego
+rekonstrukcja będzie minimalizować wspólne zbliżenie krzywych. Szczegóły:
+[`MAXWELL_MIRROR_CONTRACT.md`](MAXWELL_MIRROR_CONTRACT.md).
 
 TypeScript zachowuje kontrakt przyszłego importu pola do podglądu:
 

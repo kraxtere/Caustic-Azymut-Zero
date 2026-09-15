@@ -24,7 +24,7 @@ import numpy as np
 LensFamily = Literal["maxwell", "luneburg"]
 MODEL_STATUS = "v2-maxwell-primary"
 FAMILY_STATUS = {
-    "maxwell": "v2-primary-pending-mirror-adapter",
+    "maxwell": "v2-primary-analytic-mirror-contract",
     "luneburg": "v2-falsified-hybrid",
 }
 

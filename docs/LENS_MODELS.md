@@ -9,9 +9,11 @@ nie miesza profili soczewek z azymutalną płaszczyzną. Dopiero po przejściu
 testów analitycznych można dodać osobny adapter do geometrii
 `płaszczyzna + kopuła`.
 
-Główna implementacja znajduje się w `solver/field_lens.py`. Udostępnia ona
+Profile pola znajdują się w `solver/field_lens.py`. Udostępniają one
 `n_and_grad` oraz `n_and_grad_components` o tym samym kształcie wywołania co
 historyczny `field.py`, a także analityczne trajektorie referencyjne.
+Pełnowymiarowy kontrakt odbicia Maxwella znajduje się w
+`solver/maxwell_mirror.py`.
 `solver/lenses.py` pozostaje wyłącznie zgodnościowym re-eksportem. Testy są w
 `solver/tests/test_lenses.py`.
 
@@ -45,8 +47,12 @@ wspólnego punktu spotykają się ponownie w antypodzie. Lustro na równiku
 zawija zewnętrzną półsferę do wnętrza urządzenia; obraz punktu wewnątrz koła
 leży po przeciwnej stronie średnicy.
 
-Test jednostkowy nie całkuje równania promienia. Oblicza wielkie koła wprost i
-sprawdza wspólny antypod dla różnych kierunków początkowych.
+Test jednostkowy nie całkuje równania promienia. Moduł
+`solver/maxwell_mirror.py` podnosi pozycję i kierunek z `R^3` na `S^3`
+osadzoną w `R^4`, oblicza wielki okrąg wprost i składa tor na równiku. Testuje
+również fizyczne prawo odbicia. Szczegółowy kontrakt i ograniczenie
+rekonstrukcji z pojedynczej obserwacji opisuje
+[`MAXWELL_MIRROR_CONTRACT.md`](MAXWELL_MIRROR_CONTRACT.md).
 
 Źródła:
 
@@ -112,18 +118,21 @@ dla azymutalnej geometrii projektu — to dopiero kontrolowany model odniesienia
 Dokładny profil Maxwella nie ma zewnętrznego obszaru `n=const`: dla
 `r→∞` współczynnik dąży do zera, a promienie realizują pełne wielkie koła na
 wirtualnej sferze. Wariant Leonhardta ogranicza urządzenie do równika przez
-lustro. Obecny ray tracer kończy promień w obszarze zaniku gradientu i nie ma
-zdarzenia odbicia, więc nie da się jednocześnie zachować dokładnego modelu
-Maxwella, lustra i zakazu zmian obsługi granicy.
+lustro. Historyczny ray tracer kończy promień w obszarze zaniku gradientu i
+nie ma zdarzenia odbicia. Dla pierwszego interwału obrazowania nie trzeba go
+jednak modyfikować: dokładny adapter analityczny realizuje wielki okrąg i
+odbicie bez RK45.
 
 Nie wprowadzamy nieudokumentowanego obcięcia `n=const` za `R0`, ponieważ
 usunęłoby ono certyfikowaną własność ogniskowania. Adaptacja Maxwella musi
 dopuścić osobny, testowalny warunek odbicia na kopule.
 
-Równanie eikonalne wewnątrz ośrodka pozostaje bez zmian. Nie można jednak użyć
-bez zmian triangulacji asymptotycznych półprostych: w układzie z lustrem
-promień nie opuszcza pola. Następny adapter musi jawnie zdefiniować odbicie,
-parametr drogi liczony w przód i rekonstrukcję wspólnego punktu na krzywych.
+Nie można użyć bez zmian triangulacji asymptotycznych półprostych: w układzie
+z lustrem promień nie opuszcza pola. Jedna obserwacja wyznacza złożoną krzywą,
+nie ogólny punkt źródła. Bezpośredni punkt `2*centre-observer` jest wyłącznie
+obrazem sprzężonym po pełnym interwale `alpha=pi` i nie może być traktowany
+jako wspólny kandydat wielu obserwatorów. Następny etap dopasuje wspólny punkt
+do krzywych liczonych analitycznie.
 
 ## Adapter hybrydowy Luneburga — zamknięty punkt odniesienia
 

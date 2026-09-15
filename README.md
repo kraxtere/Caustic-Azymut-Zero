@@ -15,7 +15,7 @@ Repozytorium zawiera teraz:
 - niezależny solver Python z pięcioparametrowym polem toroidalnym,
 - integrator eikonalny 3D, triangulację asymptotycznych promieni i globalne dopasowanie parametrów,
 - walidator gęstej siatki, tarczy Słońca (C-2) i biegunów niebieskich (C-3),
-- główną hipotezę v2: profil Maxwella oczekujący na jawny adapter lustra,
+- główną hipotezę v2: profil Maxwella z analitycznym adapterem lustra,
 - zamkniętą jako `v2-falsified-hybrid` rodzinę Luneburga z pełnym audytem.
 
 Krzywa Béziera jest tutaj **modelem bazowym do porównań**, a nie fizycznym wyjaśnieniem ugięcia światła. Solver nie strzela do założonej kopuły: prowadzi promienie od obserwatorów do zaniku pola i mierzy zbieżność ich asymptotycznych półprostych. Szczegóły są w [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) i [`solver/README.md`](solver/README.md).
@@ -60,9 +60,12 @@ Pełne wyniki trzech ziaren są zapisane obok jako `full-fit-v1-seed-*.json`.
 
 Natywne testy analityczne v2 są zaliczone. Kontrolny adapter górnej półsfery
 Luneburga jest gotowy do lokalnego przebiegu przez niezmieniony walidator
-C-2/C-3 (`python -m solver.validate_lens`). Dokładny Maxwell wymaga najpierw
-jawnego warunku odbicia od lustra; kod celowo nie zastępuje go arbitralnym
-obcięciem profilu.
+C-2/C-3 (`python -m solver.validate_lens`). Dokładny pierwszy interwał
+Maxwella i odbicie od lustra są zaimplementowane bez RK45 jako wielkie okręgi
+na pomocniczej `S^3`. Kod celowo nie zastępuje profilu arbitralnym obcięciem.
+Pojedyncza obserwacja wyznacza przy tym krzywą, nie ogólny jednoznaczny punkt
+źródła; następny etap porówna analityczne krzywe wielu obserwatorów. Kontrakt
+opisuje [`docs/MAXWELL_MIRROR_CONTRACT.md`](docs/MAXWELL_MIRROR_CONTRACT.md).
 
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
