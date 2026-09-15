@@ -1,0 +1,331 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "source": "solver/results/v2-maxwell-forced-branch-continuation.json",
+  "map_diameter_km": 12742.0,
+  "records": [
+    {
+      "track_id": "march_equinox",
+      "timestamp_utc": "2026-03-20T10:00:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 8462.602069724406,
+      "direct_effective_image_distance_km": 8462.602069724406,
+      "selected_effective_distance_to_map_diameter_ratio": 0.6641502173696755,
+      "direct_effective_distance_to_map_diameter_ratio": 0.6641502173696755,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "march_equinox",
+      "timestamp_utc": "2026-03-20T11:30:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 7972.326213518679,
+      "direct_effective_image_distance_km": 7972.326213518679,
+      "selected_effective_distance_to_map_diameter_ratio": 0.6256730665137874,
+      "direct_effective_distance_to_map_diameter_ratio": 0.6256730665137874,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "march_equinox",
+      "timestamp_utc": "2026-03-20T13:00:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 7542.801672460481,
+      "direct_effective_image_distance_km": 7542.801672460481,
+      "selected_effective_distance_to_map_diameter_ratio": 0.591963716250234,
+      "direct_effective_distance_to_map_diameter_ratio": 0.591963716250234,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "march_equinox",
+      "timestamp_utc": "2026-03-20T14:30:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 7211.191919059033,
+      "direct_effective_image_distance_km": 7211.191919059033,
+      "selected_effective_distance_to_map_diameter_ratio": 0.5659387787677784,
+      "direct_effective_distance_to_map_diameter_ratio": 0.5659387787677784,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "march_equinox",
+      "timestamp_utc": "2026-03-20T16:00:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 6833.852051488393,
+      "direct_effective_image_distance_km": 6833.852051488393,
+      "selected_effective_distance_to_map_diameter_ratio": 0.5363249137881332,
+      "direct_effective_distance_to_map_diameter_ratio": 0.5363249137881332,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "june_solstice",
+      "timestamp_utc": "2026-06-21T10:00:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 7611.397741163643,
+      "direct_effective_image_distance_km": 7611.397741163643,
+      "selected_effective_distance_to_map_diameter_ratio": 0.5973471779283976,
+      "direct_effective_distance_to_map_diameter_ratio": 0.5973471779283976,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "june_solstice",
+      "timestamp_utc": "2026-06-21T11:30:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 7163.3623115464125,
+      "direct_effective_image_distance_km": 7163.3623115464125,
+      "selected_effective_distance_to_map_diameter_ratio": 0.5621850817412033,
+      "direct_effective_distance_to_map_diameter_ratio": 0.5621850817412033,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "june_solstice",
+      "timestamp_utc": "2026-06-21T13:00:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 6799.476116886579,
+      "direct_effective_image_distance_km": 6799.476116886579,
+      "selected_effective_distance_to_map_diameter_ratio": 0.5336270692894819,
+      "direct_effective_distance_to_map_diameter_ratio": 0.5336270692894819,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "june_solstice",
+      "timestamp_utc": "2026-06-21T14:30:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 6537.89614758107,
+      "direct_effective_image_distance_km": 6537.89614758107,
+      "selected_effective_distance_to_map_diameter_ratio": 0.5130981123513633,
+      "direct_effective_distance_to_map_diameter_ratio": 0.5130981123513633,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "june_solstice",
+      "timestamp_utc": "2026-06-21T16:00:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 6250.23945277614,
+      "direct_effective_image_distance_km": 6250.23945277614,
+      "selected_effective_distance_to_map_diameter_ratio": 0.490522637951353,
+      "direct_effective_distance_to_map_diameter_ratio": 0.490522637951353,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "december_solstice",
+      "timestamp_utc": "2026-12-21T10:00:00+00:00",
+      "selected_to_direct_disk_ratio": 1.7313524927376505,
+      "selected_effective_image_distance_km": 16087.973489739323,
+      "direct_effective_image_distance_km": 9292.14215893188,
+      "selected_effective_distance_to_map_diameter_ratio": 1.2625940582121584,
+      "direct_effective_distance_to_map_diameter_ratio": 0.7292530339767603,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": false,
+      "selected_reflected_branch_counts": {
+        "centre": 2,
+        "north_limb": 2,
+        "south_limb": 2,
+        "east_limb": 2,
+        "west_limb": 2
+      }
+    },
+    {
+      "track_id": "december_solstice",
+      "timestamp_utc": "2026-12-21T11:30:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 8511.618663519535,
+      "direct_effective_image_distance_km": 8511.618663519535,
+      "selected_effective_distance_to_map_diameter_ratio": 0.6679970698100405,
+      "direct_effective_distance_to_map_diameter_ratio": 0.6679970698100405,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "december_solstice",
+      "timestamp_utc": "2026-12-21T13:00:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 8042.040169858934,
+      "direct_effective_image_distance_km": 8042.040169858934,
+      "selected_effective_distance_to_map_diameter_ratio": 0.6311442607015331,
+      "direct_effective_distance_to_map_diameter_ratio": 0.6311442607015331,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "december_solstice",
+      "timestamp_utc": "2026-12-21T14:30:00+00:00",
+      "selected_to_direct_disk_ratio": 1.0,
+      "selected_effective_image_distance_km": 7660.855462428023,
+      "direct_effective_image_distance_km": 7660.855462428023,
+      "selected_effective_distance_to_map_diameter_ratio": 0.6012286503239698,
+      "direct_effective_distance_to_map_diameter_ratio": 0.6012286503239698,
+      "one_branch_signature_across_disk": true,
+      "all_selectors_consensus": true,
+      "selected_reflected_branch_counts": {
+        "centre": 0,
+        "north_limb": 0,
+        "south_limb": 0,
+        "east_limb": 0,
+        "west_limb": 0
+      }
+    },
+    {
+      "track_id": "december_solstice",
+      "timestamp_utc": "2026-12-21T16:00:00+00:00",
+      "selected_to_direct_disk_ratio": 26.259573377314997,
+      "selected_effective_image_distance_km": 206413.14179761268,
+      "direct_effective_image_distance_km": 7860.491060983038,
+      "selected_effective_distance_to_map_diameter_ratio": 16.19943037181076,
+      "direct_effective_distance_to_map_diameter_ratio": 0.6168961749319603,
+      "one_branch_signature_across_disk": false,
+      "all_selectors_consensus": false,
+      "selected_reflected_branch_counts": {
+        "centre": 3,
+        "north_limb": 3,
+        "south_limb": 3,
+        "east_limb": 4,
+        "west_limb": 3
+      }
+    }
+  ],
+  "near_integer_branch_factor": {
+    "value": 5.964089418421183,
+    "nearest_integer": 6,
+    "relative_distance_to_nearest_integer": 0.005985096929802906
+  },
+  "winding_audit": {
+    "winding_index_exists_in_current_model": false,
+    "reflection_state_is_boolean": true,
+    "all_reported_central_angles_within_first_interval_0_to_pi": true,
+    "maximum_reported_central_angle_rad": 2.0555537562397337,
+    "conclusion": "The near-six aggregate is not a winding number in this first-interval, boolean P/JPJ representation."
+  },
+  "map_chord_ratio_policy": {
+    "status": "diagnostic-only",
+    "reason": "An effective image distance is a local angular-to-linear scale and is not bounded by the physical aperture diameter without a separately derived Maxwell-map magnification bound."
+  },
+  "multipole_probe": {
+    "values": {
+      "-23.44": {
+        "x_sin_delta": -0.39778850739794974,
+        "p1": -0.39778850739794974,
+        "p2": -0.2626464550731669,
+        "p3": 0.43932190716016273
+      },
+      "-11.7": {
+        "x_sin_delta": -0.20278729535651246,
+        "p1": -0.20278729535651246,
+        "p2": -0.4383159692629859,
+        "p3": 0.2833330467683569
+      },
+      "0.0": {
+        "x_sin_delta": 0.0,
+        "p1": 0.0,
+        "p2": -0.5,
+        "p3": 0.0
+      },
+      "11.7": {
+        "x_sin_delta": 0.20278729535651246,
+        "p1": 0.20278729535651246,
+        "p2": -0.4383159692629859,
+        "p3": -0.2833330467683569
+      },
+      "23.44": {
+        "x_sin_delta": 0.39778850739794974,
+        "p1": 0.39778850739794974,
+        "p2": -0.2626464550731669,
+        "p3": -0.43932190716016273
+      }
+    },
+    "p2_equal_at_opposite_solstices": true,
+    "p3_to_p1_ratio_at_23_44": -1.1044107584552783,
+    "p3_to_p1_ratio_at_11_7": -1.3971932821049764
+  }
+}

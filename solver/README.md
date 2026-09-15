@@ -118,6 +118,13 @@ celów nie zachowało konsensusu gałęzi między ziarnami. Wartości z arbitral
 wybranego minimum nie są interpretowane. Raport:
 `../docs/V2_MAXWELL_FORCED_BRANCH_CONTINUATION_RESULT.md`.
 
+Audyt geometrii odrzuca interpretację mnożnika `5,964089` jako indeksu
+nawinięcia: model używa tylko pierwszego przedziału `0..pi` i bitu `P/JPJ`,
+a średnią dominuje przełączenie wschodniego brzegu tarczy o 16:00. Iloraz
+efektywnej odległości do średnicy mapy pozostaje diagnostyką, dopóki nie
+zostanie wyprowadzony limit powiększenia konkretnego odwzorowania. Raport:
+`../docs/V2_MAXWELL_BRANCH_GEOMETRY_AUDIT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -290,6 +297,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `scan_maxwell_declination.py` | diagnostyczny skan skali po deklinacji |
 | `analyze_maxwell_scale.py` | klasyfikacja strony gałęzi i dopasowanie korekty skali |
 | `continue_maxwell_branches.py` | wymuszona kontynuacja `P` na wspólnej kohorcie i dekompozycja skali |
+| `analyze_maxwell_branch_geometry.py` | audyt efektywnej skali, sygnatur tarczy i hipotezy nawinięcia |
 | `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
 | `scan_maxwell_radius.py` | zakończony skan `R` Maxwella przy stałym bezwzględnym `z0` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |

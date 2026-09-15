@@ -66,16 +66,23 @@ stąd naturalnie pojawia się właśnie `sin(delta)`. Jest to wskazanie klasy
 symetrii nowego parametru, a nie dowód, że sama empiryczna korekta skali jest
 gotową postacią `n(r)`.
 
-Jeżeli jeden parametr dipolowy okaże się niewystarczający, naturalnym drugim
-składnikiem jest kwadrupol `l=2`:
+Kwadrupol `l=2` ma postać:
 
 ```text
 P2(sin(delta)) = (3 sin(delta)^2 - 1) / 2
 ```
 
-Stałą część należy wtedy oddzielić od normalizacji pola. Bardzo dobre
-dopasowanie wcześniejszego modelu kwadratowego jest zgodne z obecnością tego
-członu, ale nie uzasadnia dowolnego wielomianu w `delta`.
+Jest on parzysty w `delta`, więc ma identyczną wartość przy obu przesileniach
+i nie może zmniejszyć sezonowej asymetrii czerwiec–grudzień. Może opisywać
+jedynie wspólny poziom lub krzywiznę kontrolowaną m.in. przez równonoc. Jeśli
+dipol nie wystarczy do asymetrii, naturalnym następnym składnikiem jest
+nieparzysty oktupol `l=3`, `P3(x)=(5x^3-3x)/2`, rozdzielany od `P1` przez
+deklinacje pośrednie.
+
+Co ważniejsze, `delta` w tabeli jest deklinacją źródła i tylko etykietuje
+odpowiedź układu. Nie może stać się argumentem `n`. Statyczne pole może użyć
+lokalnej współrzędnej `mu(x)=cos(theta(x))`; dopiero odpowiedź takiego pola
+jest badana jako funkcja `delta_source`.
 
 Dwupunktowa krzywizna w modelu kwadratowym poprawia RMSE około 29 razy, ale
 nie jest konieczna do spełnienia progów `1%/2%`.

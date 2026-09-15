@@ -53,10 +53,12 @@ ośmioosobową kohortę, ale zakotwiczyć etykiety gałęzi w stabilnych
 dwudziestoosobowych rozwiązaniach C-2, zamiast ponownie wybierać je z
 uboższego zbioru. Dopiero wtedy można domknąć liczbowo część dyskretną.
 
-Niezależnie od tego projekt nowego parametru ma naturalną bazę multipolową:
-dipol `P1(sin(delta))` jako pierwszy składnik oraz kwadrupol
-`P2(sin(delta))` jako ewentualny drugi. Po implementacji pierwszą bramką
-pozostaje C-3; pełne C-2 dopiero po braku regresji obu biegunów.
+Niezależnie od tego projekt nowego parametru ma naturalną bazę multipolową.
+Sezonową asymetrię może zmieniać dipol `P1` oraz ewentualny nieparzysty
+oktupol `P3`; parzysty kwadrupol `P2` nie rozróżnia przeciwnych przesileń.
+Argumentem pola musi być lokalna współrzędna geometryczna, nie deklinacja
+źródła. Po implementacji pierwszą bramką pozostaje C-3; pełne C-2 dopiero po
+braku regresji obu biegunów.
 
 Maszynowy raport:
 `solver/results/v2-maxwell-forced-branch-continuation.json`.
