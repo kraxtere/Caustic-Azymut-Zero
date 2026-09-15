@@ -72,6 +72,11 @@ Kwadrupol `l=2` ma postać:
 P2(sin(delta)) = (3 sin(delta)^2 - 1) / 2
 ```
 
+W rozwinięciu samego przesuniętego profilu radialnego drugi rząd po `z0/r`
+rzeczywiście zawiera mieszaninę `P0+P2`. Nie wolno jednak utożsamiać wartości
+lokalnego pola z `C(delta_source)`, które jest nieliniową odpowiedzią
+scałkowaną wzdłuż całego zagiętego toru.
+
 Jest on parzysty w `delta`, więc ma identyczną wartość przy obu przesileniach
 i nie może zmniejszyć sezonowej asymetrii czerwiec–grudzień. Może opisywać
 jedynie wspólny poziom lub krzywiznę kontrolowaną m.in. przez równonoc. Jeśli

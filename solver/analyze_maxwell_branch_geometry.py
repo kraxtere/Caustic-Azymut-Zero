@@ -7,6 +7,8 @@ import json
 import math
 from pathlib import Path
 
+import numpy as np
+
 from .geometry_flat import R_MAP
 
 
@@ -49,8 +51,21 @@ def disk_uses_one_branch_signature(
     return len(signatures) == 1
 
 
+def inverse_stereographic_local_scale(w_coordinate: float, radius: float) -> float:
+    """Return ``ds_R3/ds_S3 = R/(R-w)`` for the inverse projection."""
+
+    w = float(w_coordinate)
+    sphere_radius = float(radius)
+    if not math.isfinite(w) or not math.isfinite(sphere_radius) or sphere_radius <= 0:
+        raise ValueError("w_coordinate and radius must be finite; radius positive")
+    if w >= sphere_radius:
+        raise ValueError("the stereographic north pole has infinite scale")
+    return sphere_radius / (sphere_radius - w)
+
+
 def analyse(payload: dict[str, object]) -> dict[str, object]:
     map_diameter = 2.0 * R_MAP
+    sphere_radius = float(payload["design"]["radius_km"])
     records = []
     central_angles = []
     parity_values = []
@@ -67,6 +82,34 @@ def analyse(payload: dict[str, object]) -> dict[str, object]:
             direct_effective = effective_image_distance_km(
                 direct_diameter, radius_deg
             )
+            selected_points = {
+                name: np.asarray(target["common_point_s3_km"], dtype=float)
+                for name, target in moment["selected_branch"]["targets"].items()
+            }
+            centre_point = selected_points["centre"]
+            local_scales = {
+                name: inverse_stereographic_local_scale(point[3], sphere_radius)
+                for name, point in selected_points.items()
+            }
+            north_pole_angles = {
+                name: math.acos(
+                    float(np.clip(point[3] / sphere_radius, -1.0, 1.0))
+                )
+                for name, point in selected_points.items()
+            }
+            centre_to_limb_angles = {
+                name: math.acos(
+                    float(
+                        np.clip(
+                            np.dot(centre_point, point) / sphere_radius**2,
+                            -1.0,
+                            1.0,
+                        )
+                    )
+                )
+                for name, point in selected_points.items()
+                if name != "centre"
+            }
             for target in moment["selected_branch"]["targets"].values():
                 central_angles.extend(
                     (
@@ -101,6 +144,12 @@ def analyse(payload: dict[str, object]) -> dict[str, object]:
                         sample: int(selector["selected_reflected_branch_count"])
                         for sample, selector in moment["branch_selector"].items()
                     },
+                    "inverse_stereographic_local_scales": local_scales,
+                    "north_pole_angular_distances_rad": north_pole_angles,
+                    "centre_to_limb_s3_angles_rad": centre_to_limb_angles,
+                    "maximum_centre_to_limb_s3_angle_rad": max(
+                        centre_to_limb_angles.values()
+                    ),
                 }
             )
 
@@ -108,6 +157,12 @@ def analyse(payload: dict[str, object]) -> dict[str, object]:
         payload["december_to_june_decomposition"]["discrete_branch_multiplier"]
     )
     nearest_integer = round(factor)
+    december_1600 = next(
+        record
+        for record in records
+        if record["track_id"] == "december_solstice"
+        and str(record["timestamp_utc"])[11:16] == "16:00"
+    )
     multipole_probes = {
         str(declination): legendre_modes(declination)
         for declination in (-23.44, -11.7, 0.0, 11.7, 23.44)
@@ -144,6 +199,23 @@ def analyse(payload: dict[str, object]) -> dict[str, object]:
                 "An effective image distance is a local angular-to-linear "
                 "scale and is not bounded by the physical aperture diameter "
                 "without a separately derived Maxwell-map magnification bound."
+            ),
+        },
+        "stereographic_pole_audit": {
+            "december_1600_minimum_north_pole_distance_rad": min(
+                december_1600["north_pole_angular_distances_rad"].values()
+            ),
+            "december_1600_local_scale_range": [
+                min(december_1600["inverse_stereographic_local_scales"].values()),
+                max(december_1600["inverse_stereographic_local_scales"].values()),
+            ],
+            "december_1600_maximum_centre_to_limb_s3_angle_rad": (
+                december_1600["maximum_centre_to_limb_s3_angle_rad"]
+            ),
+            "conclusion": (
+                "The 26x disk is not caused by the inverse stereographic "
+                "pole singularity; its fitted points have finite local scale "
+                "near 0.7, while one limb jumps to a distant S3 solution."
             ),
         },
         "multipole_probe": {

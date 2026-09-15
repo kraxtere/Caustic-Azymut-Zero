@@ -44,6 +44,20 @@ odwzorowania stereograficznego Maxwella i dozwolonej domeny źródła. Do tego
 czasu iloraz jest obowiązkową diagnostyką ostrzegawczą, ale nie kryterium
 odrzucenia dobranym po zobaczeniu wyniku.
 
+Dokładny współczynnik lokalny odwrotnego rzutu stereograficznego wynosi:
+
+```text
+ds_R3 / ds_S3 = R / (R - w)
+```
+
+Hipoteza bieguna rzutu została sprawdzona bezpośrednio. O 16:00 wszystkie
+punkty tarczy mają `w/R` około `-0,42`, lokalny współczynnik tylko
+`0,697...0,706` i odległość kątową od północnego bieguna co najmniej
+`2,001 rad`. Nie ma tam zbliżenia do osobliwości `w/R -> 1`. Za to wschodni
+brzeg leży `0,218854 rad` od centrum na `S3`, gdy pozostałe brzegi są oddalone
+o zaledwie `0,0038...0,0058 rad`. Powiększenie `26×` pochodzi więc z przeskoku
+do odległego rozwiązania gałęzi, nie z lokalnego powiększenia rzutu.
+
 ## Korekta bazy multipolowej
 
 `P2(sin(delta))` jest parzyste i ma tę samą wartość przy obu przesileniach.
@@ -54,6 +68,12 @@ wyłącznie człony nieparzyste:
 P1(x) = x
 P3(x) = (5x^3 - 3x) / 2
 ```
+
+Nie przeczy to rozwinięciu samego przesuniętego pola: drugi rząd rozwinięcia
+`n(|r-z0 e_z|)` rzeczywiście zawiera składniki `P0+P2`. Pole punktowe i
+scałkowana, nieliniowa odpowiedź `C(delta_source)` są jednak różnymi
+wielkościami. Wybór bazy odpowiedzi musi wynikać z parzystości zmierzonego
+`C`, a projekt lokalnego pola dopiero później ma odtworzyć tę odpowiedź.
 
 Przy `delta=±23,44°` człony `P1` i `P3` są zdegenerowane w jednym pomiarze:
 `P3/P1 ≈ -1,105`. Przy `delta=±11,7°` stosunek wynosi około `-1,397`, więc

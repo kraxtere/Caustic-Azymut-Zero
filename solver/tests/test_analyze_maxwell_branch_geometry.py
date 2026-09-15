@@ -6,6 +6,7 @@ import unittest
 from solver.analyze_maxwell_branch_geometry import (
     disk_uses_one_branch_signature,
     effective_image_distance_km,
+    inverse_stereographic_local_scale,
     legendre_modes,
 )
 
@@ -44,6 +45,13 @@ class MaxwellBranchGeometryAnalysisTests(unittest.TestCase):
         self.assertAlmostEqual(solstice_ratio, -1.1044, places=3)
         self.assertAlmostEqual(intermediate_ratio, -1.3971, places=3)
         self.assertGreater(abs(intermediate_ratio - solstice_ratio), 0.25)
+
+    def test_inverse_stereographic_scale_diverges_only_at_north_pole(self) -> None:
+        self.assertAlmostEqual(inverse_stereographic_local_scale(0.0, 2.0), 1.0)
+        self.assertAlmostEqual(inverse_stereographic_local_scale(-2.0, 2.0), 0.5)
+        self.assertGreater(inverse_stereographic_local_scale(1.99, 2.0), 100.0)
+        with self.assertRaises(ValueError):
+            inverse_stereographic_local_scale(2.0, 2.0)
 
 
 if __name__ == "__main__":
