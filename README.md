@@ -107,6 +107,16 @@ a rozmiar tarczy nie był stały sezonowo (`CV=18,63%`, `max/min=1,617`).
 Szczegółowy wynik:
 [`docs/V2_MAXWELL_FULL_C2_RESULT.md`](docs/V2_MAXWELL_FULL_C2_RESULT.md).
 
+Po kontrolowanej korekcie promienia kątowego Słońca oczekiwana zmiana
+grudzień/czerwiec wynosi `3,30%`, natomiast model odtwarza `51,62%`. Po
+usunięciu znanego efektu odległości pozostaje **46,77% niewyjaśnionej zmiany
+skali**. Diagnostyczny skan deklinacji nie potwierdził jednej gładkiej funkcji
+na całym zakresie z powodu granicy gałęzi przy `-17,58°`; na stabilnym
+fragmencie `-11,72° ... +23,44°` skala jest jednak ściśle monotoniczna
+(`R²=0,9775`). Szczegóły:
+[`docs/V2_MAXWELL_FULL_C2_CORRECTED_RESULT.md`](docs/V2_MAXWELL_FULL_C2_CORRECTED_RESULT.md)
+i [`docs/V2_MAXWELL_DECLINATION_SCAN_RESULT.md`](docs/V2_MAXWELL_DECLINATION_SCAN_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

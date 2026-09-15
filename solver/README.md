@@ -86,7 +86,7 @@ progi kształtu i stałości tarczy są opisane w
 
 ```bash
 ./.venv/Scripts/python.exe -m solver.validate_maxwell_c2 \
-  --output solver/results/v2-maxwell-full-c2.json
+  --output solver/results/v2-maxwell-full-c2-corrected.json
 ```
 
 Wynik pełnego przebiegu to **FAIL**. Konsensus punktu i dokładnych przypisań
@@ -95,6 +95,15 @@ jednak zachodni brzeg tarczy z równonocy o `10:00 UTC`, a globalne metryki
 stałości średnicy wynoszą `CV=0,18632` i `max/min=1,61700`. Nie zmieniamy
 zamrożonych progów ani nie przechodzimy automatycznie do drugiego punktu
 skanu. Szczegóły: `../docs/V2_MAXWELL_FULL_C2_RESULT.md`.
+
+Skorygowany przebieg używa promienia kątowego z odległości Ziemia–Słońce i
+rozdziela stałość dobową od oczekiwanej zmiany sezonowej. Pozostawia
+`46,7745%` niewyjaśnionej zmiany skali grudzień/czerwiec, więc wynik nadal
+jest **FAIL**. Tani skan dziewięciu deklinacji wykrył granicę gałęzi przy
+`-17,58°`, ale na stabilnym fragmencie od `-11,72°` do `+23,44°` otrzymał
+ściśle monotoniczną skalę z `R²=0,9775`. Szczegóły:
+`../docs/V2_MAXWELL_FULL_C2_CORRECTED_RESULT.md` i
+`../docs/V2_MAXWELL_DECLINATION_SCAN_RESULT.md`.
 
 ## Historyczna hipoteza v1
 
@@ -265,6 +274,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `validate_lens.py` | odtwarzalny adapter zamkniętej hybrydy Luneburga |
 | `validate_maxwell.py` | zamrożona tania bramka centrum Słońca i C-3 dla Maxwella |
 | `validate_maxwell_c2.py` | pełny C-2 Maxwella z konsensusem gałęzi i buforem drogi |
+| `scan_maxwell_declination.py` | diagnostyczny skan skali po deklinacji |
 | `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
 | `scan_maxwell_radius.py` | zakończony skan `R` Maxwella przy stałym bezwzględnym `z0` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |
