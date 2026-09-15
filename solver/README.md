@@ -77,6 +77,26 @@ wpływają więc na dobór kroków, wynik śledzenia ani funkcję kosztu. Skład
 nie muszą sumować się do zmiany kierunku, ponieważ ugięcia o różnych
 kierunkach mogą się częściowo znosić.
 
+## Zamknięcie v1 i walidacja C-2/C-3
+
+Trzy pełne przebiegi z różnymi populacjami startowymi odtworzyły to samo
+minimum brzegowe. Szczegółowa decyzja i kontrola ziaren są opisane w
+`../docs/V1_CLOSURE.md`.
+
+Zamrożony wynik można sprawdzić poza siatką treningową bez ponownego
+dopasowania:
+
+```bash
+./.venv/Scripts/python.exe -m solver.validate_v1 \
+  --fit-json solver/results/full-fit-v1-seed-20260917.json \
+  --output solver/results/v1-closure-validation.json
+```
+
+Walidator używa 64 kandydatów, pięciu punktów tarczy Słońca i obu biegunów
+niebieskich. Domyślna polityka `vacuum-geometric` wymusza `k=0`, ponieważ
+cele Meeusa nie zawierają refrakcji pozornej. Pełny przebieg wykonujemy na
+komputerze lokalnym; testy jednostkowe nie całkują tego dużego zbioru.
+
 ## Pliki
 
 | Plik | Odpowiedzialność |
@@ -87,4 +107,6 @@ kierunkach mogą się częściowo znosić.
 | `raytrace.py` | integracja eikonalna 3D i triangulacja prostych |
 | `demo_baseline.py` | kontrolny wynik bez pola |
 | `fit_field.py` | globalna oraz wielostartowa optymalizacja |
+| `validate_v1.py` | gęsta siatka oraz walidacja C-2 i C-3 bez refitu |
+| `lenses.py` | analityczne modele odniesienia Maxwella i Luneburga |
 | `tests/` | testy regresyjne matematyki i wyniku bazowego |

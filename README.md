@@ -13,7 +13,9 @@ Repozytorium zawiera teraz:
 - czyste moduły matematyczne i testy,
 - zachowaną kopię oryginalnego kodu Waltera Bislina w `reference/walter-bislin/`,
 - niezależny solver Python z pięcioparametrowym polem toroidalnym,
-- integrator eikonalny 3D, triangulację asymptotycznych promieni i globalne dopasowanie parametrów.
+- integrator eikonalny 3D, triangulację asymptotycznych promieni i globalne dopasowanie parametrów,
+- walidator gęstej siatki, tarczy Słońca (C-2) i biegunów niebieskich (C-3),
+- analityczne modele referencyjne soczewek Maxwella i Luneburga.
 
 Krzywa Béziera jest tutaj **modelem bazowym do porównań**, a nie fizycznym wyjaśnieniem ugięcia światła. Solver nie strzela do założonej kopuły: prowadzi promienie od obserwatorów do zaniku pola i mierzy zbieżność ich asymptotycznych półprostych. Szczegóły są w [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) i [`solver/README.md`](solver/README.md).
 
@@ -46,9 +48,14 @@ Pełne sprawdzenie obu warstw uruchamia `npm run check:all`.
 
 - Pojedyncza chwila z `demo_baseline.py`: wysokość najlepszego przecięcia `5060 km`, RMS `1069 km` bez pola.
 - Sześć chwil używanych do dopasowania: średni RMS półprostych `2479,98 km` bez pola.
-- Wstępny, skrócony przebieg DE + lokalne dopasowanie: `2314,03 km`, czyli poprawa o około `6,7%`. Rozwiązanie doszło do granic `A=-0,1` i `s=100 km`, więc **nie jest rozstrzygnięciem** ani wiarygodnym minimum wewnętrznym. Pełny przebieg pozostaje do wykonania z większym budżetem.
+- Trzy pełne przebiegi DE z różnymi populacjami startowymi odtworzyły `2314,03 km`, czyli poprawę o około `6,7%`. Rozwiązanie na granicach `A=-0,1`, `s=100 km` jest stabilnym minimum tej rodziny, lecz nie jest dobrym modelem globalnym.
+
+Zamknięcie v1 opisuje [`docs/V1_CLOSURE.md`](docs/V1_CLOSURE.md), a
+analityczny etap soczewkowy v1.5 —
+[`docs/LENS_MODELS.md`](docs/LENS_MODELS.md).
 
 Maszynowy zapis wyniku wstępnego znajduje się w [`solver/results/preliminary-fit.json`](solver/results/preliminary-fit.json).
+Pełne wyniki trzech ziaren są zapisane obok jako `full-fit-v1-seed-*.json`.
 
 ## Układ projektu
 
