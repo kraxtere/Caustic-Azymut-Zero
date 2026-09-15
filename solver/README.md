@@ -76,6 +76,19 @@ trzech celów i większy margines drogi w przód niż drugi przechodzący punkt.
 Pełne C-2 jest odblokowane, ale nie zostało uruchomione w ramach skanu.
 Szczegóły: `../docs/V2_MAXWELL_RADIUS_SCAN_RESULT.md`.
 
+### Zamrożony pełny C-2
+
+Pełny kontrakt dla `R/Rbase=1,20`, `z0/Rbase=0,40` obejmuje 15 tarcz i 75
+celów. Wymaga osobno konsensusu punktu i pełnych przypisań `P/JPJ` pomiędzy
+czterema ziarnami oraz bufora `minimum_forward_sine >= sin(10°)`. Zamrożone
+progi kształtu i stałości tarczy są opisane w
+`../docs/V2_MAXWELL_FULL_C2.md`. Po zapisaniu kontraktu przebieg odtwarza:
+
+```bash
+./.venv/Scripts/python.exe -m solver.validate_maxwell_c2 \
+  --output solver/results/v2-maxwell-full-c2.json
+```
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -244,6 +257,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `validate_v1.py` | gęsta siatka oraz walidacja C-2 i C-3 bez refitu |
 | `validate_lens.py` | odtwarzalny adapter zamkniętej hybrydy Luneburga |
 | `validate_maxwell.py` | zamrożona tania bramka centrum Słońca i C-3 dla Maxwella |
+| `validate_maxwell_c2.py` | pełny C-2 Maxwella z konsensusem gałęzi i buforem drogi |
 | `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
 | `scan_maxwell_radius.py` | zakończony skan `R` Maxwella przy stałym bezwzględnym `z0` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |

@@ -157,6 +157,12 @@ def evaluate_maxwell(
     seed_points = tuple(search.best.fit.point_xyzw for search in searches)
     maximum_seed_spread = _maximum_pairwise_distance(seed_points)
     consensus = maximum_seed_spread <= CONSENSUS_FRACTION_OF_RADIUS * radius_km
+    seed_branch_assignments = tuple(
+        search.best.reflection_parities for search in searches
+    )
+    branch_assignment_consensus = (
+        len(set(seed_branch_assignments)) == 1
+    )
     selected_search = min(
         searches,
         key=lambda search: search.best.fit.rms_plane_distance,
@@ -221,7 +227,9 @@ def evaluate_maxwell(
         "selected_seed": selected_search.seed,
         "selected_reflected_branch_count": sum(selected.reflection_parities),
         "restart_seed_consensus": consensus,
+        "restart_branch_assignment_consensus": branch_assignment_consensus,
         "maximum_seed_point_spread_s3_km": maximum_seed_spread,
+        "selected_reflection_parities": list(selected.reflection_parities),
         "seed_runs": [
             {
                 "seed": search.seed,
@@ -230,6 +238,9 @@ def evaluate_maxwell(
                 ),
                 "best_point_s3_km": search.best.fit.point_xyzw.tolist(),
                 "best_reflected_branch_count": sum(
+                    search.best.reflection_parities
+                ),
+                "best_reflection_parities": list(
                     search.best.reflection_parities
                 ),
                 "best_iterations": search.best.iterations,

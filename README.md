@@ -93,8 +93,12 @@ Jednowymiarowy skan większego `R` przy stałym bezwzględnym
 `n=1` dla Słońca i obu biegunów. Do pełnego C-2 promowany jest `1,20`
 (`R=24018,104155 km`): poprawa wynosi `60,11%` dla centrów Słońca, `15,76%`
 dla bieguna N i `83,44%` dla bieguna S. Pełne C-2 jest odblokowane, ale nie
-zostało jeszcze uruchomione. Szczegóły:
+zostało jeszcze uruchomione. Kontrakt pełnego testu zamraża 75 celów, osobny
+konsensus punktu i przypisań `P/JPJ`, bufor drogi w przód `10°` oraz liczbowe
+progi stałości i kształtu tarczy. Szczegóły:
 [`docs/V2_MAXWELL_RADIUS_SCAN_RESULT.md`](docs/V2_MAXWELL_RADIUS_SCAN_RESULT.md).
+Kontrakt kolejnego przebiegu:
+[`docs/V2_MAXWELL_FULL_C2.md`](docs/V2_MAXWELL_FULL_C2.md).
 
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
