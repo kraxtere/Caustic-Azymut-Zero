@@ -175,6 +175,28 @@ class MaxwellGreatCircleFit:
     forward_observation_count: int
     observation_count: int
     sign_margin: float
+    inside_mirror: bool
+
+
+@dataclass(frozen=True)
+class MaxwellBranchRun:
+    """One alternating discrete/continuous mirror-branch run."""
+
+    initial_reflection_parities: tuple[bool, ...]
+    reflection_parities: tuple[bool, ...]
+    fit: MaxwellGreatCircleFit
+    objective_history: tuple[float, ...]
+    iterations: int
+    converged: bool
+
+
+@dataclass(frozen=True)
+class MaxwellBranchSearchResult:
+    """Best branch fit plus all auditable restart outcomes."""
+
+    best: MaxwellBranchRun
+    runs: tuple[MaxwellBranchRun, ...]
+    seed: int
 
 
 def maxwell_great_circle_constraint(
@@ -210,6 +232,7 @@ def maxwell_great_circle_constraint(
 def triangulate_maxwell_great_circles(
     constraints: Sequence[MaxwellGreatCircleConstraint],
     *,
+    reflection_parities: Sequence[bool] | None = None,
     centre_xyz: np.ndarray | None = None,
     degeneracy_tolerance: float = 1e-10,
 ) -> MaxwellGreatCircleFit:
@@ -224,16 +247,22 @@ def triangulate_maxwell_great_circles(
     the 4x4 matrix.  The antipodal sign is selected by the oriented tangents:
     on the first positive interval, ``t_i dot X`` must be non-negative.
 
-    All constraints must use the same unfolded mirror branch.  A folded
-    physical ray is the union of the original great circle and its equatorial
-    reflection, so mixed unknown reflection parities are not one Rayleigh
-    quotient and must be resolved before calling this function.
+    ``reflection_parities[i]`` selects the equator-reflected representation
+    ``J P_i J`` for observation ``i``.  Once this discrete assignment is
+    fixed, mixed branches are still solved by one eigendecomposition.
     """
 
     items = tuple(constraints)
     if len(items) < 2:
         raise ValueError("at least two great-circle constraints are required")
     tolerance = _positive(degeneracy_tolerance, "degeneracy_tolerance")
+    parities = (
+        (False,) * len(items)
+        if reflection_parities is None
+        else tuple(bool(value) for value in reflection_parities)
+    )
+    if len(parities) != len(items):
+        raise ValueError("reflection_parities must match constraints")
     centre = (
         np.zeros(3)
         if centre_xyz is None
@@ -249,8 +278,11 @@ def triangulate_maxwell_great_circles(
         raise ValueError("all constraints must use the same sphere radius")
 
     identity = np.eye(4)
+    equator_reflection = np.diag([1.0, 1.0, 1.0, -1.0])
     normal_matrix = np.zeros((4, 4), dtype=float)
-    for item in items:
+    fitted_projectors: list[np.ndarray] = []
+    fitted_tangents: list[np.ndarray] = []
+    for item, reflected in zip(items, parities, strict=True):
         point = _vector(item.sphere_point, 4, "constraint sphere_point")
         tangent = _unit(item.sphere_tangent, 4, "constraint sphere_tangent")
         if not math.isclose(
@@ -260,7 +292,13 @@ def triangulate_maxwell_great_circles(
             abs_tol=1e-10 * radius,
         ):
             raise ValueError("constraint tangent must be orthogonal to point")
-        normal_matrix += identity - item.plane_projector
+        projector = item.plane_projector
+        if reflected:
+            projector = equator_reflection @ projector @ equator_reflection
+            tangent = equator_reflection @ tangent
+        fitted_projectors.append(projector)
+        fitted_tangents.append(tangent)
+        normal_matrix += identity - projector
 
     normal_matrix = 0.5 * (normal_matrix + normal_matrix.T)
     eigenvalues, eigenvectors = np.linalg.eigh(normal_matrix)
@@ -270,7 +308,7 @@ def triangulate_maxwell_great_circles(
 
     candidate = radius * eigenvectors[:, 0]
     signed_sines = np.array(
-        [float(np.dot(item.sphere_tangent, candidate) / radius) for item in items]
+        [float(np.dot(tangent, candidate) / radius) for tangent in fitted_tangents]
     )
     positive_count = int(np.count_nonzero(signed_sines >= -tolerance))
     negative_count = int(np.count_nonzero(signed_sines <= tolerance))
@@ -286,11 +324,11 @@ def triangulate_maxwell_great_circles(
         [
             float(
                 np.dot(
-                    (identity - item.plane_projector) @ candidate,
-                    (identity - item.plane_projector) @ candidate,
+                    (identity - projector) @ candidate,
+                    (identity - projector) @ candidate,
                 )
             )
-            for item in items
+            for projector in fitted_projectors
         ],
         dtype=float,
     )
@@ -303,6 +341,150 @@ def triangulate_maxwell_great_circles(
         forward_observation_count=positive_count,
         observation_count=len(items),
         sign_margin=abs(float(np.sum(signed_sines))),
+        inside_mirror=bool(candidate[3] <= tolerance * radius),
+    )
+
+
+def solve_maxwell_mirror_branches(
+    constraints: Sequence[MaxwellGreatCircleConstraint],
+    *,
+    restarts: int = 8,
+    seed: int = 0,
+    max_iterations: int = 100,
+    switch_tolerance: float = 1e-12,
+    centre_xyz: np.ndarray | None = None,
+    degeneracy_tolerance: float = 1e-10,
+) -> MaxwellBranchSearchResult:
+    """Alternate a 4x4 fit with independent mirror-branch assignments.
+
+    The first run starts with every observation on ``P_i``.  Remaining runs
+    use distinct seeded random assignments.  At fixed ``X``, a branch changes
+    only when its alternative lowers the squared plane distance by more than
+    ``switch_tolerance * R^2``.  The following eigensolve cannot increase the
+    objective, so every accepted state change is monotonic.
+    """
+
+    items = tuple(constraints)
+    if len(items) < 2:
+        raise ValueError("at least two great-circle constraints are required")
+    if isinstance(restarts, bool) or int(restarts) != restarts or restarts <= 0:
+        raise ValueError("restarts must be a positive integer")
+    if (
+        isinstance(max_iterations, bool)
+        or int(max_iterations) != max_iterations
+        or max_iterations <= 0
+    ):
+        raise ValueError("max_iterations must be a positive integer")
+    tolerance = float(switch_tolerance)
+    if not math.isfinite(tolerance) or tolerance < 0.0:
+        raise ValueError("switch_tolerance must be finite and non-negative")
+    if isinstance(seed, bool) or int(seed) != seed or seed < 0:
+        raise ValueError("seed must be a non-negative integer")
+
+    radius = _positive(
+        float(np.linalg.norm(items[0].sphere_point)),
+        "constraint sphere radius",
+    )
+    requested_restarts = int(restarts)
+    maximum_distinct = 1 << len(items)
+    target_restarts = min(requested_restarts, maximum_distinct)
+    seed_value = int(seed)
+    rng = np.random.default_rng(seed_value)
+    starts: list[tuple[bool, ...]] = [(False,) * len(items)]
+    seen = set(starts)
+    while len(starts) < target_restarts:
+        candidate = tuple(
+            bool(value) for value in rng.integers(0, 2, size=len(items))
+        )
+        if candidate not in seen:
+            seen.add(candidate)
+            starts.append(candidate)
+
+    identity = np.eye(4)
+    equator_reflection = np.diag([1.0, 1.0, 1.0, -1.0])
+    base_projectors = tuple(item.plane_projector for item in items)
+    reflected_projectors = tuple(
+        equator_reflection @ projector @ equator_reflection
+        for projector in base_projectors
+    )
+    threshold = tolerance * radius**2
+    runs: list[MaxwellBranchRun] = []
+
+    for initial in starts:
+        parities = initial
+        history: list[float] = []
+        converged = False
+        fit: MaxwellGreatCircleFit | None = None
+        for _ in range(int(max_iterations)):
+            fit = triangulate_maxwell_great_circles(
+                items,
+                reflection_parities=parities,
+                centre_xyz=centre_xyz,
+                degeneracy_tolerance=degeneracy_tolerance,
+            )
+            history.append(fit.rms_plane_distance**2)
+            point = fit.point_xyzw
+            updated = list(parities)
+            for index, reflected in enumerate(parities):
+                current_projector = (
+                    reflected_projectors[index]
+                    if reflected
+                    else base_projectors[index]
+                )
+                alternate_projector = (
+                    base_projectors[index]
+                    if reflected
+                    else reflected_projectors[index]
+                )
+                current_residual = (identity - current_projector) @ point
+                alternate_residual = (identity - alternate_projector) @ point
+                current_squared = float(np.dot(current_residual, current_residual))
+                alternate_squared = float(
+                    np.dot(alternate_residual, alternate_residual)
+                )
+                if alternate_squared + threshold < current_squared:
+                    updated[index] = not reflected
+            updated_parities = tuple(updated)
+            if updated_parities == parities:
+                converged = True
+                break
+            parities = updated_parities
+
+        if fit is None:
+            raise RuntimeError("branch solver did not execute")
+        if not converged:
+            fit = triangulate_maxwell_great_circles(
+                items,
+                reflection_parities=parities,
+                centre_xyz=centre_xyz,
+                degeneracy_tolerance=degeneracy_tolerance,
+            )
+            history.append(fit.rms_plane_distance**2)
+        runs.append(
+            MaxwellBranchRun(
+                initial_reflection_parities=initial,
+                reflection_parities=parities,
+                fit=fit,
+                objective_history=tuple(history),
+                iterations=len(history),
+                converged=converged,
+            )
+        )
+
+    physical_runs = [run for run in runs if run.fit.inside_mirror]
+    eligible_runs = physical_runs if physical_runs else runs
+    best = min(
+        eligible_runs,
+        key=lambda run: (
+            run.fit.rms_plane_distance,
+            -run.fit.forward_observation_count,
+            -run.fit.sign_margin,
+        ),
+    )
+    return MaxwellBranchSearchResult(
+        best=best,
+        runs=tuple(runs),
+        seed=seed_value,
     )
 
 

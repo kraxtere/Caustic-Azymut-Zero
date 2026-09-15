@@ -64,9 +64,10 @@ C-2/C-3 (`python -m solver.validate_lens`). Dokładny pierwszy interwał
 Maxwella i odbicie od lustra są zaimplementowane bez RK45 jako wielkie okręgi
 na pomocniczej `S^3`. Kod celowo nie zastępuje profilu arbitralnym obcięciem.
 Pojedyncza obserwacja wyznacza przy tym krzywą, nie ogólny jednoznaczny punkt
-źródła. Dla spójnie rozwiniętych krzywych wspólny punkt jest już liczony
-zamkniętą dekompozycją własną `4×4`; przed C-2/C-3 pozostaje wybór gałęzi
-przed/po odbiciu dla każdej obserwacji. Kontrakt opisuje
+źródła. Dla spójnie rozwiniętych krzywych wspólny punkt jest liczony zamkniętą
+dekompozycją własną `4×4`. Gałęzie przed/po odbiciu wybiera tani schemat
+naprzemienny z kilkoma kontrolowanymi restartami, bez RK45 i bez optymalizacji
+po `alpha`. Kontrakt opisuje
 [`docs/MAXWELL_MIRROR_CONTRACT.md`](docs/MAXWELL_MIRROR_CONTRACT.md).
 
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium

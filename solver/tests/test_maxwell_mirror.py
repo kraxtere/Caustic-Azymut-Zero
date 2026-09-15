@@ -6,11 +6,13 @@ import unittest
 import numpy as np
 
 from solver.maxwell_mirror import (
+    MaxwellGreatCircleConstraint,
     lift_direction_to_three_sphere,
     maxwell_great_circle_constraint,
     maxwell_mirror_conjugate,
     stereographic_from_three_sphere,
     stereographic_to_three_sphere,
+    solve_maxwell_mirror_branches,
     trace_maxwell_mirror_analytic,
     triangulate_maxwell_great_circles,
 )
@@ -42,6 +44,18 @@ class ThreeSphereProjectionTests(unittest.TestCase):
 
 
 class AnalyticMaxwellMirrorTests(unittest.TestCase):
+    @staticmethod
+    def constraint_toward_auxiliary_point(
+        observer_xyz: np.ndarray,
+        target_xyzw: np.ndarray,
+        radius: float = 1.0,
+    ) -> MaxwellGreatCircleConstraint:
+        observer = stereographic_to_three_sphere(observer_xyz, radius)
+        cosine = float(np.dot(observer, target_xyzw) / radius**2)
+        tangent = target_xyzw - cosine * observer
+        tangent /= np.linalg.norm(tangent)
+        return MaxwellGreatCircleConstraint(observer, tangent)
+
     def test_first_image_is_minus_source_for_multiple_directions(self) -> None:
         position = np.array([0.2, -0.35, 0.1])
         directions = (
@@ -183,6 +197,166 @@ class AnalyticMaxwellMirrorTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "unique axis"):
             triangulate_maxwell_great_circles([constraint, constraint])
+
+    def test_alternating_branches_recover_a_mixed_reflection_source(self) -> None:
+        source_xyz = np.array([0.16, -0.11, 0.09])
+        source = stereographic_to_three_sphere(source_xyz, 1.0)
+        reflection = np.diag([1.0, 1.0, 1.0, -1.0])
+        expected_parities = (False, True, False, True, True, False)
+        observers = (
+            np.array([0.30, 0.10, 0.05]),
+            np.array([-0.25, 0.12, 0.18]),
+            np.array([0.05, -0.32, 0.14]),
+            np.array([0.22, 0.20, -0.16]),
+            np.array([-0.18, -0.21, 0.11]),
+            np.array([0.08, 0.27, 0.20]),
+        )
+        constraints = [
+            self.constraint_toward_auxiliary_point(
+                observer,
+                reflection @ source if reflected else source,
+            )
+            for observer, reflected in zip(
+                observers,
+                expected_parities,
+                strict=True,
+            )
+        ]
+
+        result = solve_maxwell_mirror_branches(
+            constraints,
+            restarts=16,
+            seed=20260915,
+        )
+        self.assertTrue(result.best.converged)
+        self.assertTrue(result.best.fit.inside_mirror)
+        np.testing.assert_allclose(
+            result.best.fit.point_xyz,
+            source_xyz,
+            atol=2e-14,
+        )
+        self.assertLess(result.best.fit.rms_plane_distance, 2e-15)
+        self.assertEqual(
+            result.best.reflection_parities,
+            expected_parities,
+        )
+        for run in result.runs:
+            self.assertTrue(
+                all(
+                    later <= earlier + 1e-13
+                    for earlier, later in zip(
+                        run.objective_history,
+                        run.objective_history[1:],
+                    )
+                )
+            )
+
+    def test_branch_restart_seed_changes_starts_not_exact_best_fit(self) -> None:
+        source_xyz = np.array([0.16, -0.11, 0.09])
+        source = stereographic_to_three_sphere(source_xyz, 1.0)
+        reflection = np.diag([1.0, 1.0, 1.0, -1.0])
+        parities = (False, True, False, True, True, False)
+        observers = tuple(
+            np.array(point)
+            for point in (
+                (0.30, 0.10, 0.05),
+                (-0.25, 0.12, 0.18),
+                (0.05, -0.32, 0.14),
+                (0.22, 0.20, -0.16),
+                (-0.18, -0.21, 0.11),
+                (0.08, 0.27, 0.20),
+            )
+        )
+        constraints = [
+            self.constraint_toward_auxiliary_point(
+                observer,
+                reflection @ source if reflected else source,
+            )
+            for observer, reflected in zip(observers, parities, strict=True)
+        ]
+        first = solve_maxwell_mirror_branches(
+            constraints,
+            restarts=16,
+            seed=11,
+        )
+        repeated = solve_maxwell_mirror_branches(
+            constraints,
+            restarts=16,
+            seed=11,
+        )
+        second = solve_maxwell_mirror_branches(
+            constraints,
+            restarts=16,
+            seed=12,
+        )
+        first_starts = tuple(run.initial_reflection_parities for run in first.runs)
+        repeated_starts = tuple(
+            run.initial_reflection_parities for run in repeated.runs
+        )
+        second_starts = tuple(run.initial_reflection_parities for run in second.runs)
+        self.assertEqual(first_starts, repeated_starts)
+        self.assertNotEqual(first_starts, second_starts)
+        np.testing.assert_allclose(first.best.fit.point_xyz, source_xyz, atol=2e-14)
+        np.testing.assert_allclose(second.best.fit.point_xyz, source_xyz, atol=2e-14)
+
+    def test_noisy_overdetermined_branches_converge_across_seeds(self) -> None:
+        source_xyz = np.array([0.16, -0.11, 0.09])
+        source = stereographic_to_three_sphere(source_xyz, 1.0)
+        reflection = np.diag([1.0, 1.0, 1.0, -1.0])
+        parities = (False, True, False, True, True, False)
+        observers = tuple(
+            np.array(point)
+            for point in (
+                (0.30, 0.10, 0.05),
+                (-0.25, 0.12, 0.18),
+                (0.05, -0.32, 0.14),
+                (0.22, 0.20, -0.16),
+                (-0.18, -0.21, 0.11),
+                (0.08, 0.27, 0.20),
+            )
+        )
+        exact = [
+            self.constraint_toward_auxiliary_point(
+                observer,
+                reflection @ source if reflected else source,
+            )
+            for observer, reflected in zip(observers, parities, strict=True)
+        ]
+        rng = np.random.default_rng(731)
+        noisy = []
+        for constraint in exact:
+            tangent = constraint.sphere_tangent + 2e-4 * rng.normal(size=4)
+            tangent -= (
+                np.dot(tangent, constraint.sphere_point)
+                * constraint.sphere_point
+            )
+            tangent /= np.linalg.norm(tangent)
+            noisy.append(
+                MaxwellGreatCircleConstraint(constraint.sphere_point, tangent)
+            )
+
+        results = [
+            solve_maxwell_mirror_branches(
+                noisy,
+                restarts=16,
+                seed=seed,
+            )
+            for seed in (3, 17, 91, 2048)
+        ]
+        for result in results:
+            self.assertTrue(result.best.converged)
+            self.assertEqual(result.best.reflection_parities, parities)
+            np.testing.assert_allclose(
+                result.best.fit.point_xyz,
+                source_xyz,
+                atol=5e-4,
+            )
+        for result in results[1:]:
+            np.testing.assert_allclose(
+                result.best.fit.point_xyz,
+                results[0].best.fit.point_xyz,
+                atol=1e-13,
+            )
 
     def test_translated_mirror_conjugate(self) -> None:
         centre = np.array([10.0, -3.0, 2.0])

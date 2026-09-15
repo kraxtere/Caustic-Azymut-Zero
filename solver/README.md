@@ -17,8 +17,11 @@ Dla spójnie rozwiniętych wielkich okręgów funkcja
 `triangulate_maxwell_great_circles()` wykonuje tę rekonstrukcję w postaci
 zamkniętej: najmniejszy wektor własny macierzy `4×4`. Wymiar wynika z
 `S^3` osadzonej w `R^4`; wariant `3×3` z jedną normalną dotyczy jedynie
-dwuwymiarowego przekroju `S^2`. Przed pełnym pipeline'em pozostaje jawne
-ustalenie gałęzi przed/po odbiciu dla każdej złożonej krzywej.
+dwuwymiarowego przekroju `S^2`. Gałęzie przed/po odbiciu ustala
+`solve_maxwell_mirror_branches()` przez naprzemienne przełączanie do mniejszego
+residuum i ponowną dekompozycję `4×4`. Kilka reprodukowalnych restartów chroni
+przed uznaniem lokalnego minimum za wynik globalny. Historia celu i wszystkie
+przypisania pozostają w wyniku do audytu.
 
 ## Historyczna hipoteza v1
 
@@ -181,7 +184,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `geometry_flat.py` | projekcja AE, lokalna baza E/N/U, alt-az |
 | `field.py` | archiwalne pole `v1-falsified` i jego gradient analityczny |
 | `field_lens.py` | Maxwell v2 oraz archiwalny Luneburg, gradienty i analityka |
-| `maxwell_mirror.py` | dokładny Maxwell na `S^3`, złożenie lustra i triangulacja własna `4×4` |
+| `maxwell_mirror.py` | Maxwell na `S^3`, lustro, triangulacja `4×4` i naprzemienny wybór gałęzi |
 | `raytrace.py` | integracja eikonalna 3D i triangulacja prostych |
 | `demo_baseline.py` | kontrolny wynik bez pola |
 | `fit_field.py` | historyczne odtworzenie optymalizacji v1 |

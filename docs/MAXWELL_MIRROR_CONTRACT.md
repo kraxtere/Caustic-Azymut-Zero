@@ -129,9 +129,24 @@ dla każdego promienia. Nie jest wtedy pojedynczym ilorazem Rayleigha.
 Nie wolno ukryć tego wyboru przez użycie jednej macierzy `3×3`: taka macierz
 odzyskałaby co najwyżej kierunek płaszczyzny orbitalnej w przestrzeni
 fizycznej, ale zgubiłaby czwartą współrzędną kodującą położenie radialne.
-Przed podłączeniem C-2/C-3 trzeba więc ustalić gałąź odbicia każdej obserwacji
-albo zastosować dyskretną ocenę gałęzi; nadal nie wymaga to dopasowania po
-ciągłym parametrze `alpha`.
+Gałęzie rozwiązuje `solve_maxwell_mirror_branches()` metodą naprzemienną:
+
+1. startuje od wszystkich `P_i` oraz kilku różnych, losowych przypisań,
+2. dla ustalonego przypisania wykonuje dekompozycję własną `4×4`,
+3. dla ustalonego `X` przełącza każdą obserwację tylko wtedy, gdy alternatywna
+   gałąź ściśle zmniejsza jej kwadrat residuum,
+4. powtarza kroki 2–3 do stabilizacji.
+
+Każde zaakceptowane przełączenie zmniejsza funkcję celu, a kolejna
+dekompozycja nie może jej zwiększyć. Implementacja zapisuje pełną historię
+celu, przypisania początkowe i końcowe, liczbę iteracji oraz wynik każdego
+restartu. Pierwszy restart jest deterministyczną kontrolą `all-P`; następne
+pochodzą z jawnego ziarna i są unikalne.
+
+Schemat może osiągnąć minimum lokalne, dlatego wynik wybierany jest z wielu
+restartów. Test z nadokreślonym, zaszumionym zbiorem uruchamia cztery różne
+ziarna; wszystkie odzyskują tę samą parzystość i ten sam punkt źródła. Nadal
+nie wymaga to dopasowania po ciągłym parametrze `alpha` ani RK45.
 
 ## Zakres potwierdzenia
 
@@ -142,10 +157,13 @@ Testy jednostkowe potwierdzają:
 - wspólny punkt `2*centre-position` po `alpha=pi` dla różnych kierunków,
 - zgodność z prawem odbicia na sferycznym lustrze,
 - dodatni, ograniczony pierwszy interwał drogi,
-- rozróżnienie krzywej obserwacyjnej od punktu sprzężonego.
+- rozróżnienie krzywej obserwacyjnej od punktu sprzężonego,
 - zamkniętą rekonstrukcję wspólnego punktu przez dekompozycję własną `4×4`,
 - wybór znaku antypodalnego z kierunków obserwacji,
-- odrzucenie przypadku bez jednoznacznej osi przez kontrolę luki widmowej.
+- odrzucenie przypadku bez jednoznacznej osi przez kontrolę luki widmowej,
+- monotoniczność naprzemiennego wyboru gałęzi,
+- reprodukowalność startów dla tego samego ziarna i ich zmianę między ziarnami,
+- zgodność najlepszego źródła z kilku restartów również po dodaniu szumu.
 
 Nie jest to jeszcze wynik C-2/C-3 dla mapy. Położenie i skala lustra nad
 płaszczyzną pozostają parametrami adaptera hybrydowego.
