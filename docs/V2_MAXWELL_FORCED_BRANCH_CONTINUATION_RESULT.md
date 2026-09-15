@@ -48,10 +48,12 @@ gałęzi `5,964089`. Te liczby są zapisane audytowo w JSON-ie, ale są
 
 ## Konsekwencja dla dalszej pracy
 
-Nie dodajemy jeszcze parametru do `n(r)`. Następny test powinien zachować
-ośmioosobową kohortę, ale zakotwiczyć etykiety gałęzi w stabilnych
-dwudziestoosobowych rozwiązaniach C-2, zamiast ponownie wybierać je z
-uboższego zbioru. Dopiero wtedy można domknąć liczbowo część dyskretną.
+Nie dodajemy jeszcze parametru do `n(r)`. Nie zakotwiczamy też etykiet gałęzi
+w dwudziestoosobowych rozwiązaniach C-2: przeniosłoby to wcześniejszy wybór
+do nowego testu zamiast niezależnie go zweryfikować. Potrzebny jest filtr
+geometryczny niezależny od restartów, ale jego próg musi wynikać z
+wyprowadzonego ograniczenia powiększenia mapy Maxwella, a nie z wartości
+dobranej po zobaczeniu anomalii.
 
 Niezależnie od tego projekt nowego parametru ma naturalną bazę multipolową.
 Sezonową asymetrię może zmieniać dipol `P1` oraz ewentualny nieparzysty
