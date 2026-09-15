@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import numpy as np
 
 from solver.ephemeris import MeeusLowPrecision, julian_day
-from solver.field import FieldParams, n_and_grad
+from solver.field import FieldParams, n_and_grad, n_and_grad_components
 from solver.fit_field import PARAMETER_SPACE, build_dataset, evaluate_field
 from solver.geometry_flat import (
     R_MAP,
@@ -80,6 +80,14 @@ class FieldTests(unittest.TestCase):
             finite[axis] = (plus - minus) / (2 * step)
         np.testing.assert_allclose(analytic, finite, rtol=2e-6, atol=1e-11)
 
+    def test_component_gradients_add_up_to_total_gradient(self) -> None:
+        params = FieldParams(k=0.0003, H=8, A=-0.02, rho0=5000, s=900)
+        point = np.array([4300.0, 800.0, 250.0])
+        refractive_index, total = n_and_grad(point, params)
+        component_index, background, ring = n_and_grad_components(point, params)
+        self.assertEqual(refractive_index, component_index)
+        np.testing.assert_allclose(total, background + ring, atol=0.0)
+
 
 class RayTests(unittest.TestCase):
     def test_zero_field_ray_stays_straight(self) -> None:
@@ -92,6 +100,26 @@ class RayTests(unittest.TestCase):
             atol=1e-14,
         )
         self.assertEqual(result.status, "escaped")
+
+    def test_component_bending_diagnostics_do_not_change_ray(self) -> None:
+        params = FieldParams(k=0.0003, H=8, A=0)
+        direction = np.array([1.0, 0.0, 0.2])
+        plain = trace_ray(np.zeros(3), direction, params)
+        diagnosed = trace_ray(
+            np.zeros(3),
+            direction,
+            params,
+            collect_diagnostics=True,
+        )
+        np.testing.assert_allclose(diagnosed.point, plain.point, atol=0.0)
+        np.testing.assert_allclose(diagnosed.direction, plain.direction, atol=0.0)
+        self.assertGreater(diagnosed.background_path_bending_deg, 0.0)
+        self.assertEqual(diagnosed.ring_path_bending_deg, 0.0)
+        self.assertAlmostEqual(
+            diagnosed.combined_path_bending_deg,
+            diagnosed.background_path_bending_deg,
+            places=14,
+        )
 
     def test_exact_lines_triangulate_to_known_point(self) -> None:
         target = np.array([100.0, -25.0, 70.0])

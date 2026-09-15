@@ -49,6 +49,18 @@ class ObservationGroup:
     timestamp_utc: datetime
     origins: tuple[np.ndarray, ...]
     directions: tuple[np.ndarray, ...]
+    observer_coordinates_deg: tuple[tuple[float, float], ...]
+
+
+@dataclass(frozen=True)
+class RayBendingDiagnostic:
+    observer_latitude_deg: float
+    observer_longitude_deg: float
+    path_length_km: float
+    net_direction_change_deg: float
+    background_path_bending_deg: float
+    ring_path_bending_deg: float
+    combined_path_bending_deg: float
 
 
 @dataclass(frozen=True)
@@ -59,6 +71,7 @@ class GroupScore:
     common_point_km: np.ndarray
     minimum_forward_distance_km: float
     condition_number: float
+    ray_diagnostics: tuple[RayBendingDiagnostic, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -159,6 +172,7 @@ def build_dataset(
         radec = ephemeris.sun_radec(instant)
         origins: list[np.ndarray] = []
         directions: list[np.ndarray] = []
+        observer_coordinates: list[tuple[float, float]] = []
         for latitude, longitude in OBSERVERS:
             altitude, azimuth = altaz_of_radec(
                 radec,
@@ -169,6 +183,7 @@ def build_dataset(
             if altitude < minimum_altitude_deg:
                 continue
             origins.append(observer_xy(latitude, longitude))
+            observer_coordinates.append((latitude, longitude))
             directions.append(
                 sky_direction_3d(
                     altitude,
@@ -183,6 +198,7 @@ def build_dataset(
                     timestamp_utc=instant,
                     origins=tuple(origins),
                     directions=tuple(directions),
+                    observer_coordinates_deg=tuple(observer_coordinates),
                 )
             )
     return dataset
@@ -193,6 +209,7 @@ def evaluate_field(
     dataset: Sequence[ObservationGroup],
     integration: IntegrationOptions,
     intersection_mode: str = "rays",
+    collect_ray_diagnostics: bool = False,
 ) -> CostBreakdown:
     if intersection_mode not in {"lines", "rays"}:
         raise ValueError("intersection_mode must be 'lines' or 'rays'")
@@ -201,7 +218,13 @@ def evaluate_field(
 
     for group in dataset:
         rays: list[RayResult] = [
-            trace_ray(origin, direction, params, integration)
+            trace_ray(
+                origin,
+                direction,
+                params,
+                integration,
+                collect_diagnostics=collect_ray_diagnostics,
+            )
             for origin, direction in zip(
                 group.origins,
                 group.directions,
@@ -229,6 +252,29 @@ def evaluate_field(
             invalid_rays += len(rays)
             continue
 
+        ray_diagnostics: tuple[RayBendingDiagnostic, ...] = ()
+        if collect_ray_diagnostics:
+            ray_diagnostics = tuple(
+                RayBendingDiagnostic(
+                    observer_latitude_deg=latitude,
+                    observer_longitude_deg=longitude,
+                    path_length_km=ray.path_length_km,
+                    net_direction_change_deg=float(ray.net_direction_change_deg),
+                    background_path_bending_deg=float(
+                        ray.background_path_bending_deg
+                    ),
+                    ring_path_bending_deg=float(ray.ring_path_bending_deg),
+                    combined_path_bending_deg=float(
+                        ray.combined_path_bending_deg
+                    ),
+                )
+                for (latitude, longitude), ray in zip(
+                    group.observer_coordinates_deg,
+                    rays,
+                    strict=True,
+                )
+            )
+
         group_scores.append(
             GroupScore(
                 timestamp_utc=group.timestamp_utc,
@@ -239,6 +285,7 @@ def evaluate_field(
                     np.min(triangulation.forward_distances_km)
                 ),
                 condition_number=triangulation.condition_number,
+                ray_diagnostics=ray_diagnostics,
             )
         )
 
@@ -333,7 +380,9 @@ def optimize_de(
         "callback": report,
     }
     try:
-        return differential_evolution(**arguments)
+        result = differential_evolution(**arguments)
+        result.workers_used = workers
+        return result
     except (OSError, PermissionError) as error:
         if workers == 1:
             raise
@@ -343,7 +392,9 @@ def optimize_de(
         )
         arguments["workers"] = 1
         arguments["updating"] = "immediate"
-        return differential_evolution(**arguments)
+        result = differential_evolution(**arguments)
+        result.workers_used = 1
+        return result
 
 
 def optimize_multistart(
@@ -379,6 +430,7 @@ def optimize_multistart(
         if best is None or result.fun < best.fun:
             best = result
     assert best is not None
+    best.workers_used = 1
     return best
 
 
@@ -390,6 +442,7 @@ def _score_to_json(score: GroupScore) -> dict[str, object]:
         "common_point_km": score.common_point_km.tolist(),
         "minimum_forward_distance_km": score.minimum_forward_distance_km,
         "condition_number": score.condition_number,
+        "rays": [asdict(ray) for ray in score.ray_diagnostics],
     }
 
 
@@ -402,6 +455,13 @@ def write_result(
     baseline: CostBreakdown,
     fitted: CostBreakdown,
     integration: IntegrationOptions,
+    seed: int,
+    maxiter: int,
+    popsize: int,
+    starts: int,
+    workers_requested: int,
+    polish: bool,
+    report_every: int,
 ) -> None:
     payload = {
         "schema_version": 1,
@@ -413,12 +473,26 @@ def write_result(
             "success": bool(result.success),
             "message": str(result.message),
             "evaluations": int(result.nfev),
+            "iterations": int(result.nit),
+            "seed": seed,
+            "maxiter": maxiter,
+            "population_multiplier": popsize if method == "de" else None,
+            "multistart_count": starts if method == "multistart" else None,
+            "polish": polish if method == "de" else None,
+            "workers_requested": workers_requested,
+            "workers_used": int(getattr(result, "workers_used", 1)),
+            "report_every": report_every,
         },
         "parameters": asdict(params),
         "parameter_space": asdict(PARAMETER_SPACE),
         "integration": asdict(integration),
         "baseline_cost_km": baseline.cost_km,
         "fitted_cost_km": fitted.cost_km,
+        "relative_improvement": (
+            (baseline.cost_km - fitted.cost_km) / baseline.cost_km
+            if baseline.cost_km
+            else 0.0
+        ),
         "invalid_rays": fitted.invalid_rays,
         "groups": [_score_to_json(score) for score in fitted.group_scores],
     }
@@ -490,7 +564,13 @@ def main() -> None:
         )
 
     params = PARAMETER_SPACE.decode(result.x)
-    fitted = evaluate_field(params, dataset, integration, args.intersection)
+    fitted = evaluate_field(
+        params,
+        dataset,
+        integration,
+        args.intersection,
+        collect_ray_diagnostics=True,
+    )
     print("\nWynik dopasowania:")
     for name, value in asdict(params).items():
         print(f"  {name:5s} = {value:.9g}")
@@ -507,6 +587,13 @@ def main() -> None:
             baseline=baseline,
             fitted=fitted,
             integration=integration,
+            seed=args.seed,
+            maxiter=args.maxiter,
+            popsize=args.popsize,
+            starts=args.starts,
+            workers_requested=args.workers,
+            polish=args.polish,
+            report_every=args.report_every,
         )
         print(f"  zapisano = {args.output}")
 

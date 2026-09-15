@@ -40,8 +40,16 @@ class FieldParams:
             raise ValueError("A makes the refractive index non-positive")
 
 
-def n_and_grad(pos: np.ndarray, params: FieldParams) -> tuple[float, np.ndarray]:
-    """Return refractive index and Cartesian gradient at ``pos``."""
+def n_and_grad_components(
+    pos: np.ndarray,
+    params: FieldParams,
+) -> tuple[float, np.ndarray, np.ndarray]:
+    """Return ``n`` and separate background/ring Cartesian gradients.
+
+    Keeping the two gradients separate makes it possible to diagnose how much
+    bending each part of the field contributes along the final, combined ray.
+    The ray equation still uses their sum.
+    """
 
     x, y, z = (float(value) for value in pos)
     rho = math.hypot(x, y)
@@ -69,15 +77,21 @@ def n_and_grad(pos: np.ndarray, params: FieldParams) -> tuple[float, np.ndarray]
         radial_x = radial_y = 0.0
 
     refractive_index = 1.0 + background + ring
-    gradient = np.array(
-        [
-            ring_drho * radial_x,
-            ring_drho * radial_y,
-            background_dz + ring_dz,
-        ],
+    background_gradient = np.array([0.0, 0.0, background_dz], dtype=float)
+    ring_gradient = np.array(
+        [ring_drho * radial_x, ring_drho * radial_y, ring_dz],
         dtype=float,
     )
-    return refractive_index, gradient
+    return refractive_index, background_gradient, ring_gradient
+
+
+def n_and_grad(pos: np.ndarray, params: FieldParams) -> tuple[float, np.ndarray]:
+    """Return refractive index and total Cartesian gradient at ``pos``."""
+
+    refractive_index, background_gradient, ring_gradient = (
+        n_and_grad_components(pos, params)
+    )
+    return refractive_index, background_gradient + ring_gradient
 
 
 if __name__ == "__main__":

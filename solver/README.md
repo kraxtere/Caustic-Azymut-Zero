@@ -64,6 +64,19 @@ python -m solver.fit_field --method multistart --starts 12 --maxiter 800
 Pola, dla których promień wraca do płaszczyzny albo nie opuszcza pola przed
 limitem drogi, są odrzucane. Nie trafiają już po cichu do triangulacji.
 
+Wynikowy JSON zapisuje ziarno, budżet i faktyczną liczbę użytych workerów.
+Dla każdego poprawnego promienia zawiera także diagnostykę w stopniach:
+
+- `net_direction_change_deg` — kąt między kierunkiem początkowym i końcowym,
+- `background_path_bending_deg` — całka z krzywizny wniesionej przez tło,
+- `ring_path_bending_deg` — analogiczna całka dla pierścienia,
+- `combined_path_bending_deg` — całka z modułu łącznej krzywizny.
+
+Całki składowych są liczone po gotowym torze, już po zakończeniu RK45. Nie
+wpływają więc na dobór kroków, wynik śledzenia ani funkcję kosztu. Składowe
+nie muszą sumować się do zmiany kierunku, ponieważ ugięcia o różnych
+kierunkach mogą się częściowo znosić.
+
 ## Pliki
 
 | Plik | Odpowiedzialność |

@@ -10,7 +10,7 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import minimize
 
-from .field import FieldParams, n_and_grad
+from .field import FieldParams, n_and_grad, n_and_grad_components
 
 
 RayStatus = Literal["escaped", "ground_hit", "max_path", "failed"]
@@ -35,6 +35,10 @@ class RayResult:
     path_length_km: float
     gradient_norm_per_km: float
     function_evaluations: int
+    net_direction_change_deg: float | None = None
+    background_path_bending_deg: float | None = None
+    ring_path_bending_deg: float | None = None
+    combined_path_bending_deg: float | None = None
 
 
 @dataclass(frozen=True)
@@ -85,11 +89,84 @@ def _maximum_step_km(
     return 500.0
 
 
+def _bending_diagnostics(
+    path_lengths: np.ndarray,
+    states: np.ndarray,
+    params: FieldParams,
+    initial_direction: np.ndarray,
+) -> tuple[float, float, float, float]:
+    """Integrate component curvature along an already accepted ray path.
+
+    Diagnostics are calculated after RK45 has finished, so requesting them
+    cannot alter adaptive steps, the asymptotic ray, or the optimization cost.
+    Each component value is the path integral of the magnitude of that
+    component's perpendicular contribution to ``dT/ds``, expressed in degrees.
+    Because differently directed curvature may cancel, the component integrals
+    need not add up to the net angle between the initial and final directions.
+    """
+
+    final_direction = np.asarray(states[3:6, -1], dtype=float)
+    final_norm = float(np.linalg.norm(final_direction))
+    if final_norm == 0 or not np.all(np.isfinite(final_direction)):
+        return math.nan, math.nan, math.nan, math.nan
+    final_direction /= final_norm
+    cosine = float(np.clip(np.dot(initial_direction, final_direction), -1.0, 1.0))
+    net_direction_change_deg = math.degrees(math.acos(cosine))
+
+    if path_lengths.size < 2:
+        return net_direction_change_deg, 0.0, 0.0, 0.0
+
+    background_curvature: list[float] = []
+    ring_curvature: list[float] = []
+    combined_curvature: list[float] = []
+    for column in range(states.shape[1]):
+        position = states[0:3, column]
+        tangent = states[3:6, column]
+        tangent_norm = float(np.linalg.norm(tangent))
+        if tangent_norm == 0 or not np.all(np.isfinite(tangent)):
+            return math.nan, math.nan, math.nan, math.nan
+        tangent = tangent / tangent_norm
+        refractive_index, background_gradient, ring_gradient = (
+            n_and_grad_components(position, params)
+        )
+        background_acceleration = (
+            background_gradient
+            - np.dot(background_gradient, tangent) * tangent
+        ) / refractive_index
+        ring_acceleration = (
+            ring_gradient - np.dot(ring_gradient, tangent) * tangent
+        ) / refractive_index
+        background_curvature.append(float(np.linalg.norm(background_acceleration)))
+        ring_curvature.append(float(np.linalg.norm(ring_acceleration)))
+        combined_curvature.append(
+            float(np.linalg.norm(background_acceleration + ring_acceleration))
+        )
+
+    radians_to_degrees = 180.0 / math.pi
+    background_bending = float(
+        np.trapezoid(background_curvature, x=path_lengths)
+    ) * radians_to_degrees
+    ring_bending = float(
+        np.trapezoid(ring_curvature, x=path_lengths)
+    ) * radians_to_degrees
+    combined_bending = float(
+        np.trapezoid(combined_curvature, x=path_lengths)
+    ) * radians_to_degrees
+    return (
+        net_direction_change_deg,
+        background_bending,
+        ring_bending,
+        combined_bending,
+    )
+
+
 def trace_ray(
     origin: np.ndarray,
     direction: np.ndarray,
     params: FieldParams,
     options: IntegrationOptions | None = None,
+    *,
+    collect_diagnostics: bool = False,
 ) -> RayResult:
     """Trace a backward ray until it reaches the field-free upper region.
 
@@ -116,6 +193,10 @@ def trace_ray(
             path_length_km=0.0,
             gradient_norm_per_km=0.0,
             function_evaluations=0,
+            net_direction_change_deg=0.0 if collect_diagnostics else None,
+            background_path_bending_deg=0.0 if collect_diagnostics else None,
+            ring_path_bending_deg=0.0 if collect_diagnostics else None,
+            combined_path_bending_deg=0.0 if collect_diagnostics else None,
         )
 
     initial_state = np.concatenate([origin, initial_direction])
@@ -170,6 +251,17 @@ def trace_ray(
     else:
         status = "max_path"
 
+    diagnostics: tuple[float | None, float | None, float | None, float | None]
+    if collect_diagnostics:
+        diagnostics = _bending_diagnostics(
+            solution.t,
+            solution.y,
+            params,
+            initial_direction,
+        )
+    else:
+        diagnostics = (None, None, None, None)
+
     return RayResult(
         point=end_point,
         direction=end_direction,
@@ -177,6 +269,10 @@ def trace_ray(
         path_length_km=float(solution.t[-1]),
         gradient_norm_per_km=float(np.linalg.norm(end_gradient)),
         function_evaluations=int(solution.nfev),
+        net_direction_change_deg=diagnostics[0],
+        background_path_bending_deg=diagnostics[1],
+        ring_path_bending_deg=diagnostics[2],
+        combined_path_bending_deg=diagnostics[3],
     )
 
 
