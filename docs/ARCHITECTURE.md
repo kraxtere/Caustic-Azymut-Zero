@@ -10,7 +10,7 @@ Kod rozdziela trzy rzeczy, które łatwo pomieszać w jednej demonstracji:
 
 Obecna krzywa Béziera dostarcza jedynie punktu odniesienia dla punktu 3. Nie wynika z równania pola ani z optyki ośrodka.
 
-## Konwencje współrzędnych
+## Konwencje współrzędnych wizualizacji
 
 - Jednostką obliczeń przestrzennych jest kilometr.
 - Oś `Y` jest pionowa.
@@ -20,16 +20,15 @@ Obecna krzywa Béziera dostarcza jedynie punktu odniesienia dla punktu 3. Nie wy
 - Długość `0°` jest skierowana ku górze mapy w widoku z góry, a długości wschodnie biegną zgodnie z ruchem wskazówek zegara.
 - Azymut jest liczony od lokalnej północy ku wschodowi: `0° = N`, `90° = E`.
 
-## Przepływ obliczeń
+## Dwie rozdzielone warstwy
 
 ```mermaid
 flowchart TD
-    O["Obserwator i źródło"] --> H["Azymut i elewacja"]
-    O --> P["Projekcja azymutalna"]
-    P --> D["Punkt na kopule"]
-    H --> R["Model toru promienia"]
-    D --> R
-    R --> V["Scena i wyniki"]
+    O["Obserwator, czas, alt-az"] --> S["Solver Python"]
+    S --> A["Promienie asymptotyczne"]
+    A --> F["RMS i parametry pola"]
+    F --> V["Viewer TypeScript"]
+    B["FE-Dome / Bézier"] --> V
 ```
 
 ## Moduły
@@ -43,9 +42,24 @@ flowchart TD
 | `compute.ts` | spójne złożenie parametrów w wynik modelu |
 | `SceneController.ts` | wyłącznie wizualizacja wyniku |
 
-## Następny etap: pole toroidalne
+## Pole toroidalne i propagacja
 
-Nowego modelu nie należy dopisywać bezpośrednio do sceny. Docelowy interfejs powinien przyjmować stan promienia i zwracać jego lokalną zmianę, na przykład:
+Model fizyczny nie jest częścią sceny. Warstwa `solver/` implementuje pole
+
+```text
+n(rho,z) = 1 + k exp(-z/H)
+             + A exp(-((rho-rho0)^2 + z^2)/(2 s^2))
+```
+
+oraz równanie eikonalne parametryzowane długością łuku:
+
+```text
+r'' = (grad(n) - (grad(n) dot r') r') / n
+```
+
+Integrator prowadzi pełny promień 3D. Osiowa symetria zmniejsza liczbę zmiennych pola, ale nie ogranicza ogólnego promienia do jednego przekroju 2D.
+
+TypeScript zachowuje kontrakt przyszłego importu pola do podglądu:
 
 ```ts
 interface PropagationField<Parameters> {
@@ -57,7 +71,7 @@ interface PropagationField<Parameters> {
 }
 ```
 
-Integrator numeryczny będzie wtedy niezależny od konkretnego pola. Pozwoli to porównywać:
+Rozdzielenie pozwala porównywać:
 
 - tor prosty,
 - konstrukcję Béziera Bislina,
@@ -86,15 +100,26 @@ interface Observation {
 
 Niepewności są ważne: bez nich optymalizator może traktować pomiar przybliżony tak samo jak pomiar geodezyjny.
 
-## Kryteria gotowości modelu pola
+## Warunek brzegowy bez założonej kopuły
 
-Przed dopasowaniem parametrów potrzebujemy:
+Położenie źródła i wysokość kopuły nie są wejściami solvera. Dla każdego obserwatora promień startuje w zmierzonym albo syntetycznie wyznaczonym kierunku alt-az. Integracja kończy się dopiero, gdy cały modelowany gradient jest zaniedbywalny. Następnie:
 
-1. jednoznacznej definicji torusa i jego osi,
-2. wzoru pola lub współczynnika załamania w każdym punkcie,
-3. warunków początkowych promienia,
-4. ograniczeń jednostek i zakresów parametrów,
-5. zestawu obserwacji treningowych i osobnego zestawu kontrolnego,
-6. funkcji błędu liczonej na azymucie i elewacji.
+1. punkt i kierunek wyjścia definiują asymptotyczną półprostą,
+2. wspólny punkt jest dopasowywany do półprostych wielu obserwatorów,
+3. RMS najmniejszych odległości jest liczony osobno dla każdej chwili,
+4. średni RMS wielu chwil jest funkcją kosztu pola.
+
+Tryb nieskończonych prostych istnieje tylko do reprodukcji pierwotnego handoffu. Domyślne półproste nie pozwalają uzyskać pozornie dobrego przecięcia za obserwatorem.
+
+## Konwencje wymiany danych
+
+- viewer: `X/Z` to mapa, `Y` to wysokość,
+- solver: `x/y` to mapa, `z` to wysokość,
+- jednostka długości w obu warstwach: kilometr,
+- każdy eksport solvera zapisuje nazwę układu współrzędnych.
+
+## Warunki uczciwego testu
+
+Przed mocnym wnioskiem potrzebujemy pełnego globalnego przebiegu, kontroli wyników na granicach parametrów, danych spoza zbioru strojącego oraz osobnych niepewności obserwacyjnych. Pole kończące na granicy dozwolonego zakresu nie jest jeszcze potwierdzonym rozwiązaniem.
 
 Oddzielenie danych kontrolnych zapobiegnie znalezieniu parametrów, które dobrze odtwarzają wyłącznie przykłady użyte podczas strojenia.

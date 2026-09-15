@@ -4,3 +4,8 @@ dist/
 *.log
 .vite/
 coverage/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+solver/results/latest-fit.json

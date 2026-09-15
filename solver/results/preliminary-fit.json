@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "status": "preliminary-boundary-solution",
+  "model": "axisymmetric-atmosphere-plus-gaussian-ring-v1",
+  "coordinate_system": "x-y map plane, z altitude, kilometres",
+  "intersection_mode": "rays",
+  "optimizer": {
+    "global_method": "differential_evolution",
+    "global_generations": 24,
+    "global_population_multiplier": 5,
+    "local_method": "Nelder-Mead",
+    "local_success": true,
+    "note": "The fitted amplitude and width are on their allowed boundaries."
+  },
+  "parameters": {
+    "k": 7.700023443727841e-10,
+    "H": 30.0,
+    "A": -0.1,
+    "rho0": 11271.314263552877,
+    "s": 100.00000234364455
+  },
+  "parameter_space": {
+    "k_bounds": [0.0, 0.001],
+    "h_bounds_km": [2.0, 30.0],
+    "amplitude_bounds": [-0.1, 0.1],
+    "width_bounds_km": [100.0, 5000.0],
+    "minimum_ring_radius_km": 500.0,
+    "maximum_ring_radius_km": 20015.086796020572,
+    "minimum_radius_to_width": 2.0
+  },
+  "integration": {
+    "max_path_km": 500000.0,
+    "rtol": 0.0001,
+    "atol": 1e-7,
+    "gradient_tolerance_per_km": 1e-9,
+    "escape_sigma": 7.0
+  },
+  "baseline_cost_km": 2479.9793224550663,
+  "fitted_cost_km": 2314.034239645059,
+  "relative_improvement": 0.06691389842788544,
+  "invalid_rays": 0,
+  "groups": [
+    {
+      "timestamp_utc": "2026-03-20T14:00:00+00:00",
+      "observer_count": 5,
+      "rms_km": 1636.387035626139,
+      "common_point_km": [10673.197777391946, -4986.332124866601, 6713.452999092392],
+      "minimum_forward_distance_km": 8512.795412684893
+    },
+    {
+      "timestamp_utc": "2026-03-20T17:00:00+00:00",
+      "observer_count": 4,
+      "rms_km": 2586.20913005011,
+      "common_point_km": [6647.49193048461, -7823.209269046794, 2184.5192775157157],
+      "minimum_forward_distance_km": 1740.3053743000803
+    },
+    {
+      "timestamp_utc": "2026-06-21T14:00:00+00:00",
+      "observer_count": 5,
+      "rms_km": 685.9016083062186,
+      "common_point_km": [7009.948978761231, -3838.988108661365, 6327.0862719210845],
+      "minimum_forward_distance_km": 6621.319087827667
+    },
+    {
+      "timestamp_utc": "2026-06-21T17:00:00+00:00",
+      "observer_count": 4,
+      "rms_km": 1105.5359677573845,
+      "common_point_km": [4100.898657994405, -6292.879363404336, 2695.3710116660036],
+      "minimum_forward_distance_km": 1968.5584331749872
+    },
+    {
+      "timestamp_utc": "2026-12-21T14:00:00+00:00",
+      "observer_count": 5,
+      "rms_km": 3447.668052599041,
+      "common_point_km": [10713.88553500569, -4012.0763387263687, 2791.0043454079405],
+      "minimum_forward_distance_km": 3958.3009477854225
+    },
+    {
+      "timestamp_utc": "2026-12-21T17:00:00+00:00",
+      "observer_count": 3,
+      "rms_km": 4422.503643531463,
+      "common_point_km": [7455.721560629882, -5821.126074580528, 1198.2588579050107],
+      "minimum_forward_distance_km": -440.93640634940317
+    }
+  ]
+}

@@ -8,7 +8,9 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "check": "npm run test && npm run build"
+    "test:solver": "python3 -m unittest discover -s solver/tests -v",
+    "check": "npm run test && npm run build",
+    "check:all": "npm run check && npm run test:solver"
   },
   "dependencies": {
     "three": "^0.186.0",
