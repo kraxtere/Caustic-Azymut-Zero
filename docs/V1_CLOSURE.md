@@ -69,6 +69,7 @@ Uruchomienie w Git Bash z katalogu repozytorium:
 ```bash
 ./.venv/Scripts/python.exe -m solver.validate_v1 \
   --fit-json solver/results/full-fit-v1-seed-20260917.json \
+  --workers 6 \
   --output solver/results/v1-closure-validation.json
 ```
 

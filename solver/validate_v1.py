@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import math
+from concurrent.futures import Executor, ProcessPoolExecutor
 from dataclasses import asdict, dataclass, replace
 from datetime import datetime
 from pathlib import Path
@@ -199,16 +200,16 @@ def trace_target(
     group: TargetGroup,
     params: FieldParams,
     integration: IntegrationOptions,
+    executor: Executor | None = None,
 ) -> TracedTarget:
-    rays = tuple(
-        trace_ray(
-            origin,
-            direction,
-            params,
-            integration,
-            collect_diagnostics=True,
-        )
+    jobs = tuple(
+        (origin, direction, params, integration)
         for origin, direction in zip(group.origins, group.directions, strict=True)
+    )
+    rays = tuple(
+        executor.map(_trace_ray_job, jobs)
+        if executor is not None
+        else map(_trace_ray_job, jobs)
     )
     invalid_rays = sum(ray.status != "escaped" for ray in rays)
     triangulation = None
@@ -230,6 +231,21 @@ def trace_target(
         invalid_rays=invalid_rays,
         triangulation=triangulation,
         rays=rays,
+    )
+
+
+def _trace_ray_job(
+    job: tuple[np.ndarray, np.ndarray, FieldParams, IntegrationOptions],
+) -> RayResult:
+    """Picklable unit of work for Windows multiprocessing."""
+
+    origin, direction, params, integration = job
+    return trace_ray(
+        origin,
+        direction,
+        params,
+        integration,
+        collect_diagnostics=True,
     )
 
 
@@ -334,6 +350,7 @@ def validate_solar_disk(
     observers: Sequence[tuple[float, float]],
     minimum_altitude_deg: float,
     solar_radius_deg: float,
+    executor: Executor | None = None,
 ) -> dict[str, object]:
     ephemeris = MeeusLowPrecision()
     moments: list[dict[str, object]] = []
@@ -355,6 +372,7 @@ def validate_solar_disk(
                 build_target_group(sample_id, radec, instant, visible),
                 params,
                 integration,
+                executor,
             )
             for sample_id, radec in samples.items()
         }
@@ -405,6 +423,7 @@ def validate_celestial_poles(
     integration: IntegrationOptions,
     observers: Sequence[tuple[float, float]],
     minimum_altitude_deg: float,
+    executor: Executor | None = None,
 ) -> dict[str, object]:
     instant = MOMENTS[0]
     targets = {
@@ -423,6 +442,7 @@ def validate_celestial_poles(
             build_target_group(target_id, radec, instant, visible),
             params,
             integration,
+            executor,
         )
         results[target_id] = _target_to_json(traced)
     return {
@@ -450,9 +470,12 @@ def validate_fit(
     refraction_policy: str = "vacuum-geometric",
     minimum_altitude_deg: float = 2.0,
     solar_radius_deg: float = DEFAULT_SOLAR_RADIUS_DEG,
+    workers: int = 1,
 ) -> dict[str, object]:
     if refraction_policy not in {"vacuum-geometric", "as-fitted"}:
         raise ValueError("unknown refraction policy")
+    if workers < 1:
+        raise ValueError("workers must be at least one")
     fit_payload, fitted_params, integration = _load_fit(fit_path)
     effective_params = (
         replace(fitted_params, k=0.0)
@@ -461,6 +484,27 @@ def validate_fit(
     )
     observers = observer_grid()
     source_digest = hashlib.sha256(fit_path.read_bytes()).hexdigest()
+    executor = ProcessPoolExecutor(max_workers=workers) if workers > 1 else None
+    try:
+        c2_solar_disk = validate_solar_disk(
+            effective_params,
+            integration,
+            observers,
+            minimum_altitude_deg,
+            solar_radius_deg,
+            executor,
+        )
+        c3_celestial_poles = validate_celestial_poles(
+            effective_params,
+            integration,
+            observers,
+            minimum_altitude_deg,
+            executor,
+        )
+    finally:
+        if executor is not None:
+            executor.shutdown()
+
     return {
         "schema_version": 1,
         "model": "axisymmetric-atmosphere-plus-gaussian-ring-v1-closure",
@@ -491,20 +535,10 @@ def validate_fit(
             "candidate_observer_count": len(observers),
             "minimum_altitude_deg": minimum_altitude_deg,
         },
+        "workers_used": workers,
         "integration": asdict(integration),
-        "c2_solar_disk": validate_solar_disk(
-            effective_params,
-            integration,
-            observers,
-            minimum_altitude_deg,
-            solar_radius_deg,
-        ),
-        "c3_celestial_poles": validate_celestial_poles(
-            effective_params,
-            integration,
-            observers,
-            minimum_altitude_deg,
-        ),
+        "c2_solar_disk": c2_solar_disk,
+        "c3_celestial_poles": c3_celestial_poles,
         "interpretation": {
             "automatic_pass_fail": False,
             "reason": (
@@ -525,6 +559,7 @@ def parse_args() -> argparse.Namespace:
         default="vacuum-geometric",
     )
     parser.add_argument("--minimum-altitude-deg", type=float, default=2.0)
+    parser.add_argument("--workers", type=int, default=1)
     parser.add_argument(
         "--solar-radius-deg",
         type=float,
@@ -542,6 +577,7 @@ def main() -> None:
         refraction_policy=args.refraction_policy,
         minimum_altitude_deg=args.minimum_altitude_deg,
         solar_radius_deg=args.solar_radius_deg,
+        workers=args.workers,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
