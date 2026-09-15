@@ -100,6 +100,13 @@ progi stałości i kształtu tarczy. Szczegóły:
 Kontrakt kolejnego przebiegu:
 [`docs/V2_MAXWELL_FULL_C2.md`](docs/V2_MAXWELL_FULL_C2.md).
 
+Pełny przebieg tego kontraktu zakończył się **FAIL**. Wszystkie 75 celów miało
+zgodny punkt i identyczne przypisania `P/JPJ` między ziarnami, a C-3 pozostało
+zaliczone. Jeden brzeg tarczy prowadził jednak wstecz (`forward_sine=-0,7787`),
+a rozmiar tarczy nie był stały sezonowo (`CV=18,63%`, `max/min=1,617`).
+Szczegółowy wynik:
+[`docs/V2_MAXWELL_FULL_C2_RESULT.md`](docs/V2_MAXWELL_FULL_C2_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

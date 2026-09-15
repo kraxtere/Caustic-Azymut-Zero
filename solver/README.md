@@ -89,6 +89,13 @@ progi kształtu i stałości tarczy są opisane w
   --output solver/results/v2-maxwell-full-c2.json
 ```
 
+Wynik pełnego przebiegu to **FAIL**. Konsensus punktu i dokładnych przypisań
+gałęzi przeszedł dla `75/75` celów, podobnie jak regresja C-3. Nieważny jest
+jednak zachodni brzeg tarczy z równonocy o `10:00 UTC`, a globalne metryki
+stałości średnicy wynoszą `CV=0,18632` i `max/min=1,61700`. Nie zmieniamy
+zamrożonych progów ani nie przechodzimy automatycznie do drugiego punktu
+skanu. Szczegóły: `../docs/V2_MAXWELL_FULL_C2_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
