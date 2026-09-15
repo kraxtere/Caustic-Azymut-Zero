@@ -117,6 +117,15 @@ fragmencie `-11,72° ... +23,44°` skala jest jednak ściśle monotoniczna
 [`docs/V2_MAXWELL_FULL_C2_CORRECTED_RESULT.md`](docs/V2_MAXWELL_FULL_C2_CORRECTED_RESULT.md)
 i [`docs/V2_MAXWELL_DECLINATION_SCAN_RESULT.md`](docs/V2_MAXWELL_DECLINATION_SCAN_RESULT.md).
 
+Analiza rezydualnej korekty na stabilnej gałęzi wybiera najprostszą postać
+`C(delta)=1+0,544753*sin(delta)` (`RMSE=0,72%`, błąd maksymalny `1,60%`).
+Rzeczywisty grudzień leży na odbitej stronie granicy, natomiast czerwiec na
+bezpośredniej, dlatego sezonowej rozbieżności nie można przypisać wyłącznie
+gładkiemu efektowi `z0`. Następny stopień swobody powinien realizować
+nieparzystą osiową korektę lokalnej skali, niezależną od stabilizacji gałęzi.
+Szczegóły:
+[`docs/V2_MAXWELL_SCALE_CORRECTION_RESULT.md`](docs/V2_MAXWELL_SCALE_CORRECTION_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

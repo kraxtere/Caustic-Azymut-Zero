@@ -105,6 +105,13 @@ jest **FAIL**. Tani skan dziewięciu deklinacji wykrył granicę gałęzi przy
 `../docs/V2_MAXWELL_FULL_C2_CORRECTED_RESULT.md` i
 `../docs/V2_MAXWELL_DECLINATION_SCAN_RESULT.md`.
 
+Na stabilnej gałęzi wymagana korekta skali jest dobrze opisana jednym
+parametrem: `C(delta)=1+0,544753*sin(delta)`, z RMSE `0,72%` i największym
+błędem `1,60%`. Grudzień leży na stabilnej stronie odbitej, a czerwiec na
+bezpośredniej, więc dokładny udział skoku gałęzi w sezonowych `46,7745%`
+wymagałby osobnej kontynuacji gałęzi. Raport:
+`../docs/V2_MAXWELL_SCALE_CORRECTION_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -275,6 +282,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `validate_maxwell.py` | zamrożona tania bramka centrum Słońca i C-3 dla Maxwella |
 | `validate_maxwell_c2.py` | pełny C-2 Maxwella z konsensusem gałęzi i buforem drogi |
 | `scan_maxwell_declination.py` | diagnostyczny skan skali po deklinacji |
+| `analyze_maxwell_scale.py` | klasyfikacja strony gałęzi i dopasowanie korekty skali |
 | `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
 | `scan_maxwell_radius.py` | zakończony skan `R` Maxwella przy stałym bezwzględnym `z0` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |
