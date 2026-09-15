@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "pre_registered_contract": "docs/V2_LOCAL_DIPOLE_PROPAGATOR_CONTRACT.md",
+  "field": {
+    "formula": "n_M*exp(epsilon*(z/R)*(1-r^2/R^2))",
+    "test_epsilon": 0.8
+  },
+  "epsilon_zero_analytic_comparison": {
+    "radius_km": 10.0,
+    "records": [
+      {
+        "case_index": 0,
+        "central_angle_rad": 0.25,
+        "point_error_km": 2.323027271508674e-15,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 0,
+        "analytic_fold_parity": 0,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 0,
+        "central_angle_rad": 0.8,
+        "point_error_km": 1.7836709880838905e-14,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 0,
+        "analytic_fold_parity": 0,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 0,
+        "central_angle_rad": 1.7,
+        "point_error_km": 8.863045117606277e-11,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 1,
+        "analytic_fold_parity": 1,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 0,
+        "central_angle_rad": 2.8,
+        "point_error_km": 5.1549180434533166e-11,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 1,
+        "analytic_fold_parity": 1,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 1,
+        "central_angle_rad": 0.25,
+        "point_error_km": 1.4905545222651586e-15,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 0,
+        "analytic_fold_parity": 0,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 1,
+        "central_angle_rad": 0.8,
+        "point_error_km": 4.636427468134552e-15,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 0,
+        "analytic_fold_parity": 0,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 1,
+        "central_angle_rad": 1.7,
+        "point_error_km": 7.982920657972572e-11,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 1,
+        "analytic_fold_parity": 1,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 1,
+        "central_angle_rad": 2.8,
+        "point_error_km": 6.647017503807441e-11,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 1,
+        "analytic_fold_parity": 1,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 2,
+        "central_angle_rad": 0.25,
+        "point_error_km": 2.2644195468014703e-15,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 0,
+        "analytic_fold_parity": 0,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 2,
+        "central_angle_rad": 0.8,
+        "point_error_km": 8.296271088900922e-15,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 0,
+        "analytic_fold_parity": 0,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 2,
+        "central_angle_rad": 1.7,
+        "point_error_km": 7.289322498155748e-11,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 1,
+        "analytic_fold_parity": 1,
+        "reflection_parity_matches": true
+      },
+      {
+        "case_index": 2,
+        "central_angle_rad": 2.8,
+        "point_error_km": 6.760395584952021e-11,
+        "direction_error_deg": 0.0,
+        "numeric_reflection_count": 1,
+        "analytic_fold_parity": 1,
+        "reflection_parity_matches": true
+      }
+    ],
+    "maximum_point_error_km": 8.863045117606277e-11,
+    "maximum_direction_error_deg": 0.0
+  },
+  "field_differential_checks": {
+    "maximum_mirror_index_error": 0.0,
+    "centre_gradient_error": 2.7755575615628914e-17,
+    "gradient_relative_error": 1.602476449515711e-10
+  },
+  "integrator_convergence": {
+    "coarse_to_fine_point_difference_km": 1.0080433787976665e-14
+  },
+  "acceptance_gate": {
+    "passed": true,
+    "checks": {
+      "twelve_analytic_comparisons_present": true,
+      "at_least_one_reflected_case_present": true,
+      "all_point_errors_within_limit": true,
+      "all_direction_errors_within_limit": true,
+      "all_reflection_parities_match": true,
+      "mirror_index_equals_n0": true,
+      "centre_gradient_is_regular": true,
+      "analytic_gradient_matches_central_difference": true,
+      "tightened_integrator_is_converged": true,
+      "propagator_interface_has_no_source_label": true
+    },
+    "thresholds": {
+      "point_error_km": 1e-06,
+      "direction_error_deg": 1e-05,
+      "gradient_relative_error": 1e-06,
+      "convergence_point_difference_km": 1e-06
+    },
+    "rule_frozen_before_run": true
+  }
+}

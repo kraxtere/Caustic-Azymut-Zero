@@ -137,6 +137,11 @@ symetrię i geometrię wielkich okręgów. Kontrakt architektoniczny:
 `../docs/V2_LOCAL_DIPOLE_ARCHITECTURE.md`. Powracające nieciągłości gałęzi są
 prowadzone osobno w `../docs/V2_MAXWELL_BRANCH_AMBIGUITY_RESEARCH.md`.
 
+Propagator numeryczny lokalnego dipola przeszedł zamrożoną bramkę `epsilon=0`:
+12/12 torów zgadza się z analitycznym `S3`, łącznie z odbiciami. Wynik:
+`../docs/V2_LOCAL_DIPOLE_PROPAGATOR_RESULT.md`. Skan amplitudy i C-3 nie były
+jeszcze uruchamiane.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -311,6 +316,8 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `continue_maxwell_branches.py` | wymuszona kontynuacja `P` na wspólnej kohorcie i dekompozycja skali |
 | `analyze_maxwell_branch_geometry.py` | audyt efektywnej skali, sygnatur tarczy i hipotezy nawinięcia |
 | `identify_maxwell_response.py` | identyfikacja `P1/P3` na wymuszonej gałęzi i wspólnej kohorcie |
+| `maxwell_numeric.py` | numeryczny propagator lokalnego dipola z lustrem |
+| `validate_local_dipole_propagator.py` | bramka `epsilon=0` względem analitycznego `S3` |
 | `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
 | `scan_maxwell_radius.py` | zakończony skan `R` Maxwella przy stałym bezwzględnym `z0` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |

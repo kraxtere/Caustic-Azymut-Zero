@@ -58,6 +58,7 @@ class LensFieldParams:
     radius_km: float
     n0: float = 1.0
     centre_km: tuple[float, float, float] = (0.0, 0.0, 0.0)
+    dipole_epsilon: float = 0.0
 
     def validate(self) -> None:
         if self.family not in {"maxwell", "luneburg"}:
@@ -69,6 +70,10 @@ class LensFieldParams:
             raise ValueError("centre_km must be a finite three-vector")
         if self.family == "luneburg" and self.n0 != 1.0:
             raise ValueError("the specified Luneburg profile has fixed n0=1")
+        if not math.isfinite(self.dipole_epsilon):
+            raise ValueError("dipole_epsilon must be finite")
+        if self.family == "luneburg" and self.dipole_epsilon != 0.0:
+            raise ValueError("dipole_epsilon is only defined for Maxwell")
 
 
 def maxwell_fisheye_index(
@@ -114,10 +119,28 @@ def n_and_grad(
 
     if params.family == "maxwell":
         denominator = 1.0 + (radius / scale) ** 2
-        index = 2.0 * params.n0 / denominator
-        gradient = -4.0 * params.n0 * relative / (
-            scale**2 * denominator**2
+        base_index = 2.0 * params.n0 / denominator
+        epsilon = params.dipole_epsilon
+        if epsilon == 0.0:
+            gradient = -4.0 * params.n0 * relative / (
+                scale**2 * denominator**2
+            )
+            return base_index, gradient
+        if radius > scale * (1.0 + 1e-12):
+            raise ValueError("local Maxwell dipole is defined inside its mirror")
+        relative_z = float(relative[2])
+        radius_squared = float(np.dot(relative, relative))
+        exponent = epsilon * (relative_z / scale) * (
+            1.0 - radius_squared / scale**2
         )
+        index = base_index * math.exp(exponent)
+        gradient_log_base = -2.0 * relative / (scale**2 * denominator)
+        axis = np.array([0.0, 0.0, 1.0])
+        gradient_exponent = epsilon * (
+            axis / scale * (1.0 - radius_squared / scale**2)
+            - 2.0 * relative_z * relative / scale**3
+        )
+        gradient = index * (gradient_log_base + gradient_exponent)
         return index, gradient
 
     if radius > scale:

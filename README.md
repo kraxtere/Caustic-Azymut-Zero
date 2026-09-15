@@ -156,6 +156,12 @@ Implementacja lokalnego dipola wymaga nowego propagatora, ponieważ traci się
 dokładną geometrię wielkich okręgów:
 [`docs/V2_LOCAL_DIPOLE_ARCHITECTURE.md`](docs/V2_LOCAL_DIPOLE_ARCHITECTURE.md).
 
+Zatwierdzona obwiednia lokalnego dipola została zaimplementowana wraz z
+numerycznym propagatorem i lustrem. Zamrożona bramka `epsilon=0` odtwarza
+12/12 analitycznych torów `S3`, w tym odbicia, i kończy się **PASS**. Nie
+uruchomiono jeszcze skanu `epsilon` ani C-3. Szczegóły:
+[`docs/V2_LOCAL_DIPOLE_PROPAGATOR_RESULT.md`](docs/V2_LOCAL_DIPOLE_PROPAGATOR_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego
