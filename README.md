@@ -141,6 +141,12 @@ nie ma takiej zmiennej, a wynik jest zdominowany przez przełączenie jednego
 brzegu tarczy o 16:00. Szczegóły:
 [`docs/V2_MAXWELL_BRANCH_GEOMETRY_AUDIT.md`](docs/V2_MAXWELL_BRANCH_GEOMETRY_AUDIT.md).
 
+Identyfikacja na wymuszonej gałęzi `P` i jednej kohorcie 20 obserwatorów
+wybrała minimalną nieparzystą bazę `P1`: parametr ustalony na przesileniu
+przewidział parę `±11,72°` z błędem `1,40%`, poniżej zamrożonego progu `2%`.
+`P1+P3` nie jest obecnie uzasadnione dodatkowym parametrem. Szczegóły:
+[`docs/V2_MAXWELL_RESPONSE_IDENTIFICATION_RESULT.md`](docs/V2_MAXWELL_RESPONSE_IDENTIFICATION_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

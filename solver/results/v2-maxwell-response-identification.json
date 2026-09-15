@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "pre_registered_contract": "docs/V2_MAXWELL_RESPONSE_IDENTIFICATION.md",
+  "design": {
+    "radius_km": 24018.104155224686,
+    "centre_z_km": 8006.034718408229,
+    "branch": "forced-direct P",
+    "common_observer_count": 20,
+    "input_angular_radius_deg": 0.2666,
+    "field_modified": false
+  },
+  "acceptance_gate": {
+    "passed": true,
+    "checks": {
+      "one_common_twenty_observer_cohort": true,
+      "all_forced_direct_targets_physically_admissible": true,
+      "an_accepted_odd_response_basis_was_identified": true
+    },
+    "rule_frozen_before_run": true
+  },
+  "records": [
+    {
+      "declination_deg": -23.44,
+      "observer_count": 20,
+      "mean_diameter_km": 123.88825982631664,
+      "transfer_scale_km_per_radian": 13312.592684298748,
+      "all_targets_physically_admissible": true,
+      "minimum_forward_sine": 0.48495360744168076,
+      "correction_c": 0.7136984567292955,
+      "log_correction": -0.3372947353595682
+    },
+    {
+      "declination_deg": -17.58,
+      "observer_count": 20,
+      "mean_diameter_km": 110.5275436103924,
+      "transfer_scale_km_per_radian": 11876.897540929545,
+      "all_targets_physically_admissible": true,
+      "minimum_forward_sine": 0.48716116680545624,
+      "correction_c": 0.7999712737360297,
+      "log_correction": -0.22317945978887416
+    },
+    {
+      "declination_deg": -11.72,
+      "observer_count": 20,
+      "mean_diameter_km": 101.2421766364157,
+      "transfer_scale_km_per_radian": 10879.124962461758,
+      "all_targets_physically_admissible": true,
+      "minimum_forward_sine": 0.49276767001506927,
+      "correction_c": 0.8733401708899734,
+      "log_correction": -0.1354301416624244
+    },
+    {
+      "declination_deg": -5.86,
+      "observer_count": 20,
+      "mean_diameter_km": 94.15195245151006,
+      "transfer_scale_km_per_radian": 10117.234636886593,
+      "all_targets_physically_admissible": true,
+      "minimum_forward_sine": 0.4879647642989137,
+      "correction_c": 0.9391080858408907,
+      "log_correction": -0.06282469900643178
+    },
+    {
+      "declination_deg": 0.0,
+      "observer_count": 20,
+      "mean_diameter_km": 88.41885984492018,
+      "transfer_scale_km_per_radian": 9501.176853849727,
+      "all_targets_physically_admissible": true,
+      "minimum_forward_sine": 0.47298891817860417,
+      "correction_c": 1.0,
+      "log_correction": 0.0
+    },
+    {
+      "declination_deg": 5.86,
+      "observer_count": 20,
+      "mean_diameter_km": 83.62601238283938,
+      "transfer_scale_km_per_radian": 8986.154476829439,
+      "all_targets_physically_admissible": true,
+      "minimum_forward_sine": 0.4529662148328275,
+      "correction_c": 1.057312878200376,
+      "log_correction": 0.05573066895302085
+    },
+    {
+      "declination_deg": 11.72,
+      "observer_count": 20,
+      "mean_diameter_km": 79.55595468829085,
+      "transfer_scale_km_per_radian": 8548.800522830234,
+      "all_targets_physically_admissible": true,
+      "minimum_forward_sine": 0.4247260738430786,
+      "correction_c": 1.1114046734949656,
+      "log_correction": 0.10562468690699812
+    },
+    {
+      "declination_deg": 17.58,
+      "observer_count": 20,
+      "mean_diameter_km": 76.09364384574249,
+      "transfer_scale_km_per_radian": 8176.7528884708845,
+      "all_targets_physically_admissible": true,
+      "minimum_forward_sine": 0.3943933422630792,
+      "correction_c": 1.1619743171211965,
+      "log_correction": 0.15012055588012127
+    },
+    {
+      "declination_deg": 23.44,
+      "observer_count": 20,
+      "mean_diameter_km": 73.17640128365807,
+      "transfer_scale_km_per_radian": 7863.27635691918,
+      "all_targets_physically_admissible": true,
+      "minimum_forward_sine": 0.36604165877495054,
+      "correction_c": 1.2082974605730725,
+      "log_correction": 0.18921231139624176
+    }
+  ],
+  "parity_pairs": [
+    {
+      "absolute_declination_deg": 5.86,
+      "odd_log_response": 0.05927768397972631,
+      "even_log_response": -0.0035470150267054683,
+      "p1": 0.10209807822423742,
+      "p3": -0.15048643693136662
+    },
+    {
+      "absolute_declination_deg": 11.72,
+      "odd_log_response": 0.12052741428471125,
+      "even_log_response": -0.014902727377713136,
+      "p1": 0.20312909623818226,
+      "p3": -0.28374015202656083
+    },
+    {
+      "absolute_declination_deg": 17.58,
+      "odd_log_response": 0.1866500078344977,
+      "even_log_response": -0.03652945195437644,
+      "p1": 0.302037146024729,
+      "p3": -0.3841712869163615
+    },
+    {
+      "absolute_declination_deg": 23.44,
+      "odd_log_response": 0.263253523377905,
+      "even_log_response": -0.07404121198166323,
+      "p1": 0.39778850739794974,
+      "p3": -0.43932190716016273
+    }
+  ],
+  "tolerance": {
+    "maximum_absolute_log_error": 0.01980262729617973,
+    "equivalent_multiplicative_error": 1.02
+  },
+  "dipole_only": {
+    "coefficient_p1": 0.6617926824983527,
+    "fit_pair_absolute_declination_deg": 23.44,
+    "prediction_pair_absolute_declination_deg": 11.72,
+    "intermediate_prediction_error": 0.013901935208221416,
+    "passed": true,
+    "predictions": {
+      "5.86": 0.06756776106594473,
+      "11.72": 0.13442934949293267,
+      "17.58": 0.19988597308185205,
+      "23.44": 0.263253523377905
+    },
+    "errors": {
+      "5.86": 0.008290077086218414,
+      "11.72": 0.013901935208221416,
+      "17.58": 0.013235965247354348,
+      "23.44": 0.0
+    },
+    "maximum_absolute_error_all_nonzero_pairs": 0.013901935208221416
+  },
+  "dipole_plus_octupole": {
+    "coefficient_p1": 0.920258676551258,
+    "coefficient_p3": 0.23403067389022691,
+    "identification_pairs_absolute_declination_deg": [
+      11.72,
+      23.44
+    ],
+    "holdout_pairs_absolute_declination_deg": [
+      5.86,
+      17.58
+    ],
+    "holdout_errors": {
+      "5.86": -0.0005394838810496363,
+      "17.58": 0.0013944312692266703
+    },
+    "passed": true
+  },
+  "selected_response_basis": "P1"
+}

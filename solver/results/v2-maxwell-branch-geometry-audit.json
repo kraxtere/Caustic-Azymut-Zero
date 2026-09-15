@@ -20,7 +20,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.610577207125471,
+        "north_limb": 0.6099739484065351,
+        "south_limb": 0.6111837587620421,
+        "east_limb": 0.6110209419318555,
+        "west_limb": 0.6101365790599043
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.2624276856562697,
+        "north_limb": 2.264532546977234,
+        "south_limb": 2.260319205506871,
+        "east_limb": 2.2608844141039754,
+        "west_limb": 2.2639643317601523
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.0025871055175321965,
+        "south_limb": 0.0025856639715946084,
+        "east_limb": 0.002805898146598403,
+        "west_limb": 0.0028069188977493972
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.0028069188977493972
     },
     {
       "track_id": "march_equinox",
@@ -38,7 +59,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.5850256635948311,
+        "north_limb": 0.5844910725917584,
+        "south_limb": 0.5855642724473344,
+        "east_limb": 0.585190818500474,
+        "west_limb": 0.5848637329701347
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.3593389098540776,
+        "north_limb": 2.361559352621298,
+        "south_limb": 2.357110871459258,
+        "east_limb": 2.3586547548280974,
+        "west_limb": 2.360010541431944
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.002563790682277953,
+        "south_limb": 0.0025632924781078853,
+        "east_limb": 0.0027396458374430877,
+        "west_limb": 0.0027375628138208295
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.0027396458374430877
     },
     {
       "track_id": "march_equinox",
@@ -56,7 +98,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.5818212743668458,
+        "north_limb": 0.5812969469460311,
+        "south_limb": 0.582349643750912,
+        "east_limb": 0.5817451018375616,
+        "west_limb": 0.5818998905492346
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.372785964939787,
+        "north_limb": 2.375018293746511,
+        "south_limb": 2.3705456788680435,
+        "east_limb": 2.3731097003519697,
+        "west_limb": 2.3724520463360683
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.002517301403823083,
+        "south_limb": 0.0025168136622087532,
+        "east_limb": 0.002528339861713382,
+        "west_limb": 0.002525587995364429
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.002528339861713382
     },
     {
       "track_id": "march_equinox",
@@ -74,7 +137,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.5957779112006414,
+        "north_limb": 0.595229951571861,
+        "south_limb": 0.5963295435569208,
+        "east_limb": 0.5955365453146158,
+        "west_limb": 0.5960207490816412
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.3164848896119294,
+        "north_limb": 2.3185903102716643,
+        "south_limb": 2.3143733813278353,
+        "east_limb": 2.317411304847066,
+        "west_limb": 2.3155543799983698
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.0024218017808967634,
+        "south_limb": 0.0024208121072302746,
+        "east_limb": 0.0022893515185614804,
+        "west_limb": 0.002286482735213767
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.0024218017808967634
     },
     {
       "track_id": "march_equinox",
@@ -92,7 +176,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.6201995278982259,
+        "north_limb": 0.619637607248238,
+        "south_limb": 0.6207641936087345,
+        "east_limb": 0.6198725196260634,
+        "west_limb": 0.6205270700960882
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.2298694074228265,
+        "north_limb": 2.2317203056460575,
+        "south_limb": 2.228015504878954,
+        "east_limb": 2.2309458011419983,
+        "west_limb": 2.228793290999523
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.002215592685505924,
+        "south_limb": 0.0022143511880534238,
+        "east_limb": 0.002072906797993961,
+        "west_limb": 0.002071180631466618
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.002215592685505924
     },
     {
       "track_id": "june_solstice",
@@ -110,7 +215,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.5701760403359292,
+        "north_limb": 0.5699230776306884,
+        "south_limb": 0.5704328556771311,
+        "east_limb": 0.570501599660666,
+        "west_limb": 0.5698535340224202
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.424689757297604,
+        "north_limb": 2.4258753250982794,
+        "south_limb": 2.4234888540383297,
+        "east_limb": 2.4231678611433627,
+        "west_limb": 2.426201725163558
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.0026097258910130687,
+        "south_limb": 0.002609856152190301,
+        "east_limb": 0.0024793994518691287,
+        "west_limb": 0.0024803940362472902
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.002609856152190301
     },
     {
       "track_id": "june_solstice",
@@ -128,7 +254,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.5528859085275805,
+        "north_limb": 0.5527076100103467,
+        "south_limb": 0.553067839233505,
+        "east_limb": 0.5530023159231988,
+        "west_limb": 0.5527724679328803
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.5127204367101323,
+        "north_limb": 2.5137130127574694,
+        "south_limb": 2.511709692974008,
+        "east_limb": 2.5120734794700548,
+        "west_limb": 2.513351721950211
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.002460471856204304,
+        "south_limb": 0.0024619759491538926,
+        "east_limb": 0.002479561715076463,
+        "west_limb": 0.0024777148730411565
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.002479561715076463
     },
     {
       "track_id": "june_solstice",
@@ -146,7 +293,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.5514919331781925,
+        "north_limb": 0.5513172150893326,
+        "south_limb": 0.551670208275562,
+        "east_limb": 0.5514200153593118,
+        "west_limb": 0.5515663336778581
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.5205344542734442,
+        "north_limb": 2.521522670101044,
+        "south_limb": 2.519528168482114,
+        "east_limb": 2.5209409844526203,
+        "west_limb": 2.5201142446353995
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.002385475400506928,
+        "south_limb": 0.0023875355224750824,
+        "east_limb": 0.002315542264621454,
+        "west_limb": 0.002312963882736599
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.0023875355224750824
     },
     {
       "track_id": "june_solstice",
@@ -164,7 +332,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.5632426051725105,
+        "north_limb": 0.5630267433686068,
+        "south_limb": 0.5634619282344934,
+        "east_limb": 0.5630258000434336,
+        "west_limb": 0.5634613884466381
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.4581982613037026,
+        "north_limb": 2.45927699625579,
+        "south_limb": 2.4571045357225545,
+        "east_limb": 2.4592817153316338,
+        "west_limb": 2.457107224705415
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.00231575775446841,
+        "south_limb": 0.002317691713053891,
+        "east_limb": 0.0021101902051253647,
+        "west_limb": 0.002107569000547061
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.002317691713053891
     },
     {
       "track_id": "june_solstice",
@@ -182,7 +371,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.5846391910262116,
+        "north_limb": 0.584365097184403,
+        "south_limb": 0.5849164469314424,
+        "east_limb": 0.5843198592085019,
+        "west_limb": 0.5849601640112279
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.360943232212026,
+        "north_limb": 2.3620839139421976,
+        "south_limb": 2.3597918116589107,
+        "east_limb": 2.3622724079441397,
+        "west_limb": 2.359610479725567
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.002155238451284744,
+        "south_limb": 0.002156491942042854,
+        "east_limb": 0.0019213554256280242,
+        "west_limb": 0.001918981047489215
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.002156491942042854
     },
     {
       "track_id": "december_solstice",
@@ -200,7 +410,28 @@
         "south_limb": 2,
         "east_limb": 2,
         "west_limb": 2
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.7128606079647247,
+        "north_limb": 0.7122191418013777,
+        "south_limb": 0.7134994644675476,
+        "east_limb": 0.713522059446622,
+        "west_limb": 0.7122027167237484
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 1.985368948143267,
+        "north_limb": 1.9867497443126914,
+        "south_limb": 1.9839970682910555,
+        "east_limb": 1.983948607942596,
+        "west_limb": 1.9867851440407427
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.004766263754440847,
+        "south_limb": 0.0047727479199232295,
+        "east_limb": 0.004119572300529026,
+        "west_limb": 0.00411858837467939
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.0047727479199232295
     },
     {
       "track_id": "december_solstice",
@@ -218,7 +449,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.643649211184935,
+        "north_limb": 0.642849921955671,
+        "south_limb": 0.6444488660494145,
+        "east_limb": 0.6438096804010053,
+        "west_limb": 0.643491061147665
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.157526839736506,
+        "north_limb": 2.159848311503116,
+        "south_limb": 2.1552136350364077,
+        "east_limb": 2.157061895887498,
+        "west_limb": 2.157985431642205
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.0025616106488315186,
+        "south_limb": 0.00256445712829256,
+        "east_limb": 0.0026462489357819818,
+        "west_limb": 0.0026444610263667992
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.0026462489357819818
     },
     {
       "track_id": "december_solstice",
@@ -236,7 +488,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.642258085665643,
+        "north_limb": 0.641454905203267,
+        "south_limb": 0.6430621484456714,
+        "east_limb": 0.6421498648342201,
+        "west_limb": 0.6423675399994528
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.161573305482954,
+        "north_limb": 2.1639225931780355,
+        "south_limb": 2.1592310032097655,
+        "east_limb": 2.1618892908864487,
+        "west_limb": 2.161253894835649
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.002430198008867143,
+        "south_limb": 0.0024300535993039816,
+        "east_limb": 0.0025031028802172885,
+        "west_limb": 0.0025000801589918436
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.0025031028802172885
     },
     {
       "track_id": "december_solstice",
@@ -254,7 +527,28 @@
         "south_limb": 0,
         "east_limb": 0,
         "west_limb": 0
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.6571739697433246,
+        "north_limb": 0.6564219405783397,
+        "south_limb": 0.6579254223160841,
+        "east_limb": 0.656915706767635,
+        "west_limb": 0.6574316016548007
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.1196001517882173,
+        "north_limb": 2.121644797921113,
+        "south_limb": 2.117564283552738,
+        "east_limb": 2.1203015107742322,
+        "west_limb": 2.1189013547883135
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.0022983157505241957,
+        "south_limb": 0.0022984640724453896,
+        "east_limb": 0.002294580848925472,
+        "west_limb": 0.002291370155860039
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.0022984640724453896
     },
     {
       "track_id": "december_solstice",
@@ -272,7 +566,28 @@
         "south_limb": 3,
         "east_limb": 4,
         "west_limb": 3
-      }
+      },
+      "inverse_stereographic_local_scales": {
+        "centre": 0.705046683168866,
+        "north_limb": 0.7045499757393685,
+        "south_limb": 0.7055411680078192,
+        "east_limb": 0.697267908912422,
+        "west_limb": 0.7051945876671858
+      },
+      "north_pole_angular_distances_rad": {
+        "centre": 2.002419649589941,
+        "north_limb": 2.003520828071173,
+        "south_limb": 2.0013254919007664,
+        "east_limb": 2.019911885852532,
+        "west_limb": 2.0020921593999934
+      },
+      "centre_to_limb_s3_angles_rad": {
+        "north_limb": 0.0058474541511011335,
+        "south_limb": 0.005826237488561401,
+        "east_limb": 0.21885394310836498,
+        "west_limb": 0.0038071799404573396
+      },
+      "maximum_centre_to_limb_s3_angle_rad": 0.21885394310836498
     }
   ],
   "near_integer_branch_factor": {
@@ -290,6 +605,15 @@
   "map_chord_ratio_policy": {
     "status": "diagnostic-only",
     "reason": "An effective image distance is a local angular-to-linear scale and is not bounded by the physical aperture diameter without a separately derived Maxwell-map magnification bound."
+  },
+  "stereographic_pole_audit": {
+    "december_1600_minimum_north_pole_distance_rad": 2.0013254919007664,
+    "december_1600_local_scale_range": [
+      0.697267908912422,
+      0.7055411680078192
+    ],
+    "december_1600_maximum_centre_to_limb_s3_angle_rad": 0.21885394310836498,
+    "conclusion": "The 26x disk is not caused by the inverse stereographic pole singularity; its fitted points have finite local scale near 0.7, while one limb jumps to a distant S3 solution."
   },
   "multipole_probe": {
     "values": {

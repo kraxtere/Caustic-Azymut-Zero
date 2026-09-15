@@ -125,6 +125,12 @@ efektywnej odległości do średnicy mapy pozostaje diagnostyką, dopóki nie
 zostanie wyprowadzony limit powiększenia konkretnego odwzorowania. Raport:
 `../docs/V2_MAXWELL_BRANCH_GEOMETRY_AUDIT.md`.
 
+Identyfikacja nieparzystej odpowiedzi na jednej kohorcie wybrała `P1`.
+Współczynnik ustalony z pary `±23,44°` przewidział `±11,72°` z błędem
+`1,40%`, więc bardziej złożone `P1+P3` nie zostało wybrane. Jest to wybór
+klasy odpowiedzi, nie współczynnika gotowego pola. Raport:
+`../docs/V2_MAXWELL_RESPONSE_IDENTIFICATION_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -298,6 +304,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `analyze_maxwell_scale.py` | klasyfikacja strony gałęzi i dopasowanie korekty skali |
 | `continue_maxwell_branches.py` | wymuszona kontynuacja `P` na wspólnej kohorcie i dekompozycja skali |
 | `analyze_maxwell_branch_geometry.py` | audyt efektywnej skali, sygnatur tarczy i hipotezy nawinięcia |
+| `identify_maxwell_response.py` | identyfikacja `P1/P3` na wymuszonej gałęzi i wspólnej kohorcie |
 | `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
 | `scan_maxwell_radius.py` | zakończony skan `R` Maxwella przy stałym bezwzględnym `z0` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |

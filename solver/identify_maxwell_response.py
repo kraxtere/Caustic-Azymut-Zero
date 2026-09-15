@@ -67,10 +67,17 @@ def identify(records: list[dict[str, object]]) -> dict[str, object]:
         str(pair["absolute_declination_deg"]): dipole_a * pair["p1"]
         for pair in pairs
     }
-    intermediate_error = (
+    dipole_errors = {
+        str(pair["absolute_declination_deg"]): float(
+            dipole_predictions[str(pair["absolute_declination_deg"])]
+            - pair["odd_log_response"]
+        )
+        for pair in pairs
+    }
+    intermediate_error = float(
         dipole_predictions["11.72"] - pair_map[11.72]["odd_log_response"]
     )
-    dipole_passed = abs(intermediate_error) <= PREDICTION_TOLERANCE
+    dipole_passed = bool(abs(intermediate_error) <= PREDICTION_TOLERANCE)
 
     identification = (pair_map[11.72], pair_map[23.44])
     matrix = np.array([[pair["p1"], pair["p3"]] for pair in identification])
@@ -80,8 +87,12 @@ def identify(records: list[dict[str, object]]) -> dict[str, object]:
     for declination in (5.86, 17.58):
         pair = pair_map[declination]
         prediction = coefficient_p1 * pair["p1"] + coefficient_p3 * pair["p3"]
-        holdout_errors[str(declination)] = prediction - pair["odd_log_response"]
-    p1_p3_passed = max(map(abs, holdout_errors.values())) <= PREDICTION_TOLERANCE
+        holdout_errors[str(declination)] = float(
+            prediction - pair["odd_log_response"]
+        )
+    p1_p3_passed = bool(
+        max(map(abs, holdout_errors.values())) <= PREDICTION_TOLERANCE
+    )
 
     return {
         "records": records,
@@ -97,6 +108,10 @@ def identify(records: list[dict[str, object]]) -> dict[str, object]:
             "intermediate_prediction_error": intermediate_error,
             "passed": dipole_passed,
             "predictions": dipole_predictions,
+            "errors": dipole_errors,
+            "maximum_absolute_error_all_nonzero_pairs": max(
+                map(abs, dipole_errors.values())
+            ),
         },
         "dipole_plus_octupole": {
             "coefficient_p1": float(coefficient_p1),
@@ -149,6 +164,17 @@ def run(output: Path) -> dict[str, object]:
             }
         )
     result = identify(records)
+    selected_basis = result["selected_response_basis"]
+    checks = {
+        "one_common_twenty_observer_cohort": all(
+            record["observer_count"] == 20 for record in records
+        ),
+        "all_forced_direct_targets_physically_admissible": all(
+            bool(record["all_targets_physically_admissible"])
+            for record in records
+        ),
+        "an_accepted_odd_response_basis_was_identified": selected_basis is not None,
+    }
     payload = {
         "schema_version": 1,
         "status": "completed",
@@ -160,6 +186,11 @@ def run(output: Path) -> dict[str, object]:
             "common_observer_count": records[0]["observer_count"],
             "input_angular_radius_deg": DEFAULT_SOLAR_RADIUS_DEG,
             "field_modified": False,
+        },
+        "acceptance_gate": {
+            "passed": all(checks.values()),
+            "checks": checks,
+            "rule_frozen_before_run": True,
         },
         **result,
     }
