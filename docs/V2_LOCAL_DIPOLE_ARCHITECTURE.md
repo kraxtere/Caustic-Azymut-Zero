@@ -31,16 +31,17 @@ Minimalny kandydat powinien jednocześnie:
 - mieć jeden współczynnik amplitudy,
 - nie kodować daty, źródła ani `delta_source`.
 
-Jedną możliwą, ale jeszcze **niezatwierdzoną** parametryzacją jest:
+Zatwierdzona parametryzacja v2.1 to:
 
 ```text
 q = r/R
 n(x) = n_Maxwell(r) * exp[epsilon * q * (1-q^2) * P1(mu)]
 ```
 
-Ponieważ `q P1(mu)=z/R`, wyrażenie jest regularne w centrum, a czynnik
-`1-q^2` zeruje perturbację na lustrze. Wybór tej obwiedni wymaga jawnego
-zatwierdzenia przed obliczeniami.
+Ponieważ `q P1(mu)=z/R`, wykładnik upraszcza się do
+`epsilon*z*(R^2-r^2)/R^3`: jest regularny w centrum, ma skończony gradient
+`epsilon/R` na osi, a czynnik `1-q^2` zeruje perturbację na lustrze. Forma
+wykładnicza gwarantuje `n>0` dla każdego skończonego `epsilon`.
 
 ## Wymagany propagator
 
@@ -65,3 +66,7 @@ perturbacji.
 3. Tania bramka C-3 dla małej siatki `epsilon`.
 4. Dopiero dla kandydatów bez regresji C-3 — test skali na wspólnej kohorcie.
 5. Pełne C-2 na końcu.
+
+W nieliniowym dopasowaniu dla małego `epsilon` analityczny punkt wspólny
+`4x4` z granicy `epsilon=0` służy jako punkt startowy. Nie jest narzuconym
+rozwiązaniem ani zamiennikiem kontroli konkurencyjnych minimów.
