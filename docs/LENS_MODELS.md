@@ -1,10 +1,9 @@
-# Maxwell i Luneburg — główna hipoteza v2
+# Maxwell v2 i zamknięta hybryda Luneburga
 
 ## Zakres
 
 Rodzina `atmosphere + Gaussian ring` została odrzucona jako główna hipoteza.
-Modele Maxwella i Luneburga stanowią teraz główny kierunek v2 i są najpierw
-certyfikowane w ich natywnej,
+Modele Maxwella i Luneburga zostały najpierw certyfikowane w ich natywnej,
 sferycznie symetrycznej geometrii. Ten etap nie korzysta z integratora RK45 i
 nie miesza profili soczewek z azymutalną płaszczyzną. Dopiero po przejściu
 testów analitycznych można dodać osobny adapter do geometrii
@@ -15,6 +14,10 @@ Główna implementacja znajduje się w `solver/field_lens.py`. Udostępnia ona
 historyczny `field.py`, a także analityczne trajektorie referencyjne.
 `solver/lenses.py` pozostaje wyłącznie zgodnościowym re-eksportem. Testy są w
 `solver/tests/test_lenses.py`.
+
+Natywna analityka obu profili jest poprawna. Hybrydowa rodzina Luneburga nad
+płaską mapą ma jednak status `v2-falsified-hybrid` po zamrożonych skanach
+`z0` i `(R,z0)`. Głównym kierunkiem pozostaje Maxwell z jawnym lustrem.
 
 ## Bramka analityczna — zaliczona
 
@@ -114,16 +117,15 @@ zdarzenia odbicia, więc nie da się jednocześnie zachować dokładnego modelu
 Maxwella, lustra i zakazu zmian obsługi granicy.
 
 Nie wprowadzamy nieudokumentowanego obcięcia `n=const` za `R0`, ponieważ
-usunęłoby ono certyfikowaną własność ogniskowania. Dalsza adaptacja Maxwella
-wymaga jednej jawnej decyzji:
+usunęłoby ono certyfikowaną własność ogniskowania. Adaptacja Maxwella musi
+dopuścić osobny, testowalny warunek odbicia na kopule.
 
-1. najpierw podłączyć Luneburga, który naturalnie przechodzi do `n=1`, albo
-2. dopuścić osobny, testowalny warunek odbicia na kopule dla Maxwella.
+Równanie eikonalne wewnątrz ośrodka pozostaje bez zmian. Nie można jednak użyć
+bez zmian triangulacji asymptotycznych półprostych: w układzie z lustrem
+promień nie opuszcza pola. Następny adapter musi jawnie zdefiniować odbicie,
+parametr drogi liczony w przód i rekonstrukcję wspólnego punktu na krzywych.
 
-Równanie eikonalne i triangulacja nie wymagają zmian; decyzja dotyczy wyłącznie
-geometrii umieszczenia soczewki i zachowania promienia na jej granicy.
-
-## Adapter hybrydowy Luneburga — gotowy
+## Adapter hybrydowy Luneburga — zamknięty punkt odniesienia
 
 `solver/validate_lens.py` umieszcza górną półsferę Luneburga nad mapą `z=0`.
 Domyślny środek leży w środku mapy, a promień jest równy odległości mapowej
@@ -134,8 +136,7 @@ To kontrolny kandydat geometryczny, nie dopasowany wynik. Przechodzi przez te
 same funkcje walidatora C-2/C-3, te same półproste i tę samą triangulację co
 zamknięcie v1. Integrator nie został zmieniony.
 
-Pełny przebieg należy wykonać lokalnie z katalogu głównego repozytorium, w Git
-Bash lub terminalu VS Code:
+Historyczne odtworzenie domyślnego przebiegu można wykonać lokalnie:
 
 ```bash
 ./.venv/Scripts/python.exe -m solver.validate_lens \
@@ -178,3 +179,8 @@ Promocja do pełnego C-2 wymaga jednocześnie:
 
 Brak triangulacji albo choć jeden niepoprawny promień automatycznie blokuje
 promocję. Raport jest atomowo aktualizowany po każdym kandydacie.
+
+Oba etapy zostały wykonane. Żaden z siedmiu punktów pierwszego skanu ani
+dziewięciu punktów lokalnej siatki nie przeszedł bramki. Pełne C-2 nie zostało
+uruchomione. Decyzję, liczby i ścieżki do wyników zawiera
+`V2_LUNEBURG_CLOSURE.md`.

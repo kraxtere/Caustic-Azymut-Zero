@@ -15,7 +15,8 @@ Repozytorium zawiera teraz:
 - niezależny solver Python z pięcioparametrowym polem toroidalnym,
 - integrator eikonalny 3D, triangulację asymptotycznych promieni i globalne dopasowanie parametrów,
 - walidator gęstej siatki, tarczy Słońca (C-2) i biegunów niebieskich (C-3),
-- główną rodzinę v2: analitycznie certyfikowane soczewki Maxwella i Luneburga.
+- główną hipotezę v2: profil Maxwella oczekujący na jawny adapter lustra,
+- zamkniętą jako `v2-falsified-hybrid` rodzinę Luneburga z pełnym audytem.
 
 Krzywa Béziera jest tutaj **modelem bazowym do porównań**, a nie fizycznym wyjaśnieniem ugięcia światła. Solver nie strzela do założonej kopuły: prowadzi promienie od obserwatorów do zaniku pola i mierzy zbieżność ich asymptotycznych półprostych. Szczegóły są w [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) i [`solver/README.md`](solver/README.md).
 
@@ -70,6 +71,11 @@ sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego
 potem lokalna siatka `(R,z0)`. Pełne C-2 jest uzasadnione wyłącznie dla
 kandydatów, które biją `n=1` dla środka Słońca i obu biegunów oraz mają same
 nieujemne odległości w przód.
+
+Oba zadeklarowane etapy zakończyły się wynikiem `0 PASS`: siedem punktów skanu
+`z0` oraz dziewięć punktów lokalnej siatki `(R,z0)`. Pełne C-2 nie zostało
+uruchomione, a hybryda Luneburga jest zamknięta. Szczegóły i zamrożone kryteria
+są w [`docs/V2_LUNEBURG_CLOSURE.md`](docs/V2_LUNEBURG_CLOSURE.md).
 
 ## Układ projektu
 

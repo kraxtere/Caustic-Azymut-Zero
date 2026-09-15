@@ -1,8 +1,9 @@
-"""Validate an explicit v2 spherical-lens candidate on the v1 C-2/C-3 grid.
+"""Reproduce an explicit spherical-lens candidate on the C-2/C-3 grid.
 
 This is a validation-only adapter, not an optimizer. The default geometry is
 a Luneburg hemisphere centred on the azimuthal map origin, with its equator in
-the map plane and radius equal to the north-to-south map radius.
+the map plane and radius equal to the north-to-south map radius.  The Luneburg
+hybrid now has status v2-falsified; this command remains for auditability.
 """
 
 from __future__ import annotations

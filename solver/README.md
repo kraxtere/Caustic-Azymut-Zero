@@ -7,8 +7,9 @@ Three.js ani od konstrukcji kopuły używanej w wizualizacji.
 
 `field.py` i `fit_field.py` mają status **v1-falsified**. Pozostają w repo
 wyłącznie jako odtwarzalny punkt odniesienia i nie powinny być dalej strojone.
-Główna hipoteza v2 znajduje się w `field_lens.py`: Maxwell oraz Luneburg,
-zaczynając od zaliczonej bramki analitycznej bez RK45.
+`field_lens.py` zachowuje oba analitycznie sprawdzone profile. Hybryda
+Luneburga ma status **v2-falsified-hybrid** po skanach `z0` i `(R,z0)`.
+Główną hipotezą jest teraz dokładny Maxwell oczekujący na jawny adapter lustra.
 
 ## Historyczna hipoteza v1
 
@@ -109,7 +110,7 @@ promieniem. Domyślna polityka `vacuum-geometric` wymusza `k=0`, ponieważ cele
 Meeusa nie zawierają refrakcji pozornej. Pełny przebieg wykonujemy na komputerze
 lokalnym; testy jednostkowe nie całkują tego dużego zbioru.
 
-## Walidacja głównej hipotezy v2
+## Historyczna walidacja hybrydy Luneburga v2
 
 Po zaliczeniu natywnych testów analitycznych pierwszy adapter hybrydowy używa
 górnej półsfery Luneburga nad mapą. Nie dopasowuje parametrów i nie zmienia
@@ -128,7 +129,7 @@ Dokładny Maxwell pozostaje za tą bramką, ponieważ jego wariant ograniczony
 wymaga jawnego zdarzenia odbicia od lustra. Walidator odmawia uruchomienia go
 bez takiego kontraktu zamiast po cichu obcinać profil.
 
-### Etapowy skan położenia Luneburga
+### Zamknięty etapowy skan położenia Luneburga
 
 Pełne C-2 uruchamiamy dopiero po tańszej bramce obejmującej 15 środków Słońca
 i oba bieguny C-3. Pierwszy etap utrzymuje `R` bez zmian i zaczyna od sześciu
@@ -147,20 +148,21 @@ punkcie. Kandydat przechodzi tylko wtedy, gdy kompletny średni RMS środka
 Słońca oraz RMS każdego bieguna są ściśle niższe od odpowiednich kontroli
 `n=1`, a każde `minimum_forward_distance_km` jest nieujemne.
 
-Po obejrzeniu pierwszego wyniku lokalną siatkę `(R,z0)` uruchamia się jawnie
-wokół wybranego obszaru, na przykład:
+Drugi, wykonany etap użył następującego polecenia:
 
 ```bash
 ./.venv/Scripts/python.exe -m solver.scan_luneburg \
   --stage grid \
-  --radius-fractions 0.9,1.0,1.1 \
-  --z0-fractions=-0.6,-0.5,-0.4 \
+  --radius-fractions 1.2,1.35,1.5 \
+  --z0-fractions=-0.9,-0.75,-0.6 \
   --workers 6 \
-  --output solver/results/v2-luneburg-local-grid.json
+  --output solver/results/v2-luneburg-negative-local-grid.json
 ```
 
-Wartości drugiego etapu są przykładem; należy je wybrać z pierwszego raportu,
-a nie uruchamiać automatycznie.
+Zadeklarowana siatka drugiego etapu użyła `R/Rbase = 1,2; 1,35; 1,5` oraz
+`z0/Rbase = -0,9; -0,75; -0,6`. Wynik obu etapów to odpowiednio `0/7` i
+`0/9 PASS`. Nie uruchamiamy pełnego C-2 i nie rozszerzamy siatki. Szczegółowe
+zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 
 ## Pliki
 
@@ -169,12 +171,12 @@ a nie uruchamiać automatycznie.
 | `ephemeris.py` | wymienny interfejs efemeryd i implementacja Meeusa |
 | `geometry_flat.py` | projekcja AE, lokalna baza E/N/U, alt-az |
 | `field.py` | archiwalne pole `v1-falsified` i jego gradient analityczny |
-| `field_lens.py` | główne profile v2, gradienty i rozwiązania analityczne |
+| `field_lens.py` | Maxwell v2 oraz archiwalny Luneburg, gradienty i analityka |
 | `raytrace.py` | integracja eikonalna 3D i triangulacja prostych |
 | `demo_baseline.py` | kontrolny wynik bez pola |
 | `fit_field.py` | historyczne odtworzenie optymalizacji v1 |
 | `validate_v1.py` | gęsta siatka oraz walidacja C-2 i C-3 bez refitu |
-| `validate_lens.py` | adapter v2 do niezmienionej walidacji C-2/C-3 |
-| `scan_luneburg.py` | etapowy skan `z0`, potem lokalnie `(R,z0)`, z bramką |
+| `validate_lens.py` | odtwarzalny adapter zamkniętej hybrydy Luneburga |
+| `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |
 | `lenses.py` | zgodnościowy re-eksport API soczewek |
 | `tests/` | testy regresyjne matematyki i wyniku bazowego |

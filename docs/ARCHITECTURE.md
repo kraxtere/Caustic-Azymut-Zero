@@ -60,11 +60,12 @@ r'' = (grad(n) - (grad(n) dot r') r') / n
 
 Integrator prowadzi pełny promień 3D. Osiowa symetria zmniejsza liczbę zmiennych pola, ale nie ogranicza ogólnego promienia do jednego przekroju 2D.
 
-Główna rodzina v2 używa sferycznie symetrycznych profili Maxwella i Luneburga
-z `solver/field_lens.py`. Obie rodziny korzystają z tego samego równania
-eikonalnego i interfejsu `n_and_grad`; wybór pola nie zmienia integratora ani
-triangulacji. Dokładny Maxwell wymaga osobnego warunku lustra, natomiast
-Luneburg naturalnie łączy się z zewnętrznym `n=1` na swojej powierzchni.
+`solver/field_lens.py` zawiera sferycznie symetryczne profile Maxwella i
+Luneburga. Hybryda Luneburga ma status `v2-falsified-hybrid` po zamrożonym
+skanie `(R,z0)`. Głównym kierunkiem jest dokładny Maxwell, który wymaga
+osobnego warunku lustra. Profil pola nadal korzysta z tego samego równania
+eikonalnego, lecz zamknięty układ lustrzany nie tworzy zewnętrznych
+asymptotycznych półprostych, więc jego rekonstrukcja wymaga jawnego kontraktu.
 
 TypeScript zachowuje kontrakt przyszłego importu pola do podglądu:
 

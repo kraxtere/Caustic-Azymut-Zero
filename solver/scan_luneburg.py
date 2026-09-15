@@ -1,4 +1,4 @@
-"""Cheap staged scan of Luneburg placement before the full C-2 validation.
+"""Completed v2-falsified staged scan of the Luneburg hybrid placement.
 
 Stage ``z0`` deliberately scans clearly non-zero vertical lens centres at one
 fixed radius.  Only after inspecting that result should stage ``grid`` scan a
@@ -10,6 +10,10 @@ The promotion gate is intentionally strict.  A candidate advances only when
 all targets are valid, its mean solar-centre RMS and each pole RMS are lower
 than their matching n=1 controls, and every minimum forward distance is
 non-negative.  The output is checkpointed after every candidate.
+
+Both the z0 scan and the local (R,z0) grid produced zero qualifying candidates.
+Keep this command for reproducibility; do not expand the search without a new,
+explicitly justified hypothesis.
 """
 
 from __future__ import annotations
@@ -44,6 +48,7 @@ from .validate_v1 import (
 
 
 DEFAULT_BASE_RADIUS_KM = math.pi * R_MAP
+MODEL_STATUS = "v2-falsified-hybrid"
 DEFAULT_STAGE1_Z0_FRACTIONS = (-0.75, -0.5, -0.25, 0.25, 0.5, 0.75, 0.0)
 DEFAULT_GRID_RADIUS_FRACTIONS = (0.8, 1.0, 1.2)
 POLE_TARGETS = {

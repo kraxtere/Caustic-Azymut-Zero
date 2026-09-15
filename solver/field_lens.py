@@ -1,4 +1,4 @@
-"""Main v2 lens-field family and analytic native-geometry references.
+"""Maxwell v2 field and archived Luneburg hybrid reference.
 
 The refractive-index functions expose the same ``n_and_grad`` and
 ``n_and_grad_components`` call shape as the archived Gaussian-ring field. No
@@ -22,7 +22,11 @@ import numpy as np
 
 
 LensFamily = Literal["maxwell", "luneburg"]
-MODEL_STATUS = "v2-primary"
+MODEL_STATUS = "v2-maxwell-primary"
+FAMILY_STATUS = {
+    "maxwell": "v2-primary-pending-mirror-adapter",
+    "luneburg": "v2-falsified-hybrid",
+}
 
 
 def _positive(value: float, name: str) -> float:

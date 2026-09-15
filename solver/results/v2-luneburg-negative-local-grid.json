@@ -1,0 +1,2052 @@
+{
+  "schema_version": 1,
+  "model": "luneburg-v2-staged-placement-scan",
+  "stage": "grid",
+  "status": "completed",
+  "scan_design": {
+    "base_radius_km": 20015.086796020572,
+    "z0_fractions_of_base_radius": [
+      -0.9,
+      -0.75,
+      -0.6
+    ],
+    "radius_fractions_of_base_radius": [
+      1.2,
+      1.35,
+      1.5
+    ],
+    "candidate_count": 9,
+    "solar_centre_count": 15,
+    "pole_count": 2,
+    "rays_per_candidate": 344,
+    "full_solar_limb_c2_included": false,
+    "stage_order": "z0 first; local (R,z0) grid second"
+  },
+  "integration": {
+    "max_path_km": 500000.0,
+    "rtol": 0.0001,
+    "atol": 1e-07,
+    "gradient_tolerance_per_km": 1e-09,
+    "escape_sigma": 7.0,
+    "maximum_step_km": null,
+    "ground_tolerance_km": 1e-06
+  },
+  "workers_used": 6,
+  "promotion_gate": {
+    "requires_complete_evaluated_set": true,
+    "solar_mean_rms_strictly_below_n_equals_1": true,
+    "each_pole_rms_strictly_below_n_equals_1": true,
+    "minimum_forward_distance_km_required": ">= 0 for every target"
+  },
+  "baseline_n_equals_1": {
+    "solar_centres": {
+      "target_count": 15,
+      "valid_target_count": 15,
+      "invalid_ray_count": 0,
+      "complete": true,
+      "mean_rms_km": 5594.789627682786,
+      "partial_mean_rms_km": 5594.789627682786,
+      "minimum_forward_distance_km": -24059.95143529063,
+      "all_minimum_forward_distances_non_negative": false,
+      "targets": [
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T10:00:00+00:00",
+          "observer_count": 16,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 2063.8245298303023,
+          "minimum_forward_distance_km": 3805.242976381803
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T11:30:00+00:00",
+          "observer_count": 16,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 1613.9127095114986,
+          "minimum_forward_distance_km": 5249.797727226155
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T13:00:00+00:00",
+          "observer_count": 16,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 1638.8789992207137,
+          "minimum_forward_distance_km": 4974.236729841101
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T14:30:00+00:00",
+          "observer_count": 16,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 2242.905859819332,
+          "minimum_forward_distance_km": 3599.325122837102
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T16:00:00+00:00",
+          "observer_count": 16,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 4012.918785050872,
+          "minimum_forward_distance_km": 2073.5595897481526
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T10:00:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 2065.965838858798,
+          "minimum_forward_distance_km": 3115.874810613475
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T11:30:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 1686.1863561939344,
+          "minimum_forward_distance_km": 4009.588285175645
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T13:00:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 1632.780226134289,
+          "minimum_forward_distance_km": 3886.9208965121434
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T14:30:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 1709.050098559594,
+          "minimum_forward_distance_km": 3969.0786236200784
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T16:00:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 2273.1295353982764,
+          "minimum_forward_distance_km": 3404.251990622033
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T10:00:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 12734.534825237019,
+          "minimum_forward_distance_km": -22556.849928579646
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T11:30:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 12585.898784883335,
+          "minimum_forward_distance_km": -21105.828388814116
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T13:00:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 12499.640279662277,
+          "minimum_forward_distance_km": -24059.95143529063
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T14:30:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 12522.978494507453,
+          "minimum_forward_distance_km": -23525.326209446594
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T16:00:00+00:00",
+          "observer_count": 20,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 12639.239092374099,
+          "minimum_forward_distance_km": -20657.837947185293
+        }
+      ]
+    },
+    "celestial_poles": {
+      "target_count": 2,
+      "valid_target_count": 2,
+      "invalid_ray_count": 0,
+      "complete": true,
+      "mean_rms_km": 7931.105982963058,
+      "partial_mean_rms_km": 7931.105982963058,
+      "minimum_forward_distance_km": -11555.715749540306,
+      "all_minimum_forward_distances_non_negative": false,
+      "targets": {
+        "north_celestial_pole": {
+          "target_id": "north_celestial_pole",
+          "timestamp_utc": "2026-03-20T14:00:00+00:00",
+          "observer_count": 32,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 1194.593761871818,
+          "minimum_forward_distance_km": 3815.6735960995684
+        },
+        "south_celestial_pole": {
+          "target_id": "south_celestial_pole",
+          "timestamp_utc": "2026-03-20T14:00:00+00:00",
+          "observer_count": 32,
+          "invalid_rays": 0,
+          "triangulation_valid": true,
+          "rms_km": 14667.618204054297,
+          "minimum_forward_distance_km": -11555.715749540306
+        }
+      }
+    }
+  },
+  "candidates": [
+    {
+      "candidate_id": 1,
+      "parameters": {
+        "family": "luneburg",
+        "radius_km": 24018.104155224686,
+        "n0": 1.0,
+        "centre_km": [
+          0.0,
+          0.0,
+          -18013.578116418517
+        ]
+      },
+      "metrics": {
+        "solar_centres": {
+          "target_count": 15,
+          "valid_target_count": 3,
+          "invalid_ray_count": 40,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 12656.208186513211,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": [
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T10:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T11:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T13:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T14:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T16:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 6,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 6,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 12749.817771502012,
+              "minimum_forward_distance_km": -22082.55188711583
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 12569.745612125242,
+              "minimum_forward_distance_km": -24832.170287067736
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 12649.061175912375,
+              "minimum_forward_distance_km": -24436.215961962378
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            }
+          ]
+        },
+        "celestial_poles": {
+          "target_count": 2,
+          "valid_target_count": 1,
+          "invalid_ray_count": 8,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 15953.46481485692,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": {
+            "north_celestial_pole": {
+              "target_id": "north_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            "south_celestial_pole": {
+              "target_id": "south_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 15953.46481485692,
+              "minimum_forward_distance_km": -15259.008383191338
+            }
+          }
+        }
+      },
+      "promotion_gate": {
+        "passed": false,
+        "checks": {
+          "complete_solar_centre_set": false,
+          "solar_mean_rms_below_n_equals_1": false,
+          "north_pole_rms_below_n_equals_1": false,
+          "south_pole_rms_below_n_equals_1": false,
+          "all_minimum_forward_distances_non_negative": false
+        },
+        "rule": "all targets valid; solar mean RMS and each C-3 pole RMS strictly below matching n=1; every minimum_forward_distance_km >= 0"
+      }
+    },
+    {
+      "candidate_id": 2,
+      "parameters": {
+        "family": "luneburg",
+        "radius_km": 24018.104155224686,
+        "n0": 1.0,
+        "centre_km": [
+          0.0,
+          0.0,
+          -15011.31509701543
+        ]
+      },
+      "metrics": {
+        "solar_centres": {
+          "target_count": 15,
+          "valid_target_count": 3,
+          "invalid_ray_count": 42,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 13767.003078310814,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": [
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T10:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T11:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T13:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T14:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T16:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 9,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 6,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 6,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 13937.89949954446,
+              "minimum_forward_distance_km": -22299.46304052662
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 13536.23133678219,
+              "minimum_forward_distance_km": -24816.972285474934
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 13826.878398605788,
+              "minimum_forward_distance_km": -24487.397215636793
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            }
+          ]
+        },
+        "celestial_poles": {
+          "target_count": 2,
+          "valid_target_count": 1,
+          "invalid_ray_count": 8,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 17579.72682713904,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": {
+            "north_celestial_pole": {
+              "target_id": "north_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            "south_celestial_pole": {
+              "target_id": "south_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 17579.72682713904,
+              "minimum_forward_distance_km": -18078.428633693096
+            }
+          }
+        }
+      },
+      "promotion_gate": {
+        "passed": false,
+        "checks": {
+          "complete_solar_centre_set": false,
+          "solar_mean_rms_below_n_equals_1": false,
+          "north_pole_rms_below_n_equals_1": false,
+          "south_pole_rms_below_n_equals_1": false,
+          "all_minimum_forward_distances_non_negative": false
+        },
+        "rule": "all targets valid; solar mean RMS and each C-3 pole RMS strictly below matching n=1; every minimum_forward_distance_km >= 0"
+      }
+    },
+    {
+      "candidate_id": 3,
+      "parameters": {
+        "family": "luneburg",
+        "radius_km": 24018.104155224686,
+        "n0": 1.0,
+        "centre_km": [
+          0.0,
+          0.0,
+          -12009.052077612343
+        ]
+      },
+      "metrics": {
+        "solar_centres": {
+          "target_count": 15,
+          "valid_target_count": 3,
+          "invalid_ray_count": 33,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 14532.146742829764,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": [
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T10:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T11:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T13:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T14:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T16:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 6,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 14676.017602814967,
+              "minimum_forward_distance_km": -25243.22741115465
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 14344.961497591206,
+              "minimum_forward_distance_km": -27556.917083847093
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 14575.46112808312,
+              "minimum_forward_distance_km": -27228.88395819765
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            }
+          ]
+        },
+        "celestial_poles": {
+          "target_count": 2,
+          "valid_target_count": 1,
+          "invalid_ray_count": 8,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 19052.263085622795,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": {
+            "north_celestial_pole": {
+              "target_id": "north_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            "south_celestial_pole": {
+              "target_id": "south_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 19052.263085622795,
+              "minimum_forward_distance_km": -20093.37756035393
+            }
+          }
+        }
+      },
+      "promotion_gate": {
+        "passed": false,
+        "checks": {
+          "complete_solar_centre_set": false,
+          "solar_mean_rms_below_n_equals_1": false,
+          "north_pole_rms_below_n_equals_1": false,
+          "south_pole_rms_below_n_equals_1": false,
+          "all_minimum_forward_distances_non_negative": false
+        },
+        "rule": "all targets valid; solar mean RMS and each C-3 pole RMS strictly below matching n=1; every minimum_forward_distance_km >= 0"
+      }
+    },
+    {
+      "candidate_id": 4,
+      "parameters": {
+        "family": "luneburg",
+        "radius_km": 27020.367174627776,
+        "n0": 1.0,
+        "centre_km": [
+          0.0,
+          0.0,
+          -18013.578116418517
+        ]
+      },
+      "metrics": {
+        "solar_centres": {
+          "target_count": 15,
+          "valid_target_count": 3,
+          "invalid_ray_count": 42,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 13513.365119309065,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": [
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T10:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T11:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T13:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T14:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T16:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 9,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 6,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 6,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 13623.399021806143,
+              "minimum_forward_distance_km": -24710.63721319642
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 13378.89995687448,
+              "minimum_forward_distance_km": -27150.014720653915
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 13537.796379246573,
+              "minimum_forward_distance_km": -26900.73455425849
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            }
+          ]
+        },
+        "celestial_poles": {
+          "target_count": 2,
+          "valid_target_count": 1,
+          "invalid_ray_count": 8,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 18308.826708228306,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": {
+            "north_celestial_pole": {
+              "target_id": "north_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            "south_celestial_pole": {
+              "target_id": "south_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 18308.826708228306,
+              "minimum_forward_distance_km": -19356.561721779526
+            }
+          }
+        }
+      },
+      "promotion_gate": {
+        "passed": false,
+        "checks": {
+          "complete_solar_centre_set": false,
+          "solar_mean_rms_below_n_equals_1": false,
+          "north_pole_rms_below_n_equals_1": false,
+          "south_pole_rms_below_n_equals_1": false,
+          "all_minimum_forward_distances_non_negative": false
+        },
+        "rule": "all targets valid; solar mean RMS and each C-3 pole RMS strictly below matching n=1; every minimum_forward_distance_km >= 0"
+      }
+    },
+    {
+      "candidate_id": 5,
+      "parameters": {
+        "family": "luneburg",
+        "radius_km": 27020.367174627776,
+        "n0": 1.0,
+        "centre_km": [
+          0.0,
+          0.0,
+          -15011.31509701543
+        ]
+      },
+      "metrics": {
+        "solar_centres": {
+          "target_count": 15,
+          "valid_target_count": 3,
+          "invalid_ray_count": 36,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 14914.413017144805,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": [
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T10:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T11:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T13:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T14:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T16:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 15071.242221510129,
+              "minimum_forward_distance_km": -27686.17428875873
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 14698.158622870002,
+              "minimum_forward_distance_km": -29973.16361772649
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 14973.838207054287,
+              "minimum_forward_distance_km": -29640.50112840502
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            }
+          ]
+        },
+        "celestial_poles": {
+          "target_count": 2,
+          "valid_target_count": 1,
+          "invalid_ray_count": 8,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 19964.56142969032,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": {
+            "north_celestial_pole": {
+              "target_id": "north_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            "south_celestial_pole": {
+              "target_id": "south_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 19964.56142969032,
+              "minimum_forward_distance_km": -21686.524137278284
+            }
+          }
+        }
+      },
+      "promotion_gate": {
+        "passed": false,
+        "checks": {
+          "complete_solar_centre_set": false,
+          "solar_mean_rms_below_n_equals_1": false,
+          "north_pole_rms_below_n_equals_1": false,
+          "south_pole_rms_below_n_equals_1": false,
+          "all_minimum_forward_distances_non_negative": false
+        },
+        "rule": "all targets valid; solar mean RMS and each C-3 pole RMS strictly below matching n=1; every minimum_forward_distance_km >= 0"
+      }
+    },
+    {
+      "candidate_id": 6,
+      "parameters": {
+        "family": "luneburg",
+        "radius_km": 27020.367174627776,
+        "n0": 1.0,
+        "centre_km": [
+          0.0,
+          0.0,
+          -12009.052077612343
+        ]
+      },
+      "metrics": {
+        "solar_centres": {
+          "target_count": 15,
+          "valid_target_count": 5,
+          "invalid_ray_count": 24,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 15616.857564192376,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": [
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T10:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T11:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 14661.394455009828,
+              "minimum_forward_distance_km": -31418.844392561714
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T13:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 14588.432405752445,
+              "minimum_forward_distance_km": -32041.97388764639
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T14:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T16:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 5,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 16436.302518890156,
+              "minimum_forward_distance_km": -29985.121409627034
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 16033.405562694958,
+              "minimum_forward_distance_km": -32171.972633663136
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 16364.752878614503,
+              "minimum_forward_distance_km": -31668.827624330268
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            }
+          ]
+        },
+        "celestial_poles": {
+          "target_count": 2,
+          "valid_target_count": 1,
+          "invalid_ray_count": 8,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 21372.90301985298,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": {
+            "north_celestial_pole": {
+              "target_id": "north_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            "south_celestial_pole": {
+              "target_id": "south_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 21372.90301985298,
+              "minimum_forward_distance_km": -23355.196100543926
+            }
+          }
+        }
+      },
+      "promotion_gate": {
+        "passed": false,
+        "checks": {
+          "complete_solar_centre_set": false,
+          "solar_mean_rms_below_n_equals_1": false,
+          "north_pole_rms_below_n_equals_1": false,
+          "south_pole_rms_below_n_equals_1": false,
+          "all_minimum_forward_distances_non_negative": false
+        },
+        "rule": "all targets valid; solar mean RMS and each C-3 pole RMS strictly below matching n=1; every minimum_forward_distance_km >= 0"
+      }
+    },
+    {
+      "candidate_id": 7,
+      "parameters": {
+        "family": "luneburg",
+        "radius_km": 30022.63019403086,
+        "n0": 1.0,
+        "centre_km": [
+          0.0,
+          0.0,
+          -18013.578116418517
+        ]
+      },
+      "metrics": {
+        "solar_centres": {
+          "target_count": 15,
+          "valid_target_count": 3,
+          "invalid_ray_count": 38,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 15350.764380879422,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": [
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T10:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T11:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T13:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T14:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T16:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 9,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 5,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 15517.696368267754,
+              "minimum_forward_distance_km": -29894.666905074133
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 15113.018849003565,
+              "minimum_forward_distance_km": -32135.84801562282
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 15421.577925366946,
+              "minimum_forward_distance_km": -31801.84642863732
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            }
+          ]
+        },
+        "celestial_poles": {
+          "target_count": 2,
+          "valid_target_count": 1,
+          "invalid_ray_count": 8,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 20785.872809672514,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": {
+            "north_celestial_pole": {
+              "target_id": "north_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            "south_celestial_pole": {
+              "target_id": "south_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 20785.872809672514,
+              "minimum_forward_distance_km": -23182.989590132172
+            }
+          }
+        }
+      },
+      "promotion_gate": {
+        "passed": false,
+        "checks": {
+          "complete_solar_centre_set": false,
+          "solar_mean_rms_below_n_equals_1": false,
+          "north_pole_rms_below_n_equals_1": false,
+          "south_pole_rms_below_n_equals_1": false,
+          "all_minimum_forward_distances_non_negative": false
+        },
+        "rule": "all targets valid; solar mean RMS and each C-3 pole RMS strictly below matching n=1; every minimum_forward_distance_km >= 0"
+      }
+    },
+    {
+      "candidate_id": 8,
+      "parameters": {
+        "family": "luneburg",
+        "radius_km": 30022.63019403086,
+        "n0": 1.0,
+        "centre_km": [
+          0.0,
+          0.0,
+          -15011.31509701543
+        ]
+      },
+      "metrics": {
+        "solar_centres": {
+          "target_count": 15,
+          "valid_target_count": 5,
+          "invalid_ray_count": 25,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 16274.756510364925,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": [
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T10:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T11:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 15353.964550428096,
+              "minimum_forward_distance_km": -33567.351574624314
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T13:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 15284.274855346377,
+              "minimum_forward_distance_km": -34217.125943228
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T14:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T16:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 5,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 3,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 17086.940926004238,
+              "minimum_forward_distance_km": -32545.36908064739
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 16637.964010681462,
+              "minimum_forward_distance_km": -34731.23912322848
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 17010.63820936445,
+              "minimum_forward_distance_km": -34208.36196615702
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            }
+          ]
+        },
+        "celestial_poles": {
+          "target_count": 2,
+          "valid_target_count": 1,
+          "invalid_ray_count": 8,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 22357.228092547273,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": {
+            "north_celestial_pole": {
+              "target_id": "north_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 8,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            "south_celestial_pole": {
+              "target_id": "south_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 22357.228092547273,
+              "minimum_forward_distance_km": -25130.926193976862
+            }
+          }
+        }
+      },
+      "promotion_gate": {
+        "passed": false,
+        "checks": {
+          "complete_solar_centre_set": false,
+          "solar_mean_rms_below_n_equals_1": false,
+          "north_pole_rms_below_n_equals_1": false,
+          "south_pole_rms_below_n_equals_1": false,
+          "all_minimum_forward_distances_non_negative": false
+        },
+        "rule": "all targets valid; solar mean RMS and each C-3 pole RMS strictly below matching n=1; every minimum_forward_distance_km >= 0"
+      }
+    },
+    {
+      "candidate_id": 9,
+      "parameters": {
+        "family": "luneburg",
+        "radius_km": 30022.63019403086,
+        "n0": 1.0,
+        "centre_km": [
+          0.0,
+          0.0,
+          -12009.052077612343
+        ]
+      },
+      "metrics": {
+        "solar_centres": {
+          "target_count": 15,
+          "valid_target_count": 6,
+          "invalid_ray_count": 21,
+          "complete": false,
+          "mean_rms_km": null,
+          "partial_mean_rms_km": 17305.581750574976,
+          "minimum_forward_distance_km": null,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": [
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T10:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 15683.780403659503,
+              "minimum_forward_distance_km": -36596.18615366954
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T11:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 16581.922206570965,
+              "minimum_forward_distance_km": -34316.859117871325
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T13:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 16497.373340878887,
+              "minimum_forward_distance_km": -35043.37775525314
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T14:30:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "march_equinox:centre",
+              "timestamp_utc": "2026-03-20T16:00:00+00:00",
+              "observer_count": 16,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 2,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "june_solstice:centre",
+              "timestamp_utc": "2026-06-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 4,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T10:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T11:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 18530.61836649999,
+              "minimum_forward_distance_km": -34481.97912816711
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T13:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 18064.67095391529,
+              "minimum_forward_distance_km": -36639.91151638285
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T14:30:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 18475.125231925227,
+              "minimum_forward_distance_km": -35991.34469876245
+            },
+            {
+              "target_id": "december_solstice:centre",
+              "timestamp_utc": "2026-12-21T16:00:00+00:00",
+              "observer_count": 20,
+              "invalid_rays": 1,
+              "triangulation_valid": false,
+              "rms_km": null,
+              "minimum_forward_distance_km": null
+            }
+          ]
+        },
+        "celestial_poles": {
+          "target_count": 2,
+          "valid_target_count": 2,
+          "invalid_ray_count": 0,
+          "complete": true,
+          "mean_rms_km": 21433.820324458065,
+          "partial_mean_rms_km": 21433.820324458065,
+          "minimum_forward_distance_km": -28886.14305538668,
+          "all_minimum_forward_distances_non_negative": false,
+          "targets": {
+            "north_celestial_pole": {
+              "target_id": "north_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 19154.504376760495,
+              "minimum_forward_distance_km": -28886.14305538668
+            },
+            "south_celestial_pole": {
+              "target_id": "south_celestial_pole",
+              "timestamp_utc": "2026-03-20T14:00:00+00:00",
+              "observer_count": 32,
+              "invalid_rays": 0,
+              "triangulation_valid": true,
+              "rms_km": 23713.13627215564,
+              "minimum_forward_distance_km": -26516.867672861677
+            }
+          }
+        }
+      },
+      "promotion_gate": {
+        "passed": false,
+        "checks": {
+          "complete_solar_centre_set": false,
+          "solar_mean_rms_below_n_equals_1": false,
+          "north_pole_rms_below_n_equals_1": false,
+          "south_pole_rms_below_n_equals_1": false,
+          "all_minimum_forward_distances_non_negative": false
+        },
+        "rule": "all targets valid; solar mean RMS and each C-3 pole RMS strictly below matching n=1; every minimum_forward_distance_km >= 0"
+      }
+    }
+  ],
+  "qualifying_candidates": [],
+  "completed_candidate_count": 9,
+  "qualifying_candidate_count": 0
+}

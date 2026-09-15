@@ -90,7 +90,6 @@ ustaleniem należy wykonać go na komputerze prowadzącego.
 ## Następny etap
 
 Rodzina Gaussian ring ma status `v1-falsified` i pozostaje tylko odtwarzalnym
-punktem odniesienia. Profile Maxwella i Luneburga są główną hipotezą v2.
-Certyfikację w natywnej geometrii opisuje `LENS_MODELS.md`; dopiero po niej
-następuje jawnie zdefiniowana adaptacja do układu płaszczyzna–kopuła i ponowne
-użycie niezmienionych metryk C-2/C-3.
+punktem odniesienia. Późniejsza hybryda Luneburga również została zamknięta po
+etapowym skanie `(R,z0)`; wynik opisuje `V2_LUNEBURG_CLOSURE.md`. Głównym
+kierunkiem soczewkowym jest teraz dokładny Maxwell z jawnym lustrem.
