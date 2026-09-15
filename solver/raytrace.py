@@ -10,10 +10,20 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import minimize
 
-from .field import FieldParams, n_and_grad, n_and_grad_components
+from .field import (
+    FieldParams,
+    n_and_grad as gaussian_n_and_grad,
+    n_and_grad_components as gaussian_n_and_grad_components,
+)
+from .field_lens import (
+    LensFieldParams,
+    n_and_grad as lens_n_and_grad,
+    n_and_grad_components as lens_n_and_grad_components,
+)
 
 
 RayStatus = Literal["escaped", "ground_hit", "max_path", "failed"]
+FieldParameters = FieldParams | LensFieldParams
 
 
 @dataclass(frozen=True)
@@ -51,8 +61,19 @@ class TriangulationResult:
     condition_number: float
 
 
-def _escape_altitude_km(params: FieldParams, options: IntegrationOptions) -> float:
+def _escape_altitude_km(
+    params: FieldParameters,
+    options: IntegrationOptions,
+) -> float:
     """Altitude above which the whole field has negligible gradient."""
+
+    if isinstance(params, LensFieldParams):
+        if params.family == "maxwell":
+            raise ValueError(
+                "exact Maxwell fish eye has no field-free asymptotic region; "
+                "the Leonhardt variant requires a mirror boundary"
+            )
+        return max(0.0, float(params.centre_km[2]) + params.radius_km)
 
     heights = [0.0]
     tolerance = options.gradient_tolerance_per_km
@@ -78,11 +99,13 @@ def _escape_altitude_km(params: FieldParams, options: IntegrationOptions) -> flo
 
 
 def _maximum_step_km(
-    params: FieldParams,
+    params: FieldParameters,
     options: IntegrationOptions,
 ) -> float:
     if options.maximum_step_km is not None:
         return options.maximum_step_km
+    if isinstance(params, LensFieldParams):
+        return min(500.0, max(2.0, params.radius_km / 100.0))
     if abs(params.A) > 0:
         # At least six accepted steps across two sigma of the narrowest ring.
         return min(500.0, max(2.0, params.s / 3.0))
@@ -92,7 +115,7 @@ def _maximum_step_km(
 def _bending_diagnostics(
     path_lengths: np.ndarray,
     states: np.ndarray,
-    params: FieldParams,
+    params: FieldParameters,
     initial_direction: np.ndarray,
 ) -> tuple[float, float, float, float]:
     """Integrate component curvature along an already accepted ray path.
@@ -126,9 +149,14 @@ def _bending_diagnostics(
         if tangent_norm == 0 or not np.all(np.isfinite(tangent)):
             return math.nan, math.nan, math.nan, math.nan
         tangent = tangent / tangent_norm
-        refractive_index, background_gradient, ring_gradient = (
-            n_and_grad_components(position, params)
-        )
+        if isinstance(params, LensFieldParams):
+            refractive_index, background_gradient, ring_gradient = (
+                lens_n_and_grad_components(position, params)
+            )
+        else:
+            refractive_index, background_gradient, ring_gradient = (
+                gaussian_n_and_grad_components(position, params)
+            )
         background_acceleration = (
             background_gradient
             - np.dot(background_gradient, tangent) * tangent
@@ -163,7 +191,7 @@ def _bending_diagnostics(
 def trace_ray(
     origin: np.ndarray,
     direction: np.ndarray,
-    params: FieldParams,
+    params: FieldParameters,
     options: IntegrationOptions | None = None,
     *,
     collect_diagnostics: bool = False,
@@ -201,10 +229,16 @@ def trace_ray(
 
     initial_state = np.concatenate([origin, initial_direction])
 
+    field_n_and_grad = (
+        lens_n_and_grad
+        if isinstance(params, LensFieldParams)
+        else gaussian_n_and_grad
+    )
+
     def rhs(_path_length: float, state: np.ndarray) -> np.ndarray:
         position = state[0:3]
         tangent = state[3:6]
-        refractive_index, gradient = n_and_grad(position, params)
+        refractive_index, gradient = field_n_and_grad(position, params)
         if not math.isfinite(refractive_index) or refractive_index <= 0.05:
             return np.full(6, np.nan)
         acceleration = (
@@ -241,7 +275,7 @@ def trace_ray(
     if norm > 0 and np.all(np.isfinite(end_direction)):
         end_direction = end_direction / norm
 
-    _, end_gradient = n_and_grad(end_point, params)
+    _, end_gradient = field_n_and_grad(end_point, params)
     if not solution.success or not np.all(np.isfinite(solution.y[:, -1])):
         status: RayStatus = "failed"
     elif solution.t_events[1].size:
@@ -279,7 +313,7 @@ def trace_ray(
 def integrate_ray(
     origin: np.ndarray,
     direction: np.ndarray,
-    params: FieldParams,
+    params: FieldParameters,
     s_max: float = 500_000.0,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Compatibility wrapper returning only the asymptotic line pair."""

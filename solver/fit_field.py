@@ -1,4 +1,8 @@
-"""Fit one axisymmetric Gaussian ring to multi-observer solar directions.
+"""Reproduce the archived v1-falsified Gaussian-ring fit.
+
+This command is retained for auditability of historical results. It is not the
+project's active optimization path; the primary v2 hypothesis is implemented
+in :mod:`solver.field_lens`.
 
 The optimizer works exclusively in a normalized [0, 1]^5 cube.  Conversion
 to physical units is performed by :class:`ParameterSpace`, which also keeps

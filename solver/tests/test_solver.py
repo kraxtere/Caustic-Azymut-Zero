@@ -7,6 +7,7 @@ import numpy as np
 
 from solver.ephemeris import MeeusLowPrecision, julian_day
 from solver.field import FieldParams, n_and_grad, n_and_grad_components
+from solver.field_lens import LensFieldParams
 from solver.fit_field import PARAMETER_SPACE, build_dataset, evaluate_field
 from solver.geometry_flat import (
     R_MAP,
@@ -100,6 +101,26 @@ class RayTests(unittest.TestCase):
             atol=1e-14,
         )
         self.assertEqual(result.status, "escaped")
+
+    def test_luneburg_field_uses_the_existing_ray_integrator(self) -> None:
+        params = LensFieldParams(family="luneburg", radius_km=100.0)
+        result = trace_ray(
+            np.zeros(3),
+            np.array([0.0, 0.0, 1.0]),
+            params,
+        )
+        self.assertEqual(result.status, "escaped")
+        np.testing.assert_allclose(result.point, [0.0, 0.0, 100.0], atol=1e-8)
+        np.testing.assert_allclose(result.direction, [0.0, 0.0, 1.0], atol=1e-12)
+
+    def test_maxwell_requires_an_explicit_boundary_contract(self) -> None:
+        params = LensFieldParams(family="maxwell", radius_km=100.0)
+        with self.assertRaisesRegex(ValueError, "mirror boundary"):
+            trace_ray(
+                np.zeros(3),
+                np.array([0.0, 0.0, 1.0]),
+                params,
+            )
 
     def test_component_bending_diagnostics_do_not_change_ray(self) -> None:
         params = FieldParams(k=0.0003, H=8, A=0)

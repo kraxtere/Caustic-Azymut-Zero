@@ -42,9 +42,10 @@ flowchart TD
 | `compute.ts` | spójne złożenie parametrów w wynik modelu |
 | `SceneController.ts` | wyłącznie wizualizacja wyniku |
 
-## Pole toroidalne i propagacja
+## Rodziny pola i propagacja
 
-Model fizyczny nie jest częścią sceny. Warstwa `solver/` implementuje pole
+Model fizyczny nie jest częścią sceny. Archiwalny wariant `v1-falsified`
+implementuje pole
 
 ```text
 n(rho,z) = 1 + k exp(-z/H)
@@ -58,6 +59,12 @@ r'' = (grad(n) - (grad(n) dot r') r') / n
 ```
 
 Integrator prowadzi pełny promień 3D. Osiowa symetria zmniejsza liczbę zmiennych pola, ale nie ogranicza ogólnego promienia do jednego przekroju 2D.
+
+Główna rodzina v2 używa sferycznie symetrycznych profili Maxwella i Luneburga
+z `solver/field_lens.py`. Obie rodziny korzystają z tego samego równania
+eikonalnego i interfejsu `n_and_grad`; wybór pola nie zmienia integratora ani
+triangulacji. Dokładny Maxwell wymaga osobnego warunku lustra, natomiast
+Luneburg naturalnie łączy się z zewnętrznym `n=1` na swojej powierzchni.
 
 TypeScript zachowuje kontrakt przyszłego importu pola do podglądu:
 
@@ -75,7 +82,7 @@ Rozdzielenie pozwala porównywać:
 
 - tor prosty,
 - konstrukcję Béziera Bislina,
-- jeden lub więcej wariantów pola toroidalnego,
+- archiwalne pole toroidalne v1 i soczewki gradientowe v2,
 - standardowy model astronomiczny z refrakcją.
 
 ## Format przyszłych obserwacji

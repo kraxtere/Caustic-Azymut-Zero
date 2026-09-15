@@ -1,15 +1,31 @@
-# Analityczne modele soczewek — etap v1.5
+# Maxwell i Luneburg — główna hipoteza v2
 
 ## Zakres
 
-Modele Maxwella i Luneburga są najpierw certyfikowane w ich natywnej,
+Rodzina `atmosphere + Gaussian ring` została odrzucona jako główna hipoteza.
+Modele Maxwella i Luneburga stanowią teraz główny kierunek v2 i są najpierw
+certyfikowane w ich natywnej,
 sferycznie symetrycznej geometrii. Ten etap nie korzysta z integratora RK45 i
 nie miesza profili soczewek z azymutalną płaszczyzną. Dopiero po przejściu
 testów analitycznych można dodać osobny adapter do geometrii
 `płaszczyzna + kopuła`.
 
-Implementacja referencyjna znajduje się w `solver/lenses.py`, a testy w
+Główna implementacja znajduje się w `solver/field_lens.py`. Udostępnia ona
+`n_and_grad` oraz `n_and_grad_components` o tym samym kształcie wywołania co
+historyczny `field.py`, a także analityczne trajektorie referencyjne.
+`solver/lenses.py` pozostaje wyłącznie zgodnościowym re-eksportem. Testy są w
 `solver/tests/test_lenses.py`.
+
+## Bramka analityczna — zaliczona
+
+Testy bez integratora potwierdzają:
+
+- wartości obu profili i ich analityczne gradienty kartezjańskie,
+- stereograficzne przejście płaszczyzna–sfera i jego odwrotność,
+- spotkanie różnych wielkich kół Maxwella w antypodzie,
+- obraz `-punkt` dla wariantu z lustrem,
+- fokus równoległej wiązki Luneburga na przeciwległej powierzchni,
+- zachowanie warunku Hamiltona `|p|²=n²` w pełnym 3D.
 
 ## Rybie oko Maxwella
 
@@ -73,7 +89,7 @@ hamiltonowskiego warunku `|p|²=n²`.
   all-sky surveys” (profil ciągły w równaniu 3):
   https://arxiv.org/abs/1806.05661
 
-## Bariera między v1.5 i geometrią projektu
+## Bariera między geometrią natywną i geometrią projektu
 
 Przejście testów analitycznych potwierdza implementację klasycznych profili,
 ale nie potwierdza jeszcze ich przydatności nad płaską mapą. Adapter hybrydowy
@@ -83,7 +99,53 @@ musi jawnie określić:
 2. sposób przejścia promienia przez płaszczyznę i kopułę,
 3. warunki brzegowe lub lustro,
 4. zgodność kierunków po obu stronach interfejsu,
-5. osobną funkcję kosztu dla obserwacji, C-2 i C-3.
+5. użycie bez zmian istniejących metryk obserwacyjnych C-2 i C-3.
 
 Nie wolno traktować stereograficznej sfery Maxwella jako automatycznego dowodu
 dla azymutalnej geometrii projektu — to dopiero kontrolowany model odniesienia.
+
+### Niezgodność warunków brzegowych Maxwella
+
+Dokładny profil Maxwella nie ma zewnętrznego obszaru `n=const`: dla
+`r→∞` współczynnik dąży do zera, a promienie realizują pełne wielkie koła na
+wirtualnej sferze. Wariant Leonhardta ogranicza urządzenie do równika przez
+lustro. Obecny ray tracer kończy promień w obszarze zaniku gradientu i nie ma
+zdarzenia odbicia, więc nie da się jednocześnie zachować dokładnego modelu
+Maxwella, lustra i zakazu zmian obsługi granicy.
+
+Nie wprowadzamy nieudokumentowanego obcięcia `n=const` za `R0`, ponieważ
+usunęłoby ono certyfikowaną własność ogniskowania. Dalsza adaptacja Maxwella
+wymaga jednej jawnej decyzji:
+
+1. najpierw podłączyć Luneburga, który naturalnie przechodzi do `n=1`, albo
+2. dopuścić osobny, testowalny warunek odbicia na kopule dla Maxwella.
+
+Równanie eikonalne i triangulacja nie wymagają zmian; decyzja dotyczy wyłącznie
+geometrii umieszczenia soczewki i zachowania promienia na jej granicy.
+
+## Adapter hybrydowy Luneburga — gotowy
+
+`solver/validate_lens.py` umieszcza górną półsferę Luneburga nad mapą `z=0`.
+Domyślny środek leży w środku mapy, a promień jest równy odległości mapowej
+biegun północny–południowy (`pi * R_MAP`). Poza sferą obowiązuje `n=1`, a
+powrót promienia pod płaszczyznę jest traktowany jako wynik niepoprawny.
+
+To kontrolny kandydat geometryczny, nie dopasowany wynik. Przechodzi przez te
+same funkcje walidatora C-2/C-3, te same półproste i tę samą triangulację co
+zamknięcie v1. Integrator nie został zmieniony.
+
+Pełny przebieg należy wykonać lokalnie z katalogu głównego repozytorium, w Git
+Bash lub terminalu VS Code:
+
+```bash
+./.venv/Scripts/python.exe -m solver.validate_lens \
+  --family luneburg \
+  --radius-km 20015.086796 \
+  --centre-z-km 0 \
+  --workers 6 \
+  --output solver/results/v2-luneburg-default-validation.json
+```
+
+Polecenie z `--family maxwell` celowo kończy się błędem o brakującym warunku
+lustra. Zapobiega to przedstawieniu arbitralnie uciętego profilu jako dokładnej
+soczewki Maxwella.

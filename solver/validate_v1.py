@@ -24,6 +24,7 @@ from .ephemeris import MeeusLowPrecision, RaDec
 from .field import FieldParams
 from .geometry_flat import altaz_of_radec, observer_xy, sky_direction_3d
 from .raytrace import (
+    FieldParameters,
     IntegrationOptions,
     RayResult,
     TriangulationResult,
@@ -235,7 +236,7 @@ def build_target_group(
 
 def trace_target(
     group: TargetGroup,
-    params: FieldParams,
+    params: FieldParameters,
     integration: IntegrationOptions,
     executor: Executor | None = None,
 ) -> TracedTarget:
@@ -272,7 +273,7 @@ def trace_target(
 
 
 def _trace_ray_job(
-    job: tuple[np.ndarray, np.ndarray, FieldParams, IntegrationOptions],
+    job: tuple[np.ndarray, np.ndarray, FieldParameters, IntegrationOptions],
 ) -> RayResult:
     """Picklable unit of work for Windows multiprocessing."""
 
@@ -335,6 +336,15 @@ def _target_to_json(target: TracedTarget) -> dict[str, object]:
         payload[f"{stem}_max_deg"] = max(values) if values else None
     ring_values = _finite_diagnostic_values(target.rays, "ring_path_bending_deg")
     payload["ring_affected_ray_count"] = sum(value > 1e-8 for value in ring_values)
+    payload["active_field_path_bending_mean_deg"] = payload[
+        "ring_path_bending_mean_deg"
+    ]
+    payload["active_field_path_bending_max_deg"] = payload[
+        "ring_path_bending_max_deg"
+    ]
+    payload["active_field_affected_ray_count"] = payload[
+        "ring_affected_ray_count"
+    ]
     return payload
 
 
@@ -387,7 +397,7 @@ def _solar_shape_metrics(
 
 
 def validate_solar_disk(
-    params: FieldParams,
+    params: FieldParameters,
     integration: IntegrationOptions,
     observers: Sequence[tuple[float, float]],
     minimum_altitude_deg: float,
@@ -522,7 +532,7 @@ def validate_solar_disk(
 
 
 def validate_celestial_poles(
-    params: FieldParams,
+    params: FieldParameters,
     integration: IntegrationOptions,
     observers: Sequence[tuple[float, float]],
     minimum_altitude_deg: float,

@@ -1,4 +1,9 @@
-"""Axisymmetric refractive-index field used by the first fit family.
+"""Archived v1-falsified atmosphere plus Gaussian-ring reference field.
+
+STATUS: ``v1-falsified``. Dense-grid and C-3 validation rejected this family
+as the project's main hypothesis. It remains executable only so historical
+JSON results and comparisons stay reproducible. Do not extend or retune this
+model; new lens work belongs in :mod:`solver.field_lens`.
 
 The five fitted parameters define a vertically stratified background and a
 Gaussian toroidal ring::
@@ -16,6 +21,9 @@ import math
 from dataclasses import dataclass
 
 import numpy as np
+
+
+MODEL_STATUS = "v1-falsified"
 
 
 @dataclass(frozen=True)

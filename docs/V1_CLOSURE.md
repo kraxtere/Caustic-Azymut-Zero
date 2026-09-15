@@ -89,7 +89,8 @@ ustaleniem należy wykonać go na komputerze prowadzącego.
 
 ## Następny etap
 
-v1.5 certyfikuje klasyczne profile Maxwella i Luneburga w ich natywnej
-geometrii analitycznej, bez integratora. Szczegóły są w `LENS_MODELS.md`.
-Równolegle v2 może zastąpić pojedynczy wąski Gaussian gładką rodziną
-toroidalną i dopiero wtedy zostać ponownie oceniony na C-2 oraz C-3.
+Rodzina Gaussian ring ma status `v1-falsified` i pozostaje tylko odtwarzalnym
+punktem odniesienia. Profile Maxwella i Luneburga są główną hipotezą v2.
+Certyfikację w natywnej geometrii opisuje `LENS_MODELS.md`; dopiero po niej
+następuje jawnie zdefiniowana adaptacja do układu płaszczyzna–kopuła i ponowne
+użycie niezmienionych metryk C-2/C-3.

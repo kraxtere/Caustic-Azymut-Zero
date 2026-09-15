@@ -3,7 +3,14 @@
 Ta warstwa odpowiada wyłącznie za eksperyment odwrotnej optyki. Nie zależy od
 Three.js ani od konstrukcji kopuły używanej w wizualizacji.
 
-## Hipoteza testowana w pierwszym etapie
+## Status rodzin modeli
+
+`field.py` i `fit_field.py` mają status **v1-falsified**. Pozostają w repo
+wyłącznie jako odtwarzalny punkt odniesienia i nie powinny być dalej strojone.
+Główna hipoteza v2 znajduje się w `field_lens.py`: Maxwell oraz Luneburg,
+zaczynając od zaliczonej bramki analitycznej bez RK45.
+
+## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
 obserwatorów, zgodnie z ich azymutem i elewacją. Po opuszczeniu obszaru, w
@@ -17,7 +24,7 @@ tych półprostych, liczona dla wielu chwil i pór roku. Zapobiega to uznaniu za
 Nie zakładamy położenia Słońca na kopule i nie dopasowujemy torów do krzywych
 Béziera z FE-Dome.
 
-Pierwsza rodzina pola ma pięć parametrów:
+Odrzucona rodzina pola ma pięć parametrów:
 
 ```text
 n(rho,z) = 1 + k exp(-z/H)
@@ -40,7 +47,8 @@ python -m unittest discover -s solver/tests -v
 python -m solver.demo_baseline
 ```
 
-Pełne dopasowanie metodą ewolucji różnicowej:
+Historyczne odtworzenie dopasowania v1 metodą ewolucji różnicowej (nie jest to
+nowy kierunek badań):
 
 ```bash
 python -m solver.fit_field \
@@ -101,16 +109,37 @@ promieniem. Domyślna polityka `vacuum-geometric` wymusza `k=0`, ponieważ cele
 Meeusa nie zawierają refrakcji pozornej. Pełny przebieg wykonujemy na komputerze
 lokalnym; testy jednostkowe nie całkują tego dużego zbioru.
 
+## Walidacja głównej hipotezy v2
+
+Po zaliczeniu natywnych testów analitycznych pierwszy adapter hybrydowy używa
+górnej półsfery Luneburga nad mapą. Nie dopasowuje parametrów i nie zmienia
+integratora, triangulacji ani metryk C-2/C-3:
+
+```bash
+./.venv/Scripts/python.exe -m solver.validate_lens \
+  --family luneburg \
+  --radius-km 20015.086796 \
+  --centre-z-km 0 \
+  --workers 6 \
+  --output solver/results/v2-luneburg-default-validation.json
+```
+
+Dokładny Maxwell pozostaje za tą bramką, ponieważ jego wariant ograniczony
+wymaga jawnego zdarzenia odbicia od lustra. Walidator odmawia uruchomienia go
+bez takiego kontraktu zamiast po cichu obcinać profil.
+
 ## Pliki
 
 | Plik | Odpowiedzialność |
 |---|---|
 | `ephemeris.py` | wymienny interfejs efemeryd i implementacja Meeusa |
 | `geometry_flat.py` | projekcja AE, lokalna baza E/N/U, alt-az |
-| `field.py` | pięcioparametrowe pole i jego gradient analityczny |
+| `field.py` | archiwalne pole `v1-falsified` i jego gradient analityczny |
+| `field_lens.py` | główne profile v2, gradienty i rozwiązania analityczne |
 | `raytrace.py` | integracja eikonalna 3D i triangulacja prostych |
 | `demo_baseline.py` | kontrolny wynik bez pola |
-| `fit_field.py` | globalna oraz wielostartowa optymalizacja |
+| `fit_field.py` | historyczne odtworzenie optymalizacji v1 |
 | `validate_v1.py` | gęsta siatka oraz walidacja C-2 i C-3 bez refitu |
-| `lenses.py` | analityczne modele odniesienia Maxwella i Luneburga |
+| `validate_lens.py` | adapter v2 do niezmienionej walidacji C-2/C-3 |
+| `lenses.py` | zgodnościowy re-eksport API soczewek |
 | `tests/` | testy regresyjne matematyki i wyniku bazowego |
