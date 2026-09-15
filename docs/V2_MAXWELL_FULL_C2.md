@@ -1,4 +1,14 @@
-# Zamrożony pełny test C-2 Maxwella v2
+# Skorygowany kontrakt pełnego testu C-2 Maxwella v2.1
+
+## Kontrolowana korekta po pierwszym przebiegu
+
+Pierwszy kontrakt błędnie używał stałego promienia kątowego `0,2666°` przez
+cały rok oraz wymagał sezonowego `CV` bliskiego zeru. Korekta została
+zapisana przed ponownym przebiegiem i nie zmienia geometrii Maxwella,
+restartów, bufora drogi ani progów wewnątrzdobowych.
+
+Poprzedni JSON pozostaje w repo jako zapis wykrycia błędu metodologicznego.
+Skorygowany przebieg zapisuje osobny plik `v2-maxwell-full-c2-corrected.json`.
 
 ## Status przed uruchomieniem
 
@@ -25,6 +35,11 @@ Walidator zachowuje projekt z zamknięcia v1:
 - ponowiona kontrola obu biegunów C-3,
 - kontrola `n=1` na dokładnie tych samych kohortach.
 
+Promień kątowy każdego z 15 momentów jest liczony osobno z odległości
+Ziemia–Słońce w tej samej efemerydzie Meeusa. Punktem odniesienia jest
+`0,2666°` przy `1 AU`; otrzymujemy około `0,2622°` w pobliżu aphelium i
+`0,2711°` w pobliżu peryhelium.
+
 Każdy cel jest triangulowany analitycznie na `S^3` z 16 restartami dla
 każdego z ziaren `3, 17, 91, 2048`.
 
@@ -42,23 +57,27 @@ Kandydat przechodzi tylko wtedy, gdy wszystkie warunki zachodzą jednocześnie:
 
 1. wszystkie 15 tarcz i wszystkie 75 celów mają ważną rekonstrukcję,
 2. średni kierunkowy RMS piętnastu środków jest niższy niż dla `n=1`,
-3. globalnie i osobno w każdym dziennym torze:
+3. osobno w każdym dziennym torze:
    - `diameter_coefficient_of_variation <= 0,05`,
    - `diameter_max_to_min_ratio <= 1,10`,
-4. każda z 15 tarcz spełnia:
+4. zmiana między sezonami ma właściwą fazę
+   `grudzień > marzec > czerwiec`, a po podzieleniu stosunku odtworzonych
+   średnic grudzień/czerwiec przez stosunek wejściowych średnic kątowych
+   pozostaje najwyżej `0,01` niewyjaśnionej zmiany ułamkowej,
+5. każda z 15 tarcz spełnia:
    - `axis_ratio <= 1,10`,
    - `normalised_centre_offset <= 0,05`,
-5. każdy z 75 celów ma ten sam najlepszy punkt pomiędzy czterema ziarnami z
+6. każdy z 75 celów ma ten sam najlepszy punkt pomiędzy czterema ziarnami z
    dokładnością `1e-6 R` na `S^3`,
-6. każdy z 75 celów ma identyczne przypisanie obserwatorów do gałęzi `P/JPJ`
+7. każdy z 75 celów ma identyczne przypisanie obserwatorów do gałęzi `P/JPJ`
    pomiędzy czterema ziarnami; zgodność samego punktu nie zastępuje zgodności
    przypisań,
-7. każdy z 75 celów ma `minimum_forward_sine >= sin(10 deg) = 0,173648`;
+8. każdy z 75 celów ma `minimum_forward_sine >= sin(10 deg) = 0,173648`;
    jest to jawny bufor 10 stopni od granicy drogi wstecz, a nie tylko test
    znaku,
-8. wszystkie źródła leżą wewnątrz lustra i nie poniżej mapy.
+9. wszystkie źródła leżą wewnątrz lustra i nie poniżej mapy.
 
-Warunki 6 i 7 są niezależne. `forward_sine` nie mierzy odległości od granicy
+Warunki 7 i 8 są niezależne. `forward_sine` nie mierzy odległości od granicy
 między minimami dyskretnymi. Pokazał to skan: punkt `R/Rbase=1,35` miał
 minimum `0,181171` i pełny konsensus, a `1,50` miał podobne `0,182406`, lecz
 dwa rozwiązania gałęzi różniące się o `2005,38 km` na `S^3`.
@@ -88,5 +107,5 @@ Planowane polecenie po utrwaleniu kontraktu:
 
 ```bash
 ./.venv/Scripts/python.exe -m solver.validate_maxwell_c2 \
-  --output solver/results/v2-maxwell-full-c2.json
+  --output solver/results/v2-maxwell-full-c2-corrected.json
 ```

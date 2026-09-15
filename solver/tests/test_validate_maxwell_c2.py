@@ -58,6 +58,10 @@ class MaxwellFullC2ContractTests(unittest.TestCase):
                 "diameter_coefficient_of_variation": 0.01,
                 "diameter_max_to_min_ratio": 1.02,
             },
+            "seasonal_summary": {
+                "phase_december_gt_march_gt_june": True,
+                "unexplained_fractional_range": 0.005,
+            },
         }
         baseline_c2 = {"summary": {"mean_centre_direction_rms_deg": 2.0}}
         radius = SELECTED_RADIUS_KM
@@ -122,6 +126,32 @@ class MaxwellFullC2ContractTests(unittest.TestCase):
                 for track in tracks
                 for moment in track["moments"]
             )
+        )
+        radii = [
+            moment["input_angular_radius_deg"]
+            for track in tracks
+            for moment in track["moments"]
+        ]
+        self.assertGreater(max(radii) - min(radii), 0.008)
+
+    def test_gate_separates_within_day_and_seasonal_requirements(self) -> None:
+        inputs = self._passing_gate_inputs()
+        candidate = inputs[0]
+        candidate["summary"]["diameter_coefficient_of_variation"] = 0.20
+        candidate["summary"]["diameter_max_to_min_ratio"] = 1.50
+        result = apply_full_c2_gate(
+            *inputs, SELECTED_RADIUS_KM, matches_contract=True
+        )
+        self.assertTrue(result["passed"])
+        candidate["seasonal_summary"]["unexplained_fractional_range"] = 0.02
+        result = apply_full_c2_gate(
+            *inputs, SELECTED_RADIUS_KM, matches_contract=True
+        )
+        self.assertFalse(result["passed"])
+        self.assertFalse(
+            result["checks"][
+                "seasonal_unexplained_fractional_range_at_most_0_01"
+            ]
         )
 
     def test_gate_requires_branch_assignment_consensus_per_target(self) -> None:

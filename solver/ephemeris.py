@@ -52,9 +52,16 @@ class Ephemeris:
     def sun_radec(self, dt: datetime) -> RaDec:
         raise NotImplementedError
 
+    def sun_distance_au(self, dt: datetime) -> float:
+        raise NotImplementedError
+
+    def sun_angular_radius_deg(self, dt: datetime) -> float:
+        raise NotImplementedError
+
 
 class MeeusLowPrecision(Ephemeris):
-    def sun_radec(self, dt: datetime) -> RaDec:
+    @staticmethod
+    def _orbit_terms(dt: datetime) -> tuple[float, float, float, float]:
         jd = julian_day(dt)
         centuries = (jd - 2451545.0) / 36525.0
 
@@ -75,6 +82,42 @@ class MeeusLowPrecision(Ephemeris):
             + (0.019993 - 0.000101 * centuries) * math.sin(2 * anomaly_rad)
             + 0.000289 * math.sin(3 * anomaly_rad)
         )
+        true_anomaly = (mean_anomaly + equation_of_center) % 360
+        eccentricity = (
+            0.016708634
+            - 0.000042037 * centuries
+            - 0.0000001267 * centuries**2
+        )
+        return centuries, mean_longitude, true_anomaly, eccentricity
+
+    def sun_distance_au(self, dt: datetime) -> float:
+        _, _, true_anomaly, eccentricity = self._orbit_terms(dt)
+        return (
+            1.000001018 * (1.0 - eccentricity**2)
+            / (1.0 + eccentricity * math.cos(math.radians(true_anomaly)))
+        )
+
+    def sun_angular_radius_deg(self, dt: datetime) -> float:
+        """Return the apparent solar semidiameter from the Meeus distance."""
+
+        mean_semidiameter_deg = 0.2666
+        distance_au = self.sun_distance_au(dt)
+        return math.degrees(
+            math.asin(
+                math.sin(math.radians(mean_semidiameter_deg)) / distance_au
+            )
+        )
+
+    def sun_radec(self, dt: datetime) -> RaDec:
+        centuries, mean_longitude, true_anomaly, _ = self._orbit_terms(dt)
+        mean_anomaly = (
+            357.52911
+            + 35999.05029 * centuries
+            - 0.0001537 * centuries**2
+        )
+        equation_of_center = (true_anomaly - mean_anomaly) % 360
+        if equation_of_center > 180.0:
+            equation_of_center -= 360.0
 
         true_longitude = (mean_longitude + equation_of_center) % 360
         omega = 125.04 - 1934.136 * centuries

@@ -40,6 +40,7 @@ FORWARD_MARGIN_ANGLE_DEG = 10.0
 MINIMUM_FORWARD_SINE = math.sin(math.radians(FORWARD_MARGIN_ANGLE_DEG))
 MAXIMUM_DIAMETER_COEFFICIENT_OF_VARIATION = 0.05
 MAXIMUM_DIAMETER_MAX_TO_MIN_RATIO = 1.10
+MAXIMUM_SEASONAL_EXCESS_FRACTIONAL_RANGE = 0.01
 MAXIMUM_DISK_AXIS_RATIO = 1.10
 MAXIMUM_NORMALISED_CENTRE_OFFSET = 0.05
 SAMPLE_IDS = (
@@ -53,7 +54,6 @@ SAMPLE_IDS = (
 
 def build_c2_tracks(
     minimum_altitude_deg: float = 2.0,
-    solar_radius_deg: float = DEFAULT_SOLAR_RADIUS_DEG,
 ) -> tuple[dict[str, object], ...]:
     candidates = observer_grid()
     ephemeris = MeeusLowPrecision()
@@ -62,9 +62,10 @@ def build_c2_tracks(
         samples_by_moment = tuple(
             (
                 instant,
+                ephemeris.sun_angular_radius_deg(instant),
                 solar_disk_samples(
                     ephemeris.sun_radec(instant),
-                    solar_radius_deg,
+                    ephemeris.sun_angular_radius_deg(instant),
                 ),
             )
             for instant in instants
@@ -72,16 +73,17 @@ def build_c2_tracks(
         visible = _visible_observers_for_track(
             tuple(
                 (instant, tuple(samples.values()))
-                for instant, samples in samples_by_moment
+                for instant, _, samples in samples_by_moment
             ),
             candidates,
             minimum_altitude_deg,
         )
         moments = []
-        for instant, samples in samples_by_moment:
+        for instant, angular_radius_deg, samples in samples_by_moment:
             moments.append(
                 {
                     "timestamp_utc": instant.isoformat(),
+                    "input_angular_radius_deg": angular_radius_deg,
                     "groups": {
                         sample_id: build_target_group(
                             f"{track_id}:{sample_id}",
@@ -170,6 +172,7 @@ def evaluate_c2(
     for track in tracks:
         moments = []
         track_diameters: list[float] = []
+        track_input_angular_diameters: list[float] = []
         for moment in track["moments"]:
             targets = {
                 sample_id: evaluator(moment["groups"][sample_id])
@@ -186,17 +189,27 @@ def evaluate_c2(
             moments.append(
                 {
                     "timestamp_utc": moment["timestamp_utc"],
+                    "input_angular_radius_deg": moment[
+                        "input_angular_radius_deg"
+                    ],
                     "targets": targets,
                     "reconstructed_disk": shape,
                 }
             )
+            track_input_angular_diameters.append(
+                2.0 * float(moment["input_angular_radius_deg"])
+            )
+        track_summary = _diameter_summary(track_diameters)
+        track_summary["mean_input_angular_diameter_deg"] = float(
+            np.mean(track_input_angular_diameters)
+        )
         output_tracks.append(
             {
                 "track_id": track["track_id"],
                 "fixed_observer_count": track["fixed_observer_count"],
                 "fixed_observers_deg": track["fixed_observers_deg"],
                 "moments": moments,
-                "summary": _diameter_summary(track_diameters),
+                "summary": track_summary,
             }
         )
     summary = _diameter_summary(all_diameters)
@@ -205,10 +218,46 @@ def evaluate_c2(
     summary["mean_centre_direction_rms_deg"] = (
         float(np.mean(all_centre_rms)) if all_centre_rms else None
     )
+    track_map = {track["track_id"]: track for track in output_tracks}
+    required_tracks = ("march_equinox", "june_solstice", "december_solstice")
+    if all(
+        track_map[name]["summary"].get("mean_reconstructed_diameter_km")
+        is not None
+        for name in required_tracks
+    ):
+        march = track_map["march_equinox"]["summary"]
+        june = track_map["june_solstice"]["summary"]
+        december = track_map["december_solstice"]["summary"]
+        reconstructed_ratio = (
+            december["mean_reconstructed_diameter_km"]
+            / june["mean_reconstructed_diameter_km"]
+        )
+        expected_input_ratio = (
+            december["mean_input_angular_diameter_deg"]
+            / june["mean_input_angular_diameter_deg"]
+        )
+        seasonal = {
+            "phase_december_gt_march_gt_june": bool(
+                december["mean_reconstructed_diameter_km"]
+                > march["mean_reconstructed_diameter_km"]
+                > june["mean_reconstructed_diameter_km"]
+            ),
+            "reconstructed_december_to_june_ratio": reconstructed_ratio,
+            "expected_input_december_to_june_ratio": expected_input_ratio,
+            "reconstructed_fractional_range": reconstructed_ratio - 1.0,
+            "expected_input_fractional_range": expected_input_ratio - 1.0,
+            "unexplained_scale_ratio": reconstructed_ratio / expected_input_ratio,
+            "unexplained_fractional_range": (
+                reconstructed_ratio / expected_input_ratio - 1.0
+            ),
+        }
+    else:
+        seasonal = None
     return {
         "constraint": "C-2 solar disk coherence and constancy",
         "daily_tracks": output_tracks,
         "summary": summary,
+        "seasonal_summary": seasonal,
     }
 
 
@@ -230,14 +279,12 @@ def _c2_shapes(report: dict[str, object]) -> list[dict[str, float]]:
     ]
 
 
-def _metric_within_all_tracks(
+def _metric_within_each_track(
     report: dict[str, object],
     key: str,
     maximum: float,
 ) -> bool:
-    summaries = [report["summary"]] + [
-        track["summary"] for track in report["daily_tracks"]
-    ]
+    summaries = [track["summary"] for track in report["daily_tracks"]]
     return all(
         summary.get(key) is not None and float(summary[key]) <= maximum
         for summary in summaries
@@ -304,19 +351,34 @@ def apply_full_c2_gate(
             and candidate_c2["summary"]["mean_centre_direction_rms_deg"]
             < baseline_c2["summary"]["mean_centre_direction_rms_deg"]
         ),
-        "diameter_cv_at_most_0_05_globally_and_per_track": (
-            _metric_within_all_tracks(
+        "within_day_diameter_cv_at_most_0_05_each_track": (
+            _metric_within_each_track(
                 candidate_c2,
                 "diameter_coefficient_of_variation",
                 MAXIMUM_DIAMETER_COEFFICIENT_OF_VARIATION,
             )
         ),
-        "diameter_ratio_at_most_1_10_globally_and_per_track": (
-            _metric_within_all_tracks(
+        "within_day_diameter_ratio_at_most_1_10_each_track": (
+            _metric_within_each_track(
                 candidate_c2,
                 "diameter_max_to_min_ratio",
                 MAXIMUM_DIAMETER_MAX_TO_MIN_RATIO,
             )
+        ),
+        "seasonal_diameter_phase_matches_orbit": bool(
+            candidate_c2.get("seasonal_summary") is not None
+            and candidate_c2["seasonal_summary"][
+                "phase_december_gt_march_gt_june"
+            ]
+        ),
+        "seasonal_unexplained_fractional_range_at_most_0_01": bool(
+            candidate_c2.get("seasonal_summary") is not None
+            and abs(
+                candidate_c2["seasonal_summary"][
+                    "unexplained_fractional_range"
+                ]
+            )
+            <= MAXIMUM_SEASONAL_EXCESS_FRACTIONAL_RANGE
         ),
         "every_disk_axis_ratio_at_most_1_10": (
             len(shapes) == 15
@@ -365,6 +427,9 @@ def apply_full_c2_gate(
             "maximum_diameter_max_to_min_ratio": (
                 MAXIMUM_DIAMETER_MAX_TO_MIN_RATIO
             ),
+            "maximum_seasonal_unexplained_fractional_range": (
+                MAXIMUM_SEASONAL_EXCESS_FRACTIONAL_RANGE
+            ),
             "maximum_disk_axis_ratio": MAXIMUM_DISK_AXIS_RATIO,
             "maximum_normalised_centre_offset": (
                 MAXIMUM_NORMALISED_CENTRE_OFFSET
@@ -397,7 +462,6 @@ def run_full_c2_validation(
     restarts: int = DEFAULT_RESTARTS,
     seeds: Sequence[int] = DEFAULT_SEEDS,
     minimum_altitude_deg: float = 2.0,
-    solar_radius_deg: float = DEFAULT_SOLAR_RADIUS_DEG,
 ) -> dict[str, object]:
     matches_contract = bool(
         math.isclose(radius_km, SELECTED_RADIUS_KM, rel_tol=0.0, abs_tol=1e-9)
@@ -407,15 +471,11 @@ def run_full_c2_validation(
         and restarts == DEFAULT_RESTARTS
         and tuple(seeds) == DEFAULT_SEEDS
         and math.isclose(minimum_altitude_deg, 2.0, rel_tol=0.0, abs_tol=1e-12)
-        and math.isclose(
-            solar_radius_deg,
-            DEFAULT_SOLAR_RADIUS_DEG,
-            rel_tol=0.0,
-            abs_tol=1e-12,
-        )
     )
-    tracks = build_c2_tracks(minimum_altitude_deg, solar_radius_deg)
-    _, pole_groups = build_scan_groups(minimum_altitude_deg, solar_radius_deg)
+    tracks = build_c2_tracks(minimum_altitude_deg)
+    _, pole_groups = build_scan_groups(
+        minimum_altitude_deg, DEFAULT_SOLAR_RADIUS_DEG
+    )
     baseline_c2 = evaluate_c2(tracks, evaluate_n_equals_one)
     baseline_poles = _summarise(pole_groups, evaluate_n_equals_one)
     centre = np.array([0.0, 0.0, centre_z_km])
@@ -441,7 +501,9 @@ def run_full_c2_validation(
         "design": {
             "radius_km": radius_km,
             "centre_z_km": centre_z_km,
-            "solar_radius_deg": solar_radius_deg,
+            "solar_angular_radius": (
+                "date-dependent Meeus Earth-Sun distance; 0.2666 deg at 1 AU"
+            ),
             "daily_track_count": len(tracks),
             "moments_per_track": [len(track["moments"]) for track in tracks],
             "samples_per_moment": list(SAMPLE_IDS),
@@ -469,7 +531,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--centre-z-km", type=float, default=SELECTED_CENTRE_Z_KM)
     parser.add_argument("--restarts", type=int, default=DEFAULT_RESTARTS)
     parser.add_argument("--minimum-altitude-deg", type=float, default=2.0)
-    parser.add_argument("--solar-radius-deg", type=float, default=DEFAULT_SOLAR_RADIUS_DEG)
     parser.add_argument("--output", required=True, type=Path)
     return parser.parse_args()
 
@@ -482,7 +543,6 @@ def main() -> None:
         centre_z_km=args.centre_z_km,
         restarts=args.restarts,
         minimum_altitude_deg=args.minimum_altitude_deg,
-        solar_radius_deg=args.solar_radius_deg,
     )
     print(f"Full C-2: {'PASS' if payload['acceptance_gate']['passed'] else 'FAIL'}")
     print(f"Zapisano: {args.output}")

@@ -33,6 +33,18 @@ class EphemerisTests(unittest.TestCase):
         result = MeeusLowPrecision().sun_radec(instant)
         self.assertLess(abs(result.dec_deg), 0.1)
 
+    def test_solar_distance_and_angular_radius_follow_annual_phase(self) -> None:
+        ephemeris = MeeusLowPrecision()
+        january = datetime(2026, 1, 3, 12, tzinfo=timezone.utc)
+        july = datetime(2026, 7, 4, 12, tzinfo=timezone.utc)
+        self.assertLess(ephemeris.sun_distance_au(january), 1.0)
+        self.assertGreater(ephemeris.sun_distance_au(july), 1.0)
+        january_radius = ephemeris.sun_angular_radius_deg(january)
+        july_radius = ephemeris.sun_angular_radius_deg(july)
+        self.assertGreater(january_radius, july_radius)
+        self.assertAlmostEqual(january_radius, 0.2711, delta=0.0003)
+        self.assertAlmostEqual(july_radius, 0.2622, delta=0.0003)
+
 
 class GeometryTests(unittest.TestCase):
     def test_north_pole_is_map_origin(self) -> None:

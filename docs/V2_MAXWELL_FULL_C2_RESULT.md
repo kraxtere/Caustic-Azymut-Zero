@@ -1,5 +1,10 @@
 # Wynik pełnego testu C-2 Maxwella v2
 
+> Ten raport zachowuje pierwszy przebieg ze stałym promieniem kątowym
+> `0,2666°`. Jego wniosek o drodze brzegowej pozostaje ważny, ale surowa
+> interpretacja sezonowej zmienności została zastąpiona skorygowanym
+> kontraktem v2.1 z datowo zmiennym promieniem Słońca.
+
 ## Decyzja
 
 Wcześniej wybrany kandydat `R/Rbase=1,20`, `z0/Rbase=0,40` nie przeszedł
