@@ -346,6 +346,26 @@ def run_forced_continuation(
         for moment in track["moments"]
         for selector in moment["branch_selector"].values()
     ]
+    complete_disks = all(
+        moment[mode]["reconstructed_disk"] is not None
+        for track_id in ("june_solstice", "december_solstice")
+        for moment in by_id[track_id]["moments"]
+        for mode in ("selected_branch", "forced_direct_branch")
+    )
+    checks = {
+        "one_identical_observer_cohort_for_every_target": all(
+            track["fixed_observers_deg"] == output_tracks[0]["fixed_observers_deg"]
+            for track in output_tracks
+        ),
+        "all_selected_branch_assignments_agree_across_seeds": all(
+            bool(selector["restart_branch_assignment_consensus"])
+            for selector in selectors
+        ),
+        "all_june_and_december_disks_complete_in_both_modes": complete_disks,
+        "factorisation_identity_at_machine_precision": abs(
+            decomposition["factorisation_identity_error"]
+        ) <= 1e-12,
+    }
     payload = {
         "schema_version": 1,
         "model": MODEL_STATUS,
@@ -364,10 +384,11 @@ def run_forced_continuation(
             "forced_path": "all-direct P branch; backward fits retained",
             "rk45_used": False,
         },
-        "all_selected_branch_assignments_agree_across_seeds": all(
-            bool(selector["restart_branch_assignment_consensus"])
-            for selector in selectors
-        ),
+        "acceptance_gate": {
+            "passed": all(checks.values()),
+            "checks": checks,
+            "rule_frozen_before_run": True,
+        },
         "seasonal_track_means": means,
         "december_to_june_decomposition": decomposition,
         "daily_tracks": output_tracks,

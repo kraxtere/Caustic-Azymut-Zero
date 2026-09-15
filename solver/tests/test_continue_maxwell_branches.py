@@ -4,6 +4,7 @@ import unittest
 
 from solver.continue_maxwell_branches import (
     build_common_cohort_tracks,
+    common_observer_cohort,
     multiplicative_decomposition,
 )
 
@@ -41,6 +42,14 @@ class MaxwellForcedBranchContinuationTests(unittest.TestCase):
         self.assertAlmostEqual(
             result["smooth_log_share"] + result["branch_log_share"], 1.0
         )
+
+    def test_common_cohort_rejects_an_empty_intersection(self) -> None:
+        tracks = (
+            {"fixed_observers_deg": [[1.0, 2.0]]},
+            {"fixed_observers_deg": [[3.0, 4.0]]},
+        )
+        with self.assertRaises(ValueError):
+            common_observer_cohort(tracks)
 
 
 if __name__ == "__main__":

@@ -131,6 +131,10 @@ Szczegóły:
 Przed jego implementacją obowiązuje kontrolowany test wymuszonej kontynuacji
 na wspólnej kohorcie:
 [`docs/V2_MAXWELL_FORCED_BRANCH_CONTINUATION.md`](docs/V2_MAXWELL_FORCED_BRANCH_CONTINUATION.md).
+Test wykazał jednoznaczny gładki czynnik `1,203849`, ale pełna dekompozycja
+nie przeszła kontroli konsensusu gałęzi dla sześciu grudniowych celów. Wynik
+pozostaje **FAIL**; nie implementujemy jeszcze nowego parametru. Szczegóły:
+[`docs/V2_MAXWELL_FORCED_BRANCH_CONTINUATION_RESULT.md`](docs/V2_MAXWELL_FORCED_BRANCH_CONTINUATION_RESULT.md).
 
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem

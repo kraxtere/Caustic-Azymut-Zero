@@ -112,6 +112,12 @@ bezpośredniej, więc dokładny udział skoku gałęzi w sezonowych `46,7745%`
 wymagałby osobnej kontynuacji gałęzi. Raport:
 `../docs/V2_MAXWELL_SCALE_CORRECTION_RESULT.md`.
 
+Kontynuacja na jednej ośmioosobowej kohorcie wyznaczyła jednoznaczny gładki
+czynnik `1,203849`, lecz pełna dekompozycja jest **FAIL**: sześć grudniowych
+celów nie zachowało konsensusu gałęzi między ziarnami. Wartości z arbitralnie
+wybranego minimum nie są interpretowane. Raport:
+`../docs/V2_MAXWELL_FORCED_BRANCH_CONTINUATION_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -283,6 +289,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `validate_maxwell_c2.py` | pełny C-2 Maxwella z konsensusem gałęzi i buforem drogi |
 | `scan_maxwell_declination.py` | diagnostyczny skan skali po deklinacji |
 | `analyze_maxwell_scale.py` | klasyfikacja strony gałęzi i dopasowanie korekty skali |
+| `continue_maxwell_branches.py` | wymuszona kontynuacja `P` na wspólnej kohorcie i dekompozycja skali |
 | `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
 | `scan_maxwell_radius.py` | zakończony skan `R` Maxwella przy stałym bezwzględnym `z0` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |
