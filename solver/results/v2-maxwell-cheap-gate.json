@@ -1,0 +1,1895 @@
+{
+  "schema_version": 1,
+  "model": "maxwell-mirror-v2-cheap-centre-c3-gate",
+  "status": "completed",
+  "validation_only": true,
+  "pre_registered_contract": "docs/V2_MAXWELL_CHEAP_GATE.md",
+  "matches_pre_registered_candidate": true,
+  "candidate": {
+    "radius_km": 20015.086796020572,
+    "centre_km": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "first_central_angle_interval_rad": [
+      0.0,
+      3.141592653589793
+    ]
+  },
+  "design": {
+    "solar_centre_count": 15,
+    "pole_count": 2,
+    "full_solar_limb_c2_included": false,
+    "restarts_per_seed": 16,
+    "seeds": [
+      3,
+      17,
+      91,
+      2048
+    ],
+    "consensus_fraction_of_radius": 1e-06,
+    "minimum_pole_separation_rad": 0.001,
+    "comparison_metric": "RMS observed-vs-predicted direction in degrees"
+  },
+  "baseline_n_equals_1": {
+    "solar_centres": {
+      "target_count": 15,
+      "valid_target_count": 15,
+      "complete": true,
+      "mean_direction_rms_deg": 37.828804299216685,
+      "partial_mean_direction_rms_deg": 37.828804299216685,
+      "targets": [
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T10:00:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            10942.386872860505,
+            4593.2057329166055,
+            4036.6931569034723
+          ],
+          "native_line_rms_km": 2063.8245298303023,
+          "direction_rms_deg": 15.375370438577594,
+          "maximum_direction_residual_deg": 27.572000296150453,
+          "minimum_forward_distance_km": 3805.2429763818004,
+          "all_rays_forward": true,
+          "condition_number": 2.412111189161846
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T11:30:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            10246.551727855252,
+            1364.3475088228051,
+            4650.620048386268
+          ],
+          "native_line_rms_km": 1613.9127095114984,
+          "direction_rms_deg": 12.499958695536552,
+          "maximum_direction_residual_deg": 17.809082910186564,
+          "minimum_forward_distance_km": 5249.797727226155,
+          "all_rays_forward": true,
+          "condition_number": 1.8122216262981
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T13:00:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            10326.061644007677,
+            -1916.0660209163525,
+            4604.7537659223235
+          ],
+          "native_line_rms_km": 1638.8789992207137,
+          "direction_rms_deg": 12.467763461397128,
+          "maximum_direction_residual_deg": 17.46801040021035,
+          "minimum_forward_distance_km": 4974.236729841104,
+          "all_rays_forward": true,
+          "condition_number": 1.87632088874589
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T14:30:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            11046.576427893468,
+            -5068.526504642934,
+            3826.007341716993
+          ],
+          "native_line_rms_km": 2242.905859819332,
+          "direction_rms_deg": 16.69676563245503,
+          "maximum_direction_residual_deg": 30.95987336909585,
+          "minimum_forward_distance_km": 3599.3251228371005,
+          "all_rays_forward": true,
+          "condition_number": 2.5445860070140203
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T16:00:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            11064.671815649956,
+            -6223.5567192069075,
+            1750.021928421195
+          ],
+          "native_line_rms_km": 4012.918785050872,
+          "direction_rms_deg": 28.17572438380605,
+          "maximum_direction_residual_deg": 50.07484146343791,
+          "minimum_forward_distance_km": 2073.5595897481503,
+          "all_rays_forward": true,
+          "condition_number": 3.3092822408726943
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T10:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            7659.338263241892,
+            3446.8712624045966,
+            3077.704545264729
+          ],
+          "native_line_rms_km": 2065.965838858798,
+          "direction_rms_deg": 14.744790303677267,
+          "maximum_direction_residual_deg": 25.96450460489718,
+          "minimum_forward_distance_km": 3115.8748106134744,
+          "all_rays_forward": true,
+          "condition_number": 2.6031265009590703
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T11:30:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            7705.745358212027,
+            743.972448894408,
+            3528.620466876033
+          ],
+          "native_line_rms_km": 1686.1863561939342,
+          "direction_rms_deg": 13.898834809738744,
+          "maximum_direction_residual_deg": 19.539790470899923,
+          "minimum_forward_distance_km": 4009.588285175646,
+          "all_rays_forward": true,
+          "condition_number": 2.255987013981879
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T13:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            7342.658411326576,
+            -1893.0497368372285,
+            3712.9636837618646
+          ],
+          "native_line_rms_km": 1632.780226134289,
+          "direction_rms_deg": 12.577497547803105,
+          "maximum_direction_residual_deg": 18.69299583955854,
+          "minimum_forward_distance_km": 3886.9208965121434,
+          "all_rays_forward": true,
+          "condition_number": 2.4073718845079313
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T14:30:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            6533.012027540875,
+            -4389.326003744245,
+            3622.89831833074
+          ],
+          "native_line_rms_km": 1709.0500985595943,
+          "direction_rms_deg": 12.897176174409495,
+          "maximum_direction_residual_deg": 22.851697032446243,
+          "minimum_forward_distance_km": 3969.07862362008,
+          "all_rays_forward": true,
+          "condition_number": 2.6058064994228793
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T16:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            5053.502629184661,
+            -6419.331549692606,
+            3035.0109509793683
+          ],
+          "native_line_rms_km": 2273.1295353982764,
+          "direction_rms_deg": 16.942569814857713,
+          "maximum_direction_residual_deg": 30.243641907548426,
+          "minimum_forward_distance_km": 3404.2519906220336,
+          "all_rays_forward": true,
+          "condition_number": 2.8073540269246733
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T10:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            5684.853185948873,
+            -1598.7163592240809,
+            1584.4965312453064
+          ],
+          "native_line_rms_km": 12734.534825237019,
+          "direction_rms_deg": 90.41592302494226,
+          "maximum_direction_residual_deg": 171.936390856496,
+          "minimum_forward_distance_km": -22556.849928579646,
+          "all_rays_forward": false,
+          "condition_number": 1.8025831500061864
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T11:30:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            6259.648527660399,
+            -1548.5232622745552,
+            2499.9294881366113
+          ],
+          "native_line_rms_km": 12585.898784883335,
+          "direction_rms_deg": 79.64194611000579,
+          "maximum_direction_residual_deg": 154.25470402496077,
+          "minimum_forward_distance_km": -21105.828388814116,
+          "all_rays_forward": false,
+          "condition_number": 1.7851677973630413
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T13:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            6576.3647206205505,
+            -1796.3202070552188,
+            3132.296500864701
+          ],
+          "native_line_rms_km": 12499.640279662277,
+          "direction_rms_deg": 75.09656494201344,
+          "maximum_direction_residual_deg": 166.26522286312567,
+          "minimum_forward_distance_km": -24059.95143529063,
+          "all_rays_forward": false,
+          "condition_number": 1.7518500557859644
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T14:30:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            6310.511001648158,
+            -2006.7620960000145,
+            2744.163005604718
+          ],
+          "native_line_rms_km": 12522.978494507453,
+          "direction_rms_deg": 77.99315427385689,
+          "maximum_direction_residual_deg": 163.39095226657687,
+          "minimum_forward_distance_km": -23525.32620944659,
+          "all_rays_forward": false,
+          "condition_number": 1.7630216329267652
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T16:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            5956.062570004795,
+            -1551.531475611827,
+            1854.5271247107933
+          ],
+          "native_line_rms_km": 12639.239092374099,
+          "direction_rms_deg": 88.00802487517323,
+          "maximum_direction_residual_deg": 158.95027263406467,
+          "minimum_forward_distance_km": -20657.837947185293,
+          "all_rays_forward": false,
+          "condition_number": 1.813714980512396
+        }
+      ]
+    },
+    "celestial_poles": {
+      "target_count": 2,
+      "valid_target_count": 2,
+      "complete": true,
+      "mean_direction_rms_deg": 76.56448990067358,
+      "partial_mean_direction_rms_deg": 76.56448990067358,
+      "targets": [
+        {
+          "target_id": "north_celestial_pole",
+          "timestamp_utc": "2026-03-20T14:00:00+00:00",
+          "observer_count": 32,
+          "valid": true,
+          "common_point_km": [
+            5.843098525735432e-13,
+            -4.547473508864641e-13,
+            3251.1221579917274
+          ],
+          "native_line_rms_km": 1194.593761871818,
+          "direction_rms_deg": 11.354511013768894,
+          "maximum_direction_residual_deg": 14.373700424738615,
+          "minimum_forward_distance_km": 3815.6735960995684,
+          "all_rays_forward": true,
+          "condition_number": 1.2777777777777781
+        },
+        {
+          "target_id": "south_celestial_pole",
+          "timestamp_utc": "2026-03-20T14:00:00+00:00",
+          "observer_count": 32,
+          "valid": true,
+          "common_point_km": [
+            2.608273670740177e-10,
+            1.765500585224741e-09,
+            2.1557488233399435e-12
+          ],
+          "native_line_rms_km": 14667.618204054299,
+          "direction_rms_deg": 141.77446878757826,
+          "maximum_direction_residual_deg": 170.00000000000006,
+          "minimum_forward_distance_km": -11555.715749537698,
+          "all_rays_forward": false,
+          "condition_number": 1.277777777777779
+        }
+      ]
+    }
+  },
+  "maxwell": {
+    "solar_centres": {
+      "target_count": 15,
+      "valid_target_count": 15,
+      "complete": true,
+      "mean_direction_rms_deg": 15.385056653246895,
+      "partial_mean_direction_rms_deg": 15.385056653246895,
+      "targets": [
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T10:00:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            9541.404543938857,
+            4521.894505950174,
+            3810.3559571616474
+          ],
+          "common_point_s3_km": [
+            14516.7515341884,
+            6879.827671533945,
+            5797.258719322225,
+            -10436.828392673422
+          ],
+          "native_s3_plane_rms_km": 2105.9953400501836,
+          "direction_rms_deg": 10.64298436709782,
+          "maximum_direction_residual_deg": 18.821469798684436,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.29129002405512694,
+          "minimum_central_angle_rad": 0.2973914959046972,
+          "maximum_central_angle_rad": 0.9323336518302155,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 7.403780064682884,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 0,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 2105.9953400501836,
+              "best_point_s3_km": [
+                14516.7515341884,
+                6879.827671533945,
+                5797.258719322225,
+                -10436.828392673422
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 2105.9953400501836,
+              "best_point_s3_km": [
+                14516.7515341884,
+                6879.827671533945,
+                5797.258719322225,
+                -10436.828392673422
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 2105.9953400501836,
+              "best_point_s3_km": [
+                14516.7515341884,
+                6879.827671533945,
+                5797.258719322225,
+                -10436.828392673422
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 2105.9953400501836,
+              "best_point_s3_km": [
+                14516.7515341884,
+                6879.827671533945,
+                5797.258719322225,
+                -10436.828392673422
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T11:30:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            9322.236002513024,
+            1390.5363731740163,
+            4443.61886905214
+          ],
+          "common_point_s3_km": [
+            14668.565078354351,
+            2188.0129700882235,
+            6992.047031047432,
+            -11478.709664098435
+          ],
+          "native_s3_plane_rms_km": 2250.3236296617715,
+          "direction_rms_deg": 11.660331208415002,
+          "maximum_direction_residual_deg": 17.424831542852147,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.38528376779577683,
+          "minimum_central_angle_rad": 0.4079412765711303,
+          "maximum_central_angle_rad": 2.0043175888053453,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 8.43621567933405,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 2,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 2250.3236296617715,
+              "best_point_s3_km": [
+                14668.565078354351,
+                2188.0129700882235,
+                6992.047031047432,
+                -11478.709664098435
+              ],
+              "best_reflected_branch_count": 2,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 2250.3236296617715,
+              "best_point_s3_km": [
+                14668.565078354351,
+                2188.0129700882235,
+                6992.047031047432,
+                -11478.709664098435
+              ],
+              "best_reflected_branch_count": 2,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 2250.3236296617715,
+              "best_point_s3_km": [
+                14668.565078354351,
+                2188.0129700882235,
+                6992.047031047432,
+                -11478.709664098435
+              ],
+              "best_reflected_branch_count": 2,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 2250.3236296617715,
+              "best_point_s3_km": [
+                14668.565078354351,
+                2188.0129700882235,
+                6992.047031047432,
+                -11478.709664098435
+              ],
+              "best_reflected_branch_count": 2,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T13:00:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            9336.398059494062,
+            -1953.7331789504256,
+            4409.194326343364
+          ],
+          "common_point_s3_km": [
+            14637.868221823934,
+            -3063.1179853134104,
+            6912.859231381721,
+            -11365.1308319748
+          ],
+          "native_s3_plane_rms_km": 2225.047603725032,
+          "direction_rms_deg": 11.219832238366608,
+          "maximum_direction_residual_deg": 17.09746604023365,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.37022238017489517,
+          "minimum_central_angle_rad": 0.38843051960234043,
+          "maximum_central_angle_rad": 2.002607630453528,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 8.388169339190934,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 2,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 2225.047603725032,
+              "best_point_s3_km": [
+                14637.868221823934,
+                -3063.1179853134104,
+                6912.859231381721,
+                -11365.1308319748
+              ],
+              "best_reflected_branch_count": 2,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 2225.047603725032,
+              "best_point_s3_km": [
+                14637.868221823934,
+                -3063.1179853134104,
+                6912.859231381721,
+                -11365.1308319748
+              ],
+              "best_reflected_branch_count": 2,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 2225.047603725032,
+              "best_point_s3_km": [
+                14637.868221823934,
+                -3063.1179853134104,
+                6912.859231381721,
+                -11365.1308319748
+              ],
+              "best_reflected_branch_count": 2,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 2225.047603725032,
+              "best_point_s3_km": [
+                14637.868221823934,
+                -3063.1179853134104,
+                6912.859231381721,
+                -11365.1308319748
+              ],
+              "best_reflected_branch_count": 2,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T14:30:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            9530.427973989821,
+            -5059.274197277315,
+            3671.079733144027
+          ],
+          "common_point_s3_km": [
+            14393.525672038251,
+            -7640.873341588879,
+            5544.323982859609,
+            -10213.111393277613
+          ],
+          "native_s3_plane_rms_km": 2153.8952744533813,
+          "direction_rms_deg": 11.10709925702326,
+          "maximum_direction_residual_deg": 20.81723267463128,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.2841325393408475,
+          "minimum_central_angle_rad": 0.2918117077987592,
+          "maximum_central_angle_rad": 0.9587399245357806,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 7.168878313731565,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 0,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 2153.8952744533813,
+              "best_point_s3_km": [
+                14393.525672038251,
+                -7640.873341588879,
+                5544.323982859609,
+                -10213.111393277613
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 2153.8952744533813,
+              "best_point_s3_km": [
+                14393.525672038251,
+                -7640.873341588879,
+                5544.323982859609,
+                -10213.111393277613
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 2153.8952744533813,
+              "best_point_s3_km": [
+                14393.525672038251,
+                -7640.873341588879,
+                5544.323982859609,
+                -10213.111393277613
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 2153.8952744533813,
+              "best_point_s3_km": [
+                14393.525672038251,
+                -7640.873341588879,
+                5544.323982859609,
+                -10213.111393277613
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "march_equinox:centre",
+          "timestamp_utc": "2026-03-20T16:00:00+00:00",
+          "observer_count": 16,
+          "valid": true,
+          "common_point_km": [
+            9118.649487918163,
+            -8205.355946886613,
+            2439.7081017340133
+          ],
+          "common_point_s3_km": [
+            13115.780845429006,
+            -11802.147949725895,
+            3509.1464839785617,
+            -8773.550421219246
+          ],
+          "native_s3_plane_rms_km": 3722.7518573046614,
+          "direction_rms_deg": 18.419469364321674,
+          "maximum_direction_residual_deg": 33.59229026835849,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.302176741720729,
+          "minimum_central_angle_rad": 0.35627424122392365,
+          "maximum_central_angle_rad": 1.127928210366143,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 5.016000676286959,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 0,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 3722.7518573046614,
+              "best_point_s3_km": [
+                13115.780845429006,
+                -11802.147949725895,
+                3509.1464839785617,
+                -8773.550421219246
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 3722.7518573046614,
+              "best_point_s3_km": [
+                13115.780845429006,
+                -11802.147949725895,
+                3509.1464839785617,
+                -8773.550421219246
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 3722.7518573046614,
+              "best_point_s3_km": [
+                13115.780845429006,
+                -11802.147949725895,
+                3509.1464839785617,
+                -8773.550421219246
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 3722.7518573046614,
+              "best_point_s3_km": [
+                13115.780845429006,
+                -11802.147949725895,
+                3509.1464839785617,
+                -8773.550421219246
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T10:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            6910.952063132869,
+            3385.1282693392873,
+            2918.9977591247216
+          ],
+          "common_point_s3_km": [
+            11822.717580274513,
+            5791.013327223014,
+            4993.593618987061,
+            -14225.16206873027
+          ],
+          "native_s3_plane_rms_km": 2816.442635322809,
+          "direction_rms_deg": 13.155378440428388,
+          "maximum_direction_residual_deg": 23.157772569356236,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.26203481038520404,
+          "minimum_central_angle_rad": 0.2709450070261409,
+          "maximum_central_angle_rad": 0.9958127115705274,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 7.847172382005157,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 0,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 2816.442635322809,
+              "best_point_s3_km": [
+                11822.717580274513,
+                5791.013327223014,
+                4993.593618987061,
+                -14225.16206873027
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 2816.442635322809,
+              "best_point_s3_km": [
+                11822.717580274513,
+                5791.013327223014,
+                4993.593618987061,
+                -14225.16206873027
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 2816.442635322809,
+              "best_point_s3_km": [
+                11822.717580274513,
+                5791.013327223014,
+                4993.593618987061,
+                -14225.16206873027
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 2816.442635322809,
+              "best_point_s3_km": [
+                11822.717580274513,
+                5791.013327223014,
+                4993.593618987061,
+                -14225.16206873027
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T11:30:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            7239.738114921709,
+            767.3867654373374,
+            3349.9348039205547
+          ],
+          "common_point_s3_km": [
+            12478.865494530446,
+            1322.715832557277,
+            5774.157182206706,
+            -14484.168843365773
+          ],
+          "native_s3_plane_rms_km": 2575.573171260465,
+          "direction_rms_deg": 13.404145636789774,
+          "maximum_direction_residual_deg": 18.75433821132933,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.3248215112990742,
+          "minimum_central_angle_rad": 0.3490080535415522,
+          "maximum_central_angle_rad": 0.9593910721010828,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 8.315897047523116,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 0,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 2575.573171260465,
+              "best_point_s3_km": [
+                12478.865494530446,
+                1322.715832557277,
+                5774.157182206706,
+                -14484.168843365773
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 2575.573171260465,
+              "best_point_s3_km": [
+                12478.865494530446,
+                1322.715832557277,
+                5774.157182206706,
+                -14484.168843365773
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 2575.573171260465,
+              "best_point_s3_km": [
+                12478.865494530446,
+                1322.715832557277,
+                5774.157182206706,
+                -14484.168843365773
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 2575.573171260465,
+              "best_point_s3_km": [
+                12478.865494530446,
+                1322.715832557277,
+                5774.157182206706,
+                -14484.168843365773
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T13:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            6964.345400524846,
+            -1811.6076136438326,
+            3549.060605066217
+          ],
+          "common_point_s3_km": [
+            12000.177098337388,
+            -3121.5585882320006,
+            6115.342267532772,
+            -14472.660777892168
+          ],
+          "native_s3_plane_rms_km": 2560.517897216611,
+          "direction_rms_deg": 12.166620078783954,
+          "maximum_direction_residual_deg": 18.253705107590662,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.3183063538524926,
+          "minimum_central_angle_rad": 0.3281787034384662,
+          "maximum_central_angle_rad": 0.963367275594284,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 8.02522669487924,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 0,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 2560.517897216611,
+              "best_point_s3_km": [
+                12000.177098337388,
+                -3121.5585882320006,
+                6115.342267532772,
+                -14472.660777892168
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 2560.517897216611,
+              "best_point_s3_km": [
+                12000.177098337388,
+                -3121.5585882320006,
+                6115.342267532772,
+                -14472.660777892168
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 2560.517897216611,
+              "best_point_s3_km": [
+                12000.177098337388,
+                -3121.5585882320006,
+                6115.342267532772,
+                -14472.660777892168
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 2560.517897216611,
+              "best_point_s3_km": [
+                12000.177098337388,
+                -3121.5585882320006,
+                6115.342267532772,
+                -14472.660777892168
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T14:30:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            6039.490643204599,
+            -4214.151724456628,
+            3434.908842646694
+          ],
+          "common_point_s3_km": [
+            10369.70161703331,
+            -7235.626070667165,
+            5897.679437591734,
+            -14350.47317835977
+          ],
+          "native_s3_plane_rms_km": 2515.2773264025805,
+          "direction_rms_deg": 12.233415503805878,
+          "maximum_direction_residual_deg": 21.62515236988577,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.32280601324118613,
+          "minimum_central_angle_rad": 0.3368929612430032,
+          "maximum_central_angle_rad": 0.9715062672284456,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 7.865070583220858,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 0,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 2515.2773264025805,
+              "best_point_s3_km": [
+                10369.70161703331,
+                -7235.626070667165,
+                5897.679437591734,
+                -14350.47317835977
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 2515.2773264025805,
+              "best_point_s3_km": [
+                10369.70161703331,
+                -7235.626070667165,
+                5897.679437591734,
+                -14350.47317835977
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 2515.2773264025805,
+              "best_point_s3_km": [
+                10369.70161703331,
+                -7235.626070667165,
+                5897.679437591734,
+                -14350.47317835977
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 2515.2773264025805,
+              "best_point_s3_km": [
+                10369.70161703331,
+                -7235.626070667165,
+                5897.679437591734,
+                -14350.47317835977
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "june_solstice:centre",
+          "timestamp_utc": "2026-06-21T16:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            4410.7856538513315,
+            -6219.850541092475,
+            2937.9841889506756
+          ],
+          "common_point_s3_km": [
+            7561.249139674792,
+            -10662.463162696782,
+            5036.479249832575,
+            -14296.047249857005
+          ],
+          "native_s3_plane_rms_km": 3016.820403958048,
+          "direction_rms_deg": 14.958016360706825,
+          "maximum_direction_residual_deg": 24.728617703071723,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.27539679155543517,
+          "minimum_central_angle_rad": 0.3063040346664899,
+          "maximum_central_angle_rad": 1.0465120705454451,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 7.436381937917039,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 0,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 3016.820403958048,
+              "best_point_s3_km": [
+                7561.249139674792,
+                -10662.463162696782,
+                5036.479249832575,
+                -14296.047249857005
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 3016.820403958048,
+              "best_point_s3_km": [
+                7561.249139674792,
+                -10662.463162696782,
+                5036.479249832575,
+                -14296.047249857005
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 3016.820403958048,
+              "best_point_s3_km": [
+                7561.249139674792,
+                -10662.463162696782,
+                5036.479249832575,
+                -14296.047249857005
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 3016.820403958048,
+              "best_point_s3_km": [
+                7561.249139674792,
+                -10662.463162696782,
+                5036.479249832575,
+                -14296.047249857005
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T10:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            11933.964645358197,
+            4891.32683187015,
+            4273.22639684639
+          ],
+          "common_point_s3_km": [
+            16338.752134033279,
+            6696.699637329445,
+            5850.460344529175,
+            -7387.503359007234
+          ],
+          "native_s3_plane_rms_km": 4369.179475666218,
+          "direction_rms_deg": 19.272764610691503,
+          "maximum_direction_residual_deg": 44.85786812238164,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.27879220159219437,
+          "minimum_central_angle_rad": 0.2966563065442651,
+          "maximum_central_angle_rad": 2.7373775017927744,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 8.890551606837212,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 9,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 4369.179475666218,
+              "best_point_s3_km": [
+                16338.752134033279,
+                6696.699637329445,
+                5850.460344529175,
+                -7387.503359007234
+              ],
+              "best_reflected_branch_count": 9,
+              "best_iterations": 3,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 4369.179475666218,
+              "best_point_s3_km": [
+                16338.752134033279,
+                6696.699637329445,
+                5850.460344529175,
+                -7387.503359007234
+              ],
+              "best_reflected_branch_count": 9,
+              "best_iterations": 3,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 4369.179475666218,
+              "best_point_s3_km": [
+                16338.752134033279,
+                6696.699637329445,
+                5850.460344529175,
+                -7387.503359007234
+              ],
+              "best_reflected_branch_count": 9,
+              "best_iterations": 3,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 4369.179475666218,
+              "best_point_s3_km": [
+                16338.752134033279,
+                6696.699637329445,
+                5850.460344529175,
+                -7387.503359007234
+              ],
+              "best_reflected_branch_count": 9,
+              "best_iterations": 3,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T11:30:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            12594.891598246944,
+            981.4726938447,
+            5175.878850930653
+          ],
+          "common_point_s3_km": [
+            17191.356998944953,
+            1339.658013964085,
+            7064.7992811643435,
+            -7304.4419026743535
+          ],
+          "native_s3_plane_rms_km": 4363.082613247007,
+          "direction_rms_deg": 21.311451083798552,
+          "maximum_direction_residual_deg": 47.622921322096396,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.3481214188344525,
+          "minimum_central_angle_rad": 0.45897991457206866,
+          "maximum_central_angle_rad": 2.598839639843823,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 10.218577779844097,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 6,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 4363.082613247007,
+              "best_point_s3_km": [
+                17191.356998944953,
+                1339.658013964085,
+                7064.7992811643435,
+                -7304.4419026743535
+              ],
+              "best_reflected_branch_count": 6,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 4363.082613247007,
+              "best_point_s3_km": [
+                17191.356998944953,
+                1339.658013964085,
+                7064.7992811643435,
+                -7304.4419026743535
+              ],
+              "best_reflected_branch_count": 6,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 4363.082613247007,
+              "best_point_s3_km": [
+                17191.356998944953,
+                1339.658013964085,
+                7064.7992811643435,
+                -7304.4419026743535
+              ],
+              "best_reflected_branch_count": 6,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 4363.082613247007,
+              "best_point_s3_km": [
+                17191.356998944953,
+                1339.658013964085,
+                7064.7992811643435,
+                -7304.4419026743535
+              ],
+              "best_reflected_branch_count": 6,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T13:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            11988.485155132917,
+            -3076.877111605654,
+            5534.281079799508
+          ],
+          "common_point_s3_km": [
+            16435.46608389441,
+            -4218.206784070131,
+            7587.154491060876,
+            -7424.349958952146
+          ],
+          "native_s3_plane_rms_km": 4346.114363801238,
+          "direction_rms_deg": 19.833789672427248,
+          "maximum_direction_residual_deg": 50.63135522236501,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.3047794838754883,
+          "minimum_central_angle_rad": 0.4092858790777597,
+          "maximum_central_angle_rad": 2.6403774077078825,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 10.57982124156211,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 6,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 4346.114363801238,
+              "best_point_s3_km": [
+                16435.46608389441,
+                -4218.206784070131,
+                7587.154491060876,
+                -7424.349958952146
+              ],
+              "best_reflected_branch_count": 6,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 4346.114363801238,
+              "best_point_s3_km": [
+                16435.46608389441,
+                -4218.206784070131,
+                7587.154491060876,
+                -7424.349958952146
+              ],
+              "best_reflected_branch_count": 6,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 4346.114363801238,
+              "best_point_s3_km": [
+                16435.46608389441,
+                -4218.206784070131,
+                7587.154491060876,
+                -7424.349958952146
+              ],
+              "best_reflected_branch_count": 6,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 4346.114363801238,
+              "best_point_s3_km": [
+                16435.46608389441,
+                -4218.206784070131,
+                7587.154491060876,
+                -7424.349958952146
+              ],
+              "best_reflected_branch_count": 6,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T14:30:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            10093.422739848867,
+            -7502.85083749263,
+            5457.505886463325
+          ],
+          "common_point_s3_km": [
+            13740.23402961965,
+            -10213.673701535674,
+            7429.333936641967,
+            -7231.565186039447
+          ],
+          "native_s3_plane_rms_km": 4245.807705735445,
+          "direction_rms_deg": 19.89690229802463,
+          "maximum_direction_residual_deg": 48.60410567120232,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.3304752591657562,
+          "minimum_central_angle_rad": 0.4401800426288247,
+          "maximum_central_angle_rad": 2.618262420397886,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 9.905400726865594,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 7,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 4245.807705735445,
+              "best_point_s3_km": [
+                13740.23402961965,
+                -10213.673701535674,
+                7429.333936641967,
+                -7231.565186039447
+              ],
+              "best_reflected_branch_count": 7,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 4245.807705735445,
+              "best_point_s3_km": [
+                13740.23402961965,
+                -10213.673701535674,
+                7429.333936641967,
+                -7231.565186039447
+              ],
+              "best_reflected_branch_count": 7,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 4245.807705735445,
+              "best_point_s3_km": [
+                13740.23402961965,
+                -10213.673701535674,
+                7429.333936641967,
+                -7231.565186039447
+              ],
+              "best_reflected_branch_count": 7,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 4245.807705735445,
+              "best_point_s3_km": [
+                13740.23402961965,
+                -10213.673701535674,
+                7429.333936641967,
+                -7231.565186039447
+              ],
+              "best_reflected_branch_count": 7,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "december_solstice:centre",
+          "timestamp_utc": "2026-12-21T16:00:00+00:00",
+          "observer_count": 20,
+          "valid": true,
+          "common_point_km": [
+            7541.459894512246,
+            -10733.470848908522,
+            4355.493926211939
+          ],
+          "common_point_s3_km": [
+            10212.493854380564,
+            -14535.051119268832,
+            5898.122588518802,
+            -7088.942630429591
+          ],
+          "native_s3_plane_rms_km": 4452.987250307681,
+          "direction_rms_deg": 21.49364967802232,
+          "maximum_direction_residual_deg": 48.18196804026822,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.2882336183677761,
+          "minimum_central_angle_rad": 0.36033321014688463,
+          "maximum_central_angle_rad": 2.6945670411100475,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 8.472042325955655,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 10,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 4452.987250307681,
+              "best_point_s3_km": [
+                10212.493854380564,
+                -14535.051119268832,
+                5898.122588518802,
+                -7088.942630429591
+              ],
+              "best_reflected_branch_count": 10,
+              "best_iterations": 3,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 4452.987250307681,
+              "best_point_s3_km": [
+                10212.493854380564,
+                -14535.051119268832,
+                5898.122588518802,
+                -7088.942630429591
+              ],
+              "best_reflected_branch_count": 10,
+              "best_iterations": 3,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 4452.987250307681,
+              "best_point_s3_km": [
+                10212.493854380564,
+                -14535.051119268832,
+                5898.122588518802,
+                -7088.942630429591
+              ],
+              "best_reflected_branch_count": 10,
+              "best_iterations": 3,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 4452.987250307681,
+              "best_point_s3_km": [
+                10212.493854380564,
+                -14535.051119268832,
+                5898.122588518802,
+                -7088.942630429591
+              ],
+              "best_reflected_branch_count": 10,
+              "best_iterations": 3,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        }
+      ]
+    },
+    "celestial_poles": {
+      "target_count": 2,
+      "valid_target_count": 2,
+      "complete": true,
+      "mean_direction_rms_deg": 18.238686304344842,
+      "partial_mean_direction_rms_deg": 18.238686304344842,
+      "targets": [
+        {
+          "target_id": "north_celestial_pole",
+          "timestamp_utc": "2026-03-20T14:00:00+00:00",
+          "observer_count": 32,
+          "valid": true,
+          "common_point_km": [
+            0.0,
+            0.0,
+            2965.909779020846
+          ],
+          "common_point_s3_km": [
+            -0.0,
+            -0.0,
+            5804.3649254358015,
+            -19154.97447830739
+          ],
+          "native_s3_plane_rms_km": 2296.541412076628,
+          "direction_rms_deg": 12.455871725849407,
+          "maximum_direction_residual_deg": 15.92001582048524,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.3443616470941801,
+          "minimum_central_angle_rad": 0.36622811113204523,
+          "maximum_central_angle_rad": 0.8745963577831205,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 19.19281792785484,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 0,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 2296.541412076628,
+              "best_point_s3_km": [
+                -0.0,
+                -0.0,
+                5804.3649254358015,
+                -19154.97447830739
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 2296.541412076628,
+              "best_point_s3_km": [
+                -0.0,
+                -0.0,
+                5804.3649254358015,
+                -19154.97447830739
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 2296.541412076628,
+              "best_point_s3_km": [
+                -0.0,
+                -0.0,
+                5804.3649254358015,
+                -19154.97447830739
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 2296.541412076628,
+              "best_point_s3_km": [
+                -0.0,
+                -0.0,
+                5804.3649254358015,
+                -19154.97447830739
+              ],
+              "best_reflected_branch_count": 0,
+              "best_iterations": 1,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        },
+        {
+          "target_id": "south_celestial_pole",
+          "timestamp_utc": "2026-03-20T14:00:00+00:00",
+          "observer_count": 32,
+          "valid": true,
+          "common_point_km": [
+            0.0,
+            -2.028961267746772e-12,
+            7041.885907011479
+          ],
+          "common_point_s3_km": [
+            0.0,
+            -3.610946657632111e-12,
+            12532.459235946011,
+            -15605.80548871439
+          ],
+          "native_s3_plane_rms_km": 7619.760308117545,
+          "direction_rms_deg": 24.021500882840275,
+          "maximum_direction_residual_deg": 33.40537868803919,
+          "all_rays_forward": true,
+          "minimum_forward_sine": 0.7606837069493871,
+          "minimum_central_angle_rad": 1.6623374736822287,
+          "maximum_central_angle_rad": 1.9953543659224493,
+          "inside_mirror": true,
+          "source_above_map": true,
+          "spectral_gap": 11.734510019453355,
+          "selected_seed": 3,
+          "selected_reflected_branch_count": 32,
+          "restart_seed_consensus": true,
+          "maximum_seed_point_spread_s3_km": 0.0,
+          "seed_runs": [
+            {
+              "seed": 3,
+              "best_native_s3_plane_rms_km": 7619.760308117545,
+              "best_point_s3_km": [
+                0.0,
+                -3.610946657632111e-12,
+                12532.459235946011,
+                -15605.80548871439
+              ],
+              "best_reflected_branch_count": 32,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 17,
+              "best_native_s3_plane_rms_km": 7619.760308117545,
+              "best_point_s3_km": [
+                0.0,
+                -3.610946657632111e-12,
+                12532.459235946011,
+                -15605.80548871439
+              ],
+              "best_reflected_branch_count": 32,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 91,
+              "best_native_s3_plane_rms_km": 7619.760308117545,
+              "best_point_s3_km": [
+                0.0,
+                -3.610946657632111e-12,
+                12532.459235946011,
+                -15605.80548871439
+              ],
+              "best_reflected_branch_count": 32,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            },
+            {
+              "seed": 2048,
+              "best_native_s3_plane_rms_km": 7619.760308117545,
+              "best_point_s3_km": [
+                0.0,
+                -3.610946657632111e-12,
+                12532.459235946011,
+                -15605.80548871439
+              ],
+              "best_reflected_branch_count": 32,
+              "best_iterations": 2,
+              "all_runs_converged": true,
+              "distinct_start_count": 16
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "promotion_gate": {
+    "passed": false,
+    "checks": {
+      "matches_pre_registered_candidate": true,
+      "complete_solar_centre_set": true,
+      "complete_celestial_poles": true,
+      "solar_mean_direction_rms_below_n_equals_1": true,
+      "north_pole_direction_rms_below_n_equals_1": false,
+      "south_pole_direction_rms_below_n_equals_1": true,
+      "all_maxwell_rays_forward": true,
+      "all_restart_seeds_agree": true,
+      "sources_inside_mirror_and_above_map": true,
+      "celestial_poles_not_collapsed": true
+    },
+    "pole_separation_rad": 0.38238008929708706,
+    "minimum_pole_separation_rad": 0.001,
+    "rule_frozen_before_run": true
+  }
+}

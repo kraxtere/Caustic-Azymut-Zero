@@ -10,8 +10,8 @@ wyłącznie jako odtwarzalny punkt odniesienia i nie powinny być dalej strojone
 `field_lens.py` zachowuje oba analitycznie sprawdzone profile. Hybryda
 Luneburga ma status **v2-falsified-hybrid** po skanach `z0` i `(R,z0)`.
 Główną hipotezą jest teraz dokładny Maxwell. Analityczny adapter pierwszego
-interwału i lustra jest gotowy; następna bramka to rekonstrukcja wspólnego
-punktu ze złożonych krzywych wielu obserwatorów.
+interwału i lustra jest gotowy, podobnie jak rekonstrukcja wspólnego punktu ze
+złożonych krzywych wielu obserwatorów.
 
 Dla spójnie rozwiniętych wielkich okręgów funkcja
 `triangulate_maxwell_great_circles()` wykonuje tę rekonstrukcję w postaci
@@ -22,6 +22,26 @@ dwuwymiarowego przekroju `S^2`. Gałęzie przed/po odbiciu ustala
 residuum i ponowną dekompozycję `4×4`. Kilka reprodukowalnych restartów chroni
 przed uznaniem lokalnego minimum za wynik globalny. Historia celu i wszystkie
 przypisania pozostają w wyniku do audytu.
+
+## Tania bramka Maxwella — domyślny kandydat nie przechodzi
+
+Kryteria zapisane przed przebiegiem znajdują się w
+`../docs/V2_MAXWELL_CHEAP_GATE.md`. Odtworzenie:
+
+```bash
+./.venv/Scripts/python.exe -m solver.validate_maxwell \
+  --output solver/results/v2-maxwell-cheap-gate.json
+```
+
+Walidator używa 15 centrów Słońca i obu biegunów, ale nie brzegów tarczy.
+Porównuje oba modele wspólną metryką kierunkowego RMS w stopniach, ponieważ
+kilometry płaskich półprostych i kilometry na `S^3` nie są tą samą wielkością.
+
+Domyślne `R=pi*R_MAP`, `z0=0` poprawiło Słońce o `59,33%` i biegun południowy
+o `83,06%`, lecz pogorszyło biegun północny o `9,70%`. Pozostałe kontrole
+przeszły: droga w przód, konsensus czterech ziaren, położenie źródeł oraz brak
+zapadnięcia biegunów. Wynik bramki to **FAIL** i pełne C-2 nie jest uruchamiane.
+Szczegóły: `../docs/V2_MAXWELL_CHEAP_GATE_RESULT.md`.
 
 ## Historyczna hipoteza v1
 
@@ -138,8 +158,8 @@ integratora, triangulacji ani metryk C-2/C-3:
 ```
 
 Historyczny walidator nadal odmawia uruchomienia Maxwella przez ścieżkę RK45,
-zamiast po cichu obcinać profil. Jawny warunek odbicia jest już dostępny jako
-analityczna ścieżka `maxwell_mirror.py`; nie jest jeszcze podłączony do C-2/C-3.
+zamiast po cichu obcinać profil. Maxwell ma oddzielny analityczny walidator
+`validate_maxwell.py`; nie współdzieli z Luneburgiem niezgodnej obsługi granic.
 
 ### Zamknięty etapowy skan położenia Luneburga
 
@@ -190,6 +210,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `fit_field.py` | historyczne odtworzenie optymalizacji v1 |
 | `validate_v1.py` | gęsta siatka oraz walidacja C-2 i C-3 bez refitu |
 | `validate_lens.py` | odtwarzalny adapter zamkniętej hybrydy Luneburga |
+| `validate_maxwell.py` | zamrożona tania bramka centrum Słońca i C-3 dla Maxwella |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |
 | `lenses.py` | zgodnościowy re-eksport API soczewek |
 | `tests/` | testy regresyjne matematyki i wyniku bazowego |

@@ -70,6 +70,15 @@ naprzemienny z kilkoma kontrolowanymi restartami, bez RK45 i bez optymalizacji
 po `alpha`. Kontrakt opisuje
 [`docs/MAXWELL_MIRROR_CONTRACT.md`](docs/MAXWELL_MIRROR_CONTRACT.md).
 
+Pierwsza, wcześniej zamrożona tania bramka Maxwella dla
+`R=20015,086796 km`, `z0=0` zakończyła się **FAIL**. Model poprawił kierunkowy
+RMS centrów Słońca o `59,33%` i bieguna południowego o `83,06%`, ale pogorszył
+biegun północny o `9,70%`. Wszystkie drogi były skierowane w przód, cztery
+ziarna dały ten sam wynik, a bieguny nie zapadły się w jeden punkt. Pełne C-2
+pozostaje zablokowane. Kryteria i wynik opisują
+[`docs/V2_MAXWELL_CHEAP_GATE.md`](docs/V2_MAXWELL_CHEAP_GATE.md) oraz
+[`docs/V2_MAXWELL_CHEAP_GATE_RESULT.md`](docs/V2_MAXWELL_CHEAP_GATE_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego
