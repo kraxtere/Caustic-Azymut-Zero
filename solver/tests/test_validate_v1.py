@@ -5,7 +5,6 @@ import tempfile
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
-from unittest.mock import patch
 
 from solver.ephemeris import RaDec
 from solver.validate_v1 import (
@@ -70,10 +69,22 @@ class ValidationGeometryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "fit.json"
             path.write_text(json.dumps(fit), encoding="utf-8")
-            with patch("solver.validate_v1.MOMENTS", (instant,)):
-                report = validate_fit(path)
+            report = validate_fit(path, c2_tracks=(("smoke", (instant,)),))
         self.assertEqual(report["grid"]["candidate_observer_count"], 64)
+        self.assertEqual(report["schema_version"], 2)
         self.assertEqual(report["c2_solar_disk"]["summary"]["valid_disk_count"], 1)
+        self.assertEqual(
+            report["c2_solar_disk"]["daily_tracks"][0]["fixed_observer_count"],
+            report["c2_solar_disk"]["daily_tracks"][0]["moments"][0][
+                "targets"
+            ]["centre"]["observer_count"],
+        )
+        self.assertEqual(
+            report["comparison_to_n_equals_1"]["c2_solar_disk"][
+                "mean_centre_rms_relative_change"
+            ],
+            0.0,
+        )
         json.dumps(report, allow_nan=False)
 
 

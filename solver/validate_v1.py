@@ -14,7 +14,7 @@ import json
 import math
 from concurrent.futures import Executor, ProcessPoolExecutor
 from dataclasses import asdict, dataclass, replace
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable, Sequence
 
@@ -22,7 +22,6 @@ import numpy as np
 
 from .ephemeris import MeeusLowPrecision, RaDec
 from .field import FieldParams
-from .fit_field import MOMENTS
 from .geometry_flat import altaz_of_radec, observer_xy, sky_direction_3d
 from .raytrace import (
     IntegrationOptions,
@@ -45,6 +44,23 @@ DEFAULT_LONGITUDES_DEG = (
     157.5,
 )
 DEFAULT_SOLAR_RADIUS_DEG = 0.2666
+DAILY_TRACK_CLOCKS = ((10, 0), (11, 30), (13, 0), (14, 30), (16, 0))
+DAILY_TRACK_DATES = (
+    ("march_equinox", 2026, 3, 20),
+    ("june_solstice", 2026, 6, 21),
+    ("december_solstice", 2026, 12, 21),
+)
+DAILY_TRACKS = tuple(
+    (
+        track_id,
+        tuple(
+            datetime(year, month, day, hour, minute, tzinfo=timezone.utc)
+            for hour, minute in DAILY_TRACK_CLOCKS
+        ),
+    )
+    for track_id, year, month, day in DAILY_TRACK_DATES
+)
+POLE_VALIDATION_MOMENT = datetime(2026, 3, 20, 14, 0, tzinfo=timezone.utc)
 
 
 @dataclass(frozen=True)
@@ -168,6 +184,27 @@ def _visible_observers(
     )
 
 
+def _visible_observers_for_track(
+    samples_by_moment: Sequence[tuple[datetime, Sequence[RaDec]]],
+    candidates: Sequence[tuple[float, float]],
+    minimum_altitude_deg: float,
+) -> tuple[tuple[float, float], ...]:
+    """Use one fixed observer set throughout a daily C-2 track."""
+
+    return tuple(
+        observer
+        for observer in candidates
+        if all(
+            all(
+                altaz_of_radec(target, *observer, instant)[0]
+                >= minimum_altitude_deg
+                for target in targets
+            )
+            for instant, targets in samples_by_moment
+        )
+    )
+
+
 def build_target_group(
     target_id: str,
     target: RaDec,
@@ -271,6 +308,9 @@ def _target_to_json(target: TracedTarget) -> dict[str, object]:
     }
     if target.triangulation is not None:
         result = target.triangulation
+        forward_violation_count = int(
+            np.count_nonzero(result.forward_distances_km < -1e-6)
+        )
         payload.update(
             {
                 "rms_km": result.rms_km,
@@ -278,6 +318,8 @@ def _target_to_json(target: TracedTarget) -> dict[str, object]:
                 "minimum_forward_distance_km": float(
                     np.min(result.forward_distances_km)
                 ),
+                "forward_ray_violation_count": forward_violation_count,
+                "all_rays_forward": forward_violation_count == 0,
                 "condition_number": result.condition_number,
             }
         )
@@ -351,67 +393,128 @@ def validate_solar_disk(
     minimum_altitude_deg: float,
     solar_radius_deg: float,
     executor: Executor | None = None,
+    tracks: Sequence[tuple[str, Sequence[datetime]]] = DAILY_TRACKS,
 ) -> dict[str, object]:
     ephemeris = MeeusLowPrecision()
-    moments: list[dict[str, object]] = []
-    diameters: list[float] = []
-    centre_residuals: list[float] = []
-    for instant in MOMENTS:
-        samples = solar_disk_samples(
-            ephemeris.sun_radec(instant),
-            solar_radius_deg,
+    daily_tracks: list[dict[str, object]] = []
+    all_diameters: list[float] = []
+    all_centre_residuals: list[float] = []
+    for track_id, instants in tracks:
+        samples_by_moment = tuple(
+            (
+                instant,
+                solar_disk_samples(
+                    ephemeris.sun_radec(instant),
+                    solar_radius_deg,
+                ),
+            )
+            for instant in instants
         )
-        visible = _visible_observers(
-            tuple(samples.values()),
-            instant,
+        visible = _visible_observers_for_track(
+            tuple(
+                (instant, tuple(samples.values()))
+                for instant, samples in samples_by_moment
+            ),
             observers,
             minimum_altitude_deg,
         )
-        traced = {
-            sample_id: trace_target(
-                build_target_group(sample_id, radec, instant, visible),
-                params,
-                integration,
-                executor,
+        moments: list[dict[str, object]] = []
+        track_diameters: list[float] = []
+        track_centre_residuals: list[float] = []
+        for instant, samples in samples_by_moment:
+            traced = {
+                sample_id: trace_target(
+                    build_target_group(sample_id, radec, instant, visible),
+                    params,
+                    integration,
+                    executor,
+                )
+                for sample_id, radec in samples.items()
+            }
+            targets_json = {
+                name: _target_to_json(target)
+                for name, target in traced.items()
+            }
+            shape = _solar_shape_metrics(traced)
+            if shape is not None:
+                diameter = shape["mean_diameter_km"]
+                if diameter is not None:
+                    track_diameters.append(diameter)
+                    all_diameters.append(diameter)
+            if traced["centre"].triangulation is not None:
+                centre_rms = traced["centre"].triangulation.rms_km
+                track_centre_residuals.append(centre_rms)
+                all_centre_residuals.append(centre_rms)
+            moments.append(
+                {
+                    "timestamp_utc": instant.isoformat(),
+                    "targets": targets_json,
+                    "all_target_common_points_forward": all(
+                        bool(target.get("all_rays_forward"))
+                        for target in targets_json.values()
+                    ),
+                    "reconstructed_disk": shape,
+                }
             )
-            for sample_id, radec in samples.items()
-        }
-        shape = _solar_shape_metrics(traced)
-        if shape is not None:
-            diameters.append(shape["mean_diameter_km"])
-        if traced["centre"].triangulation is not None:
-            centre_residuals.append(traced["centre"].triangulation.rms_km)
-        moments.append(
+        diameter_mean = (
+            float(np.mean(track_diameters)) if track_diameters else None
+        )
+        daily_tracks.append(
             {
-                "timestamp_utc": instant.isoformat(),
-                "common_observer_count": len(visible),
-                "targets": {
-                    name: _target_to_json(target)
-                    for name, target in traced.items()
+                "track_id": track_id,
+                "fixed_observer_count": len(visible),
+                "fixed_observers_deg": [list(observer) for observer in visible],
+                "moments": moments,
+                "summary": {
+                    "valid_disk_count": len(track_diameters),
+                    "mean_centre_rms_km": (
+                        float(np.mean(track_centre_residuals))
+                        if track_centre_residuals
+                        else None
+                    ),
+                    "mean_reconstructed_diameter_km": diameter_mean,
+                    "diameter_coefficient_of_variation": (
+                        float(np.std(track_diameters) / diameter_mean)
+                        if diameter_mean is not None and diameter_mean > 0
+                        else None
+                    ),
+                    "diameter_max_to_min_ratio": (
+                        max(track_diameters) / min(track_diameters)
+                        if track_diameters and min(track_diameters) > 0
+                        else None
+                    ),
                 },
-                "reconstructed_disk": shape,
             }
         )
 
-    diameter_mean = float(np.mean(diameters)) if diameters else None
+    all_diameter_mean = (
+        float(np.mean(all_diameters)) if all_diameters else None
+    )
     return {
         "constraint": "C-2 solar disk coherence and constancy",
         "input_angular_radius_deg": solar_radius_deg,
-        "moments": moments,
+        "design": (
+            "fixed observer set within each daily track; 90-minute cadence "
+            "avoids aliasing with the 45-degree longitude grid"
+        ),
+        "daily_tracks": daily_tracks,
         "summary": {
-            "valid_disk_count": len(diameters),
+            "sample_count": sum(len(instants) for _, instants in tracks),
+            "valid_disk_count": len(all_diameters),
             "mean_centre_rms_km": (
-                float(np.mean(centre_residuals)) if centre_residuals else None
+                float(np.mean(all_centre_residuals))
+                if all_centre_residuals
+                else None
             ),
-            "mean_reconstructed_diameter_km": diameter_mean,
+            "mean_reconstructed_diameter_km": all_diameter_mean,
             "diameter_coefficient_of_variation": (
-                float(np.std(diameters) / diameter_mean)
-                if diameter_mean is not None and diameter_mean > 0
+                float(np.std(all_diameters) / all_diameter_mean)
+                if all_diameter_mean is not None and all_diameter_mean > 0
                 else None
             ),
             "diameter_max_to_min_ratio": (
-                max(diameters) / min(diameters)
-                if diameters and min(diameters) > 0
+                max(all_diameters) / min(all_diameters)
+                if all_diameters and min(all_diameters) > 0
                 else None
             ),
         },
@@ -425,7 +528,7 @@ def validate_celestial_poles(
     minimum_altitude_deg: float,
     executor: Executor | None = None,
 ) -> dict[str, object]:
-    instant = MOMENTS[0]
+    instant = POLE_VALIDATION_MOMENT
     targets = {
         "north_celestial_pole": RaDec(0.0, 90.0),
         "south_celestial_pole": RaDec(0.0, -90.0),
@@ -464,6 +567,82 @@ def _load_fit(path: Path) -> tuple[dict[str, object], FieldParams, IntegrationOp
     return payload, params, integration
 
 
+def _relative_change(fitted: float | None, baseline: float | None) -> float | None:
+    if fitted is None or baseline is None or baseline == 0:
+        return None
+    return (fitted - baseline) / baseline
+
+
+def _comparison_to_baseline(
+    fitted_c2: dict[str, object],
+    baseline_c2: dict[str, object],
+    fitted_c3: dict[str, object],
+    baseline_c3: dict[str, object],
+) -> dict[str, object]:
+    fitted_summary = fitted_c2["summary"]
+    baseline_summary = baseline_c2["summary"]
+    fitted_tracks = {
+        track["track_id"]: track["summary"]
+        for track in fitted_c2["daily_tracks"]
+    }
+    baseline_tracks = {
+        track["track_id"]: track["summary"]
+        for track in baseline_c2["daily_tracks"]
+    }
+    c2_tracks = {}
+    for track_id, fitted_track in fitted_tracks.items():
+        baseline_track = baseline_tracks[track_id]
+        c2_tracks[track_id] = {
+            "fitted_diameter_max_to_min_ratio": fitted_track[
+                "diameter_max_to_min_ratio"
+            ],
+            "baseline_diameter_max_to_min_ratio": baseline_track[
+                "diameter_max_to_min_ratio"
+            ],
+            "fitted_diameter_coefficient_of_variation": fitted_track[
+                "diameter_coefficient_of_variation"
+            ],
+            "baseline_diameter_coefficient_of_variation": baseline_track[
+                "diameter_coefficient_of_variation"
+            ],
+        }
+
+    c3_targets = {}
+    for target_id, fitted_target in fitted_c3["targets"].items():
+        baseline_target = baseline_c3["targets"][target_id]
+        c3_targets[target_id] = {
+            "fitted_rms_km": fitted_target.get("rms_km"),
+            "baseline_rms_km": baseline_target.get("rms_km"),
+            "rms_relative_change": _relative_change(
+                fitted_target.get("rms_km"),
+                baseline_target.get("rms_km"),
+            ),
+            "fitted_all_rays_forward": fitted_target.get("all_rays_forward"),
+            "baseline_all_rays_forward": baseline_target.get("all_rays_forward"),
+            "fitted_minimum_forward_distance_km": fitted_target.get(
+                "minimum_forward_distance_km"
+            ),
+            "baseline_minimum_forward_distance_km": baseline_target.get(
+                "minimum_forward_distance_km"
+            ),
+        }
+    return {
+        "relative_change_convention": "(fitted - n=1) / n=1; negative is better",
+        "c2_solar_disk": {
+            "fitted_mean_centre_rms_km": fitted_summary["mean_centre_rms_km"],
+            "baseline_mean_centre_rms_km": baseline_summary[
+                "mean_centre_rms_km"
+            ],
+            "mean_centre_rms_relative_change": _relative_change(
+                fitted_summary["mean_centre_rms_km"],
+                baseline_summary["mean_centre_rms_km"],
+            ),
+            "daily_tracks": c2_tracks,
+        },
+        "c3_celestial_poles": c3_targets,
+    }
+
+
 def validate_fit(
     fit_path: Path,
     *,
@@ -471,6 +650,7 @@ def validate_fit(
     minimum_altitude_deg: float = 2.0,
     solar_radius_deg: float = DEFAULT_SOLAR_RADIUS_DEG,
     workers: int = 1,
+    c2_tracks: Sequence[tuple[str, Sequence[datetime]]] = DAILY_TRACKS,
 ) -> dict[str, object]:
     if refraction_policy not in {"vacuum-geometric", "as-fitted"}:
         raise ValueError("unknown refraction policy")
@@ -493,6 +673,7 @@ def validate_fit(
             minimum_altitude_deg,
             solar_radius_deg,
             executor,
+            c2_tracks,
         )
         c3_celestial_poles = validate_celestial_poles(
             effective_params,
@@ -505,8 +686,24 @@ def validate_fit(
         if executor is not None:
             executor.shutdown()
 
+    no_field = replace(effective_params, k=0.0, A=0.0)
+    baseline_c2 = validate_solar_disk(
+        no_field,
+        integration,
+        observers,
+        minimum_altitude_deg,
+        solar_radius_deg,
+        tracks=c2_tracks,
+    )
+    baseline_c3 = validate_celestial_poles(
+        no_field,
+        integration,
+        observers,
+        minimum_altitude_deg,
+    )
+
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "model": "axisymmetric-atmosphere-plus-gaussian-ring-v1-closure",
         "validation_only": True,
         "fit_source": {
@@ -539,6 +736,16 @@ def validate_fit(
         "integration": asdict(integration),
         "c2_solar_disk": c2_solar_disk,
         "c3_celestial_poles": c3_celestial_poles,
+        "baseline_n_equals_1": {
+            "c2_solar_disk": baseline_c2,
+            "c3_celestial_poles": baseline_c3,
+        },
+        "comparison_to_n_equals_1": _comparison_to_baseline(
+            c2_solar_disk,
+            baseline_c2,
+            c3_celestial_poles,
+            baseline_c3,
+        ),
         "interpretation": {
             "automatic_pass_fail": False,
             "reason": (
@@ -570,7 +777,10 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    print("Walidacja v1: 64 kandydatow, C-2 (5 punktow tarczy), C-3 (2 bieguny).")
+    print(
+        "Walidacja v1: 64 kandydatow, C-2 (3 dzienne tory po 5 chwil), "
+        "C-3 (2 bieguny)."
+    )
     print(f"Polityka refrakcji: {args.refraction_policy}")
     payload = validate_fit(
         args.fit_json,
@@ -582,10 +792,23 @@ def main() -> None:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     c2 = payload["c2_solar_disk"]["summary"]
-    print(f"C-2: poprawnych rekonstrukcji tarczy {c2['valid_disk_count']}/6")
-    print(f"C-2: stosunek max/min srednicy = {c2['diameter_max_to_min_ratio']}")
+    print(
+        "C-2: poprawnych rekonstrukcji tarczy "
+        f"{c2['valid_disk_count']}/{c2['sample_count']}"
+    )
+    for track in payload["c2_solar_disk"]["daily_tracks"]:
+        ratio = track["summary"]["diameter_max_to_min_ratio"]
+        print(f"C-2 {track['track_id']}: stosunek max/min srednicy = {ratio}")
     for target_id, result in payload["c3_celestial_poles"]["targets"].items():
-        print(f"C-3 {target_id}: RMS={result.get('rms_km')} km")
+        print(
+            f"C-3 {target_id}: RMS={result.get('rms_km')} km; "
+            f"wszystkie promienie w przod={result.get('all_rays_forward')}"
+        )
+    comparison = payload["comparison_to_n_equals_1"]["c2_solar_disk"]
+    print(
+        "C-2 zmiana RMS wzgledem n=1 = "
+        f"{comparison['mean_centre_rms_relative_change']}"
+    )
     print(f"Zapisano: {args.output}")
 
 

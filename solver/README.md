@@ -90,13 +90,16 @@ dopasowania:
 ./.venv/Scripts/python.exe -m solver.validate_v1 \
   --fit-json solver/results/full-fit-v1-seed-20260917.json \
   --workers 6 \
-  --output solver/results/v1-closure-validation.json
+  --output solver/results/v1-closure-validation-v2.json
 ```
 
-Walidator używa 64 kandydatów, pięciu punktów tarczy Słońca i obu biegunów
-niebieskich. Domyślna polityka `vacuum-geometric` wymusza `k=0`, ponieważ
-cele Meeusa nie zawierają refrakcji pozornej. Pełny przebieg wykonujemy na
-komputerze lokalnym; testy jednostkowe nie całkują tego dużego zbioru.
+Walidator używa 64 kandydatów, pięciu punktów tarczy Słońca w trzech dziennych
+torach oraz obu biegunów niebieskich. Grupa obserwatorów jest stała w obrębie
+każdego toru, a kadencja nie pokrywa się z krokiem długości geograficznej.
+Raport zawiera też kontrolę `n=1` i jawnie oznacza punkty leżące za choć jednym
+promieniem. Domyślna polityka `vacuum-geometric` wymusza `k=0`, ponieważ cele
+Meeusa nie zawierają refrakcji pozornej. Pełny przebieg wykonujemy na komputerze
+lokalnym; testy jednostkowe nie całkują tego dużego zbioru.
 
 ## Pliki
 

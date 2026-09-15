@@ -54,15 +54,26 @@ refraktowanych obserwacji. Tryb `as-fitted` pozostaje jedynie testem czułości.
 jednego pełnego dopasowania i sprawdza:
 
 - gęstą siatkę 64 kandydatów (8 szerokości × 8 długości),
-- C-2: środek i cztery brzegi tarczy Słońca w sześciu chwilach,
+- C-2: środek i cztery brzegi tarczy Słońca w trzech dziennych torach po
+  pięć chwil,
 - C-3: osobne rekonstrukcje półprostych dla obu biegunów niebieskich,
-- rozkład ugięcia pomiędzy tło i pierścień.
+- rozkład ugięcia pomiędzy tło i pierścień,
+- identyczny przebieg kontrolny dla `n=1` i bezpośrednie różnice metryk.
+
+W każdym dziennym torze używana jest jedna, niezmienna grupa obserwatorów,
+która widzi całą tarczę we wszystkich pięciu chwilach. Kadencja 90 minut nie
+pokrywa się z 45-stopniowym krokiem długości geograficznej siatki. Usuwa to
+alias, przez który wcześniejsze godziny 14:00 i 17:00 były dla pola osiowo
+symetrycznego niemal obróconą kopią tego samego układu.
 
 Raport C-2 podaje RMS każdego punktu tarczy, dwie zrekonstruowane średnice,
 anizotropię, przesunięcie środka oraz zmienność średnicy pomiędzy chwilami.
 Raport C-3 podaje RMS, liczbę promieni, minimalną odległość w przód i
-uwarunkowanie triangulacji. Nie ma arbitralnego `pass/fail`: progi naukowe nie
-zostały jeszcze ustalone, więc JSON zachowuje surowe metryki.
+uwarunkowanie triangulacji. Pola `all_rays_forward` oraz
+`forward_ray_violation_count` odróżniają poprawne numerycznie minimum
+półprostych od fizycznego wspólnego punktu leżącego przed każdym obserwatorem.
+Nie ma arbitralnego progu RMS `pass/fail`: progi naukowe nie zostały jeszcze
+ustalone, więc JSON zachowuje surowe metryki.
 
 Uruchomienie w Git Bash z katalogu repozytorium:
 
@@ -70,7 +81,7 @@ Uruchomienie w Git Bash z katalogu repozytorium:
 ./.venv/Scripts/python.exe -m solver.validate_v1 \
   --fit-json solver/results/full-fit-v1-seed-20260917.json \
   --workers 6 \
-  --output solver/results/v1-closure-validation.json
+  --output solver/results/v1-closure-validation-v2.json
 ```
 
 To jest cięższy przebieg (około tysiąca całkowanych promieni) i zgodnie z
