@@ -229,6 +229,56 @@ def maxwell_great_circle_constraint(
     return MaxwellGreatCircleConstraint(sphere_point, sphere_tangent)
 
 
+def maxwell_direction_to_auxiliary_target(
+    position_xyz: np.ndarray,
+    target_xyzw: np.ndarray,
+    mirror_radius: float,
+    *,
+    reflected_branch: bool = False,
+    centre_xyz: np.ndarray | None = None,
+) -> tuple[np.ndarray, float]:
+    """Return the physical initial direction and angle to a fitted S^3 point.
+
+    ``target_xyzw`` is the folded physical representative.  On the reflected
+    branch it is first unfolded with ``J``.  The returned central angle is the
+    unique first-interval value in ``[0, pi]``.
+    """
+
+    radius = _positive(mirror_radius, "mirror_radius")
+    centre = (
+        np.zeros(3)
+        if centre_xyz is None
+        else _vector(centre_xyz, 3, "centre_xyz")
+    )
+    relative = _vector(position_xyz, 3, "position_xyz") - centre
+    if float(np.linalg.norm(relative)) >= radius:
+        raise ValueError("position_xyz must lie strictly inside the mirror")
+    observer = stereographic_to_three_sphere(relative, radius)
+    target = _vector(target_xyzw, 4, "target_xyzw").copy()
+    if not math.isclose(
+        float(np.linalg.norm(target)),
+        radius,
+        rel_tol=1e-10,
+        abs_tol=1e-10 * radius,
+    ):
+        raise ValueError("target_xyzw must lie on the requested three-sphere")
+    if reflected_branch:
+        target[3] *= -1.0
+    cosine = float(
+        np.clip(np.dot(observer, target) / radius**2, -1.0, 1.0)
+    )
+    angle = math.acos(cosine)
+    tangent = target - cosine * observer
+    tangent_norm = float(np.linalg.norm(tangent))
+    if tangent_norm <= 1e-14 * radius:
+        raise ValueError("observer and target do not define a unique direction")
+    tangent /= tangent_norm
+    return (
+        _physical_direction_from_three_sphere(observer, tangent, radius),
+        angle,
+    )
+
+
 def triangulate_maxwell_great_circles(
     constraints: Sequence[MaxwellGreatCircleConstraint],
     *,

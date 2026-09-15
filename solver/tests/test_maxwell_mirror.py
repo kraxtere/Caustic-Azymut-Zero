@@ -8,6 +8,7 @@ import numpy as np
 from solver.maxwell_mirror import (
     MaxwellGreatCircleConstraint,
     lift_direction_to_three_sphere,
+    maxwell_direction_to_auxiliary_target,
     maxwell_great_circle_constraint,
     maxwell_mirror_conjugate,
     stereographic_from_three_sphere,
@@ -188,6 +189,21 @@ class AnalyticMaxwellMirrorTests(unittest.TestCase):
         np.testing.assert_allclose(fit.point_xyz, source, atol=2e-14)
         self.assertLess(fit.rms_plane_distance, 2e-15)
         self.assertEqual(fit.forward_observation_count, len(constraints))
+
+    def test_direction_round_trip_to_fitted_auxiliary_target(self) -> None:
+        observer = np.array([0.25, -0.08, 0.04])
+        source = np.array([-0.12, 0.18, 0.09])
+        target = stereographic_to_three_sphere(source, 1.0)
+        direction, angle = maxwell_direction_to_auxiliary_target(
+            observer,
+            target,
+            1.0,
+        )
+        constraint = maxwell_great_circle_constraint(observer, direction, 1.0)
+        residual = (np.eye(4) - constraint.plane_projector) @ target
+        self.assertLess(np.linalg.norm(residual), 2e-15)
+        self.assertGreater(angle, 0.0)
+        self.assertLess(angle, math.pi)
 
     def test_closed_form_fit_rejects_an_underdetermined_axis(self) -> None:
         constraint = maxwell_great_circle_constraint(
