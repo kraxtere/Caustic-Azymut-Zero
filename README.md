@@ -146,6 +146,15 @@ wybrała minimalną nieparzystą bazę `P1`: parametr ustalony na przesileniu
 przewidział parę `±11,72°` z błędem `1,40%`, poniżej zamrożonego progu `2%`.
 `P1+P3` nie jest obecnie uzasadnione dodatkowym parametrem. Szczegóły:
 [`docs/V2_MAXWELL_RESPONSE_IDENTIFICATION_RESULT.md`](docs/V2_MAXWELL_RESPONSE_IDENTIFICATION_RESULT.md).
+Jest to pierwszy zamrożony test out-of-sample w projekcie: parametr nie był
+oceniany na danych użytych do jego wyznaczenia.
+
+Trzy dotychczasowe przypadki nieciągłości `P/JPJ` zostały połączone w osobny
+wątek badawczy:
+[`docs/V2_MAXWELL_BRANCH_AMBIGUITY_RESEARCH.md`](docs/V2_MAXWELL_BRANCH_AMBIGUITY_RESEARCH.md).
+Implementacja lokalnego dipola wymaga nowego propagatora, ponieważ traci się
+dokładną geometrię wielkich okręgów:
+[`docs/V2_LOCAL_DIPOLE_ARCHITECTURE.md`](docs/V2_LOCAL_DIPOLE_ARCHITECTURE.md).
 
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem

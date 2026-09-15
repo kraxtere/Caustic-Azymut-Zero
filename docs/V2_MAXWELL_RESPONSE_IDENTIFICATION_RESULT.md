@@ -5,6 +5,13 @@
 Zamrożona identyfikacja kończy się **PASS** i wybiera minimalną bazę
 nieparzystej odpowiedzi **`P1`**. Pole nie zostało w tym przebiegu zmienione.
 
+Jest to pierwszy w projekcie zamrożony test predykcyjny poza próbką:
+współczynnik został wyznaczony wyłącznie z `±23,44°`, a następnie oceniony na
+`±11,72°`, których dopasowanie nie widziało. Wcześniejsze przebiegi oceniały
+parametry na tych samych danych, na których je dobierano. Wynik `1,40%` przy
+progu ustalonym wcześniej na `2%` jest więc walidacją out-of-sample, nie tylko
+dobrym dopasowaniem.
+
 Wszystkie dziewięć tarcz na wymuszonej gałęzi `P`:
 
 - używa tej samej kohorty 20 obserwatorów,
@@ -84,5 +91,10 @@ radialną obwiednią. Przed pełnym C-2 musi on przejść:
 1. test krzyżowy na innym źródle bez refitu,
 2. tanią bramkę C-3 bez regresji biegunów,
 3. dopiero potem testy skali tarczy.
+
+Lokalny dipol niszczy dokładną radialną symetrię Maxwella, dlatego wymaga
+nowego propagatora numerycznego z lustrem. Granica architektoniczna i
+niezatwierdzony minimalny kandydat obwiedni są opisane w
+[`V2_LOCAL_DIPOLE_ARCHITECTURE.md`](V2_LOCAL_DIPOLE_ARCHITECTURE.md).
 
 Maszynowy raport: `solver/results/v2-maxwell-response-identification.json`.

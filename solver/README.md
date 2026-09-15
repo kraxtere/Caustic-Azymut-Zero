@@ -131,6 +131,12 @@ Współczynnik ustalony z pary `±23,44°` przewidział `±11,72°` z błędem
 klasy odpowiedzi, nie współczynnika gotowego pola. Raport:
 `../docs/V2_MAXWELL_RESPONSE_IDENTIFICATION_RESULT.md`.
 
+To pierwszy zamrożony test out-of-sample w projekcie. Lokalny dipol nie może
+jednak korzystać z analitycznej triangulacji `4x4`, ponieważ łamie radialną
+symetrię i geometrię wielkich okręgów. Kontrakt architektoniczny:
+`../docs/V2_LOCAL_DIPOLE_ARCHITECTURE.md`. Powracające nieciągłości gałęzi są
+prowadzone osobno w `../docs/V2_MAXWELL_BRANCH_AMBIGUITY_RESEARCH.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
