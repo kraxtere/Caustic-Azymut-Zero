@@ -25,6 +25,9 @@ wymuszoną kontynuacją obu gałęzi przez ten sam zakres deklinacji i tę samą
 kohortę. Obecny wynik uczciwie rozstrzyga jedynie, że rozbieżność nie jest
 wyłącznie gładkim efektem `z0`.
 
+Zamrożony następny test:
+[`V2_MAXWELL_FORCED_BRANCH_CONTINUATION.md`](V2_MAXWELL_FORCED_BRANCH_CONTINUATION.md).
+
 ## Rezydualna korekta na stabilnej gałęzi
 
 Dla siedmiu stabilnych punktów `-11,72° ... +23,44°` zdefiniowano:
@@ -49,6 +52,30 @@ zaakceptowana postać to zatem:
 ```text
 C(delta) = 1 + 0,544753 * sin(delta)
 ```
+
+Ta postać ma uzasadnienie wynikające z symetrii, a nie tylko z jakości
+dopasowania. Dla profilu radialnego przesuniętego osiowo o `z0`:
+
+```text
+f(|r - z0 e_z|) = f(r) - z0 f'(r) cos(theta) + O(z0^2)
+```
+
+Wiodąca perturbacja kątowa jest więc dipolem `l=1`, czyli
+`P1(cos(theta))=cos(theta)`. W użytej konwencji osiowej `cos(theta)=sin(delta)`,
+stąd naturalnie pojawia się właśnie `sin(delta)`. Jest to wskazanie klasy
+symetrii nowego parametru, a nie dowód, że sama empiryczna korekta skali jest
+gotową postacią `n(r)`.
+
+Jeżeli jeden parametr dipolowy okaże się niewystarczający, naturalnym drugim
+składnikiem jest kwadrupol `l=2`:
+
+```text
+P2(sin(delta)) = (3 sin(delta)^2 - 1) / 2
+```
+
+Stałą część należy wtedy oddzielić od normalizacji pola. Bardzo dobre
+dopasowanie wcześniejszego modelu kwadratowego jest zgodne z obecnością tego
+członu, ale nie uzasadnia dowolnego wielomianu w `delta`.
 
 Dwupunktowa krzywizna w modelu kwadratowym poprawia RMSE około 29 razy, ale
 nie jest konieczna do spełnienia progów `1%/2%`.

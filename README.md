@@ -119,12 +119,18 @@ i [`docs/V2_MAXWELL_DECLINATION_SCAN_RESULT.md`](docs/V2_MAXWELL_DECLINATION_SCA
 
 Analiza rezydualnej korekty na stabilnej gałęzi wybiera najprostszą postać
 `C(delta)=1+0,544753*sin(delta)` (`RMSE=0,72%`, błąd maksymalny `1,60%`).
+Postać `sin(delta)` odpowiada wiodącemu członowi dipolowemu `l=1` radialnego
+pola przesuniętego osiowo; ewentualnym następnym składnikiem jest kwadrupol
+`P2(sin(delta))`, nie dowolny wielomian.
 Rzeczywisty grudzień leży na odbitej stronie granicy, natomiast czerwiec na
 bezpośredniej, dlatego sezonowej rozbieżności nie można przypisać wyłącznie
 gładkiemu efektowi `z0`. Następny stopień swobody powinien realizować
 nieparzystą osiową korektę lokalnej skali, niezależną od stabilizacji gałęzi.
 Szczegóły:
 [`docs/V2_MAXWELL_SCALE_CORRECTION_RESULT.md`](docs/V2_MAXWELL_SCALE_CORRECTION_RESULT.md).
+Przed jego implementacją obowiązuje kontrolowany test wymuszonej kontynuacji
+na wspólnej kohorcie:
+[`docs/V2_MAXWELL_FORCED_BRANCH_CONTINUATION.md`](docs/V2_MAXWELL_FORCED_BRANCH_CONTINUATION.md).
 
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
