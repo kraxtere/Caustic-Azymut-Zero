@@ -112,6 +112,24 @@ def _maximum_step_km(
     return 500.0
 
 
+def _forward_ray_intersects_luneburg(
+    origin: np.ndarray,
+    direction: np.ndarray,
+    params: LensFieldParams,
+) -> bool:
+    """Return whether a straight field-free prefix reaches the lens sphere."""
+
+    relative = origin - np.asarray(params.centre_km, dtype=float)
+    radius_squared = params.radius_km**2
+    if float(np.dot(relative, relative)) <= radius_squared:
+        return True
+    projection = float(np.dot(relative, direction))
+    if projection >= 0.0:
+        return False
+    closest_squared = float(np.dot(relative, relative)) - projection**2
+    return closest_squared < radius_squared
+
+
 def _bending_diagnostics(
     path_lengths: np.ndarray,
     states: np.ndarray,
@@ -212,6 +230,24 @@ def trace_ray(
         raise ValueError("origin and non-zero direction must be three-vectors")
     initial_direction = direction / direction_norm
 
+    if (
+        isinstance(params, LensFieldParams)
+        and params.family == "luneburg"
+        and not _forward_ray_intersects_luneburg(origin, initial_direction, params)
+    ):
+        return RayResult(
+            point=origin.copy(),
+            direction=initial_direction,
+            status="escaped",
+            path_length_km=0.0,
+            gradient_norm_per_km=0.0,
+            function_evaluations=0,
+            net_direction_change_deg=0.0 if collect_diagnostics else None,
+            background_path_bending_deg=0.0 if collect_diagnostics else None,
+            ring_path_bending_deg=0.0 if collect_diagnostics else None,
+            combined_path_bending_deg=0.0 if collect_diagnostics else None,
+        )
+
     escape_altitude = _escape_altitude_km(params, options)
     if escape_altitude == 0:
         return RayResult(
@@ -246,8 +282,18 @@ def trace_ray(
         ) / refractive_index
         return np.concatenate([tangent, acceleration])
 
-    def escaped(_path_length: float, state: np.ndarray) -> float:
-        return float(state[2] - escape_altitude)
+    if isinstance(params, LensFieldParams):
+        lens_centre = np.asarray(params.centre_km, dtype=float)
+
+        def escaped(_path_length: float, state: np.ndarray) -> float:
+            return float(
+                np.linalg.norm(state[0:3] - lens_centre) - params.radius_km
+            )
+
+    else:
+
+        def escaped(_path_length: float, state: np.ndarray) -> float:
+            return float(state[2] - escape_altitude)
 
     escaped.terminal = True
     escaped.direction = 1

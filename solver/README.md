@@ -128,6 +128,40 @@ Dokładny Maxwell pozostaje za tą bramką, ponieważ jego wariant ograniczony
 wymaga jawnego zdarzenia odbicia od lustra. Walidator odmawia uruchomienia go
 bez takiego kontraktu zamiast po cichu obcinać profil.
 
+### Etapowy skan położenia Luneburga
+
+Pełne C-2 uruchamiamy dopiero po tańszej bramce obejmującej 15 środków Słońca
+i oba bieguny C-3. Pierwszy etap utrzymuje `R` bez zmian i zaczyna od sześciu
+wyraźnie niezerowych wartości `z0`; przypadek `z0=0` jest liczony na końcu jako
+skorygowana kontrola:
+
+```bash
+./.venv/Scripts/python.exe -m solver.scan_luneburg \
+  --stage z0 \
+  --workers 6 \
+  --output solver/results/v2-luneburg-z0-scan.json
+```
+
+Każdy z siedmiu kandydatów wymaga 344 promieni. JSON jest zapisywany po każdym
+punkcie. Kandydat przechodzi tylko wtedy, gdy kompletny średni RMS środka
+Słońca oraz RMS każdego bieguna są ściśle niższe od odpowiednich kontroli
+`n=1`, a każde `minimum_forward_distance_km` jest nieujemne.
+
+Po obejrzeniu pierwszego wyniku lokalną siatkę `(R,z0)` uruchamia się jawnie
+wokół wybranego obszaru, na przykład:
+
+```bash
+./.venv/Scripts/python.exe -m solver.scan_luneburg \
+  --stage grid \
+  --radius-fractions 0.9,1.0,1.1 \
+  --z0-fractions=-0.6,-0.5,-0.4 \
+  --workers 6 \
+  --output solver/results/v2-luneburg-local-grid.json
+```
+
+Wartości drugiego etapu są przykładem; należy je wybrać z pierwszego raportu,
+a nie uruchamiać automatycznie.
+
 ## Pliki
 
 | Plik | Odpowiedzialność |
@@ -141,5 +175,6 @@ bez takiego kontraktu zamiast po cichu obcinać profil.
 | `fit_field.py` | historyczne odtworzenie optymalizacji v1 |
 | `validate_v1.py` | gęsta siatka oraz walidacja C-2 i C-3 bez refitu |
 | `validate_lens.py` | adapter v2 do niezmienionej walidacji C-2/C-3 |
+| `scan_luneburg.py` | etapowy skan `z0`, potem lokalnie `(R,z0)`, z bramką |
 | `lenses.py` | zgodnościowy re-eksport API soczewek |
 | `tests/` | testy regresyjne matematyki i wyniku bazowego |

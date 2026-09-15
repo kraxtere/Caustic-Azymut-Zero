@@ -113,6 +113,25 @@ class RayTests(unittest.TestCase):
         np.testing.assert_allclose(result.point, [0.0, 0.0, 100.0], atol=1e-8)
         np.testing.assert_allclose(result.direction, [0.0, 0.0, 1.0], atol=1e-12)
 
+    def test_luneburg_ray_escapes_through_actual_spherical_boundary(self) -> None:
+        params = LensFieldParams(family="luneburg", radius_km=100.0)
+        result = trace_ray(
+            np.zeros(3),
+            np.array([1.0, 0.0, 1.0]),
+            params,
+        )
+        self.assertEqual(result.status, "escaped")
+        self.assertAlmostEqual(np.linalg.norm(result.point), 100.0, places=8)
+        self.assertLess(result.point[2], 100.0)
+
+    def test_ray_missing_luneburg_sphere_is_already_asymptotic(self) -> None:
+        params = LensFieldParams(family="luneburg", radius_km=100.0)
+        origin = np.array([150.0, 0.0, 0.0])
+        result = trace_ray(origin, np.array([0.0, 0.0, 1.0]), params)
+        self.assertEqual(result.status, "escaped")
+        self.assertEqual(result.path_length_km, 0.0)
+        np.testing.assert_array_equal(result.point, origin)
+
     def test_maxwell_requires_an_explicit_boundary_contract(self) -> None:
         params = LensFieldParams(family="maxwell", radius_km=100.0)
         with self.assertRaisesRegex(ValueError, "mirror boundary"):

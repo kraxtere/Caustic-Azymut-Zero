@@ -63,6 +63,14 @@ C-2/C-3 (`python -m solver.validate_lens`). Dokładny Maxwell wymaga najpierw
 jawnego warunku odbicia od lustra; kod celowo nie zastępuje go arbitralnym
 obcięciem profilu.
 
+Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
+wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
+sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego
+`python -m solver.scan_luneburg`: najpierw niezerowe `z0` przy stałym `R`,
+potem lokalna siatka `(R,z0)`. Pełne C-2 jest uzasadnione wyłącznie dla
+kandydatów, które biją `n=1` dla środka Słońca i obu biegunów oraz mają same
+nieujemne odległości w przód.
+
 ## Układ projektu
 
 ```text

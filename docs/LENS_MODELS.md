@@ -149,3 +149,32 @@ Bash lub terminalu VS Code:
 Polecenie z `--family maxwell` celowo kończy się błędem o brakującym warunku
 lustra. Zapobiega to przedstawieniu arbitralnie uciętego profilu jako dokładnej
 soczewki Maxwella.
+
+### Wynik domyślnego ustawienia i korekta granicy
+
+Pierwszy przebieg dla `R=20015,086796 km`, `z0=0` zdecydowanie przegrał z
+`n=1`. Ujawnił też błąd adaptera: promień był uznawany za asymptotyczny dopiero
+na wysokości szczytu kuli, a nie przy wyjściu przez jej sferyczną powierzchnię.
+Równanie eikonalne było poprawne, ale błędny punkt początku półprostej mógł
+tworzyć sztuczne wyniki `max_path` i niepoprawne odległości w przód.
+
+Kryterium wyjścia zostało poprawione bez zmiany RK45, równania promienia,
+triangulacji ani metryk C-2/C-3. Pierwszy JSON jest zatem diagnostyczny, a
+skorygowany przypadek `z0=0` jest liczony jako ostatni punkt pierwszego skanu.
+
+### Bramka przed pełnym C-2
+
+`solver/scan_luneburg.py` najpierw zmienia wyłącznie pionowe położenie środka
+przy stałym `R`. Dopiero po analizie tego wyniku pozwala zbudować lokalną siatkę
+`(R,z0)`. Tani zbiór zawiera wszystkie 15 środków Słońca oraz oba bieguny C-3,
+ale nie zawiera czterech brzegów tarczy.
+
+Promocja do pełnego C-2 wymaga jednocześnie:
+
+1. kompletnego, niższego niż `n=1` średniego RMS środków Słońca,
+2. niższego niż `n=1` RMS bieguna północnego,
+3. niższego niż `n=1` RMS bieguna południowego,
+4. `minimum_forward_distance_km >= 0` dla każdego ocenionego celu.
+
+Brak triangulacji albo choć jeden niepoprawny promień automatycznie blokuje
+promocję. Raport jest atomowo aktualizowany po każdym kandydacie.
