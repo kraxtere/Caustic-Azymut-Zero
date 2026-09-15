@@ -7,7 +7,10 @@ import numpy as np
 
 from solver.field_lens import LensFieldParams
 from solver.maxwell_mirror import trace_maxwell_mirror_analytic
-from solver.maxwell_numeric import trace_local_maxwell_to_central_angle
+from solver.maxwell_numeric import (
+    build_local_maxwell_curve,
+    trace_local_maxwell_to_central_angle,
+)
 
 
 def _angle_deg(first: np.ndarray, second: np.ndarray) -> float:
@@ -82,6 +85,20 @@ class LocalMaxwellNumericalPropagatorTests(unittest.TestCase):
             float(np.linalg.norm(coarse.point_xyz - fine.point_xyz)),
             1e-7 * self.radius,
         )
+
+    def test_dense_curve_matches_analytic_first_interval(self) -> None:
+        position, direction = self.cases[2]
+        curve = build_local_maxwell_curve(position, direction, self.params)
+        for angle in self.angles:
+            point, tangent = curve.state_at_angle(angle)
+            analytic = trace_maxwell_mirror_analytic(
+                position, direction, self.radius, angle
+            )
+            self.assertLessEqual(
+                float(np.linalg.norm(point - analytic.point_xyz)),
+                1e-7 * self.radius,
+            )
+            self.assertLessEqual(_angle_deg(tangent, analytic.direction_xyz), 1e-5)
 
 
 if __name__ == "__main__":
