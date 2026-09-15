@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from typing import Sequence
 
 import numpy as np
 
@@ -163,6 +164,19 @@ class MaxwellMirrorRayState:
     folded_point_xyzw: np.ndarray
 
 
+@dataclass(frozen=True)
+class MaxwellGreatCircleFit:
+    """Closed-form common point of consistently unfolded great circles."""
+
+    point_xyzw: np.ndarray
+    point_xyz: np.ndarray
+    rms_plane_distance: float
+    eigenvalues: np.ndarray
+    forward_observation_count: int
+    observation_count: int
+    sign_margin: float
+
+
 def maxwell_great_circle_constraint(
     position_xyz: np.ndarray,
     direction_xyz: np.ndarray,
@@ -191,6 +205,105 @@ def maxwell_great_circle_constraint(
     ) * sphere_point
     sphere_tangent = _unit(sphere_tangent, 4, "sphere_tangent")
     return MaxwellGreatCircleConstraint(sphere_point, sphere_tangent)
+
+
+def triangulate_maxwell_great_circles(
+    constraints: Sequence[MaxwellGreatCircleConstraint],
+    *,
+    centre_xyz: np.ndarray | None = None,
+    degeneracy_tolerance: float = 1e-10,
+) -> MaxwellGreatCircleFit:
+    """Fit one point on S^3 to consistently unfolded ray planes.
+
+    A great circle on S^3 is a two-dimensional plane in R^4.  If ``P_i`` is
+    its orthogonal projector, the constrained least-squares problem is
+
+    ``min X.T @ sum(I-P_i) @ X`` subject to ``|X|=R``.
+
+    Its solution is the eigenvector belonging to the smallest eigenvalue of
+    the 4x4 matrix.  The antipodal sign is selected by the oriented tangents:
+    on the first positive interval, ``t_i dot X`` must be non-negative.
+
+    All constraints must use the same unfolded mirror branch.  A folded
+    physical ray is the union of the original great circle and its equatorial
+    reflection, so mixed unknown reflection parities are not one Rayleigh
+    quotient and must be resolved before calling this function.
+    """
+
+    items = tuple(constraints)
+    if len(items) < 2:
+        raise ValueError("at least two great-circle constraints are required")
+    tolerance = _positive(degeneracy_tolerance, "degeneracy_tolerance")
+    centre = (
+        np.zeros(3)
+        if centre_xyz is None
+        else _vector(centre_xyz, 3, "centre_xyz")
+    )
+
+    radii = np.array(
+        [float(np.linalg.norm(item.sphere_point)) for item in items],
+        dtype=float,
+    )
+    radius = _positive(float(radii[0]), "constraint sphere radius")
+    if not np.allclose(radii, radius, rtol=1e-10, atol=1e-12 * radius):
+        raise ValueError("all constraints must use the same sphere radius")
+
+    identity = np.eye(4)
+    normal_matrix = np.zeros((4, 4), dtype=float)
+    for item in items:
+        point = _vector(item.sphere_point, 4, "constraint sphere_point")
+        tangent = _unit(item.sphere_tangent, 4, "constraint sphere_tangent")
+        if not math.isclose(
+            float(np.dot(point, tangent)),
+            0.0,
+            rel_tol=0.0,
+            abs_tol=1e-10 * radius,
+        ):
+            raise ValueError("constraint tangent must be orthogonal to point")
+        normal_matrix += identity - item.plane_projector
+
+    normal_matrix = 0.5 * (normal_matrix + normal_matrix.T)
+    eigenvalues, eigenvectors = np.linalg.eigh(normal_matrix)
+    scale = max(1.0, float(eigenvalues[-1]))
+    if float(eigenvalues[1] - eigenvalues[0]) <= tolerance * scale:
+        raise ValueError("great-circle constraints do not define a unique axis")
+
+    candidate = radius * eigenvectors[:, 0]
+    signed_sines = np.array(
+        [float(np.dot(item.sphere_tangent, candidate) / radius) for item in items]
+    )
+    positive_count = int(np.count_nonzero(signed_sines >= -tolerance))
+    negative_count = int(np.count_nonzero(signed_sines <= tolerance))
+    signed_sum = float(np.sum(signed_sines))
+    if negative_count > positive_count or (
+        negative_count == positive_count and signed_sum < 0.0
+    ):
+        candidate *= -1.0
+        signed_sines *= -1.0
+        positive_count, negative_count = negative_count, positive_count
+
+    residual_squares = np.array(
+        [
+            float(
+                np.dot(
+                    (identity - item.plane_projector) @ candidate,
+                    (identity - item.plane_projector) @ candidate,
+                )
+            )
+            for item in items
+        ],
+        dtype=float,
+    )
+    point_xyz = stereographic_from_three_sphere(candidate, radius) + centre
+    return MaxwellGreatCircleFit(
+        point_xyzw=candidate,
+        point_xyz=point_xyz,
+        rms_plane_distance=float(math.sqrt(np.mean(residual_squares))),
+        eigenvalues=eigenvalues,
+        forward_observation_count=positive_count,
+        observation_count=len(items),
+        sign_margin=abs(float(np.sum(signed_sines))),
+    )
 
 
 def trace_maxwell_mirror_analytic(

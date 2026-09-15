@@ -12,6 +12,7 @@ from solver.maxwell_mirror import (
     stereographic_from_three_sphere,
     stereographic_to_three_sphere,
     trace_maxwell_mirror_analytic,
+    triangulate_maxwell_great_circles,
 )
 
 
@@ -134,6 +135,54 @@ class AnalyticMaxwellMirrorTests(unittest.TestCase):
             maxwell_mirror_conjugate(position),
             -position,
         )
+
+    def test_s3_great_circle_has_two_independent_normals(self) -> None:
+        constraint = maxwell_great_circle_constraint(
+            np.array([0.2, -0.35, 0.1]),
+            np.array([1.0, 0.0, 0.2]),
+            1.0,
+        )
+        eigenvalues = np.linalg.eigvalsh(constraint.plane_projector)
+        np.testing.assert_allclose(eigenvalues, [0.0, 0.0, 1.0, 1.0], atol=1e-14)
+
+    def test_closed_form_fit_recovers_known_source_and_sign(self) -> None:
+        source = np.array([0.1, -0.12, 0.08])
+        initial_directions = (
+            np.array([1.0, 0.1, 0.0]),
+            np.array([-0.2, 0.9, 0.1]),
+            np.array([0.1, -0.2, 0.8]),
+            np.array([-0.5, -0.3, 0.4]),
+        )
+        constraints = []
+        for initial_direction in initial_directions:
+            observer = trace_maxwell_mirror_analytic(
+                source,
+                initial_direction,
+                mirror_radius=1.0,
+                central_angle_rad=0.25,
+            )
+            self.assertEqual(observer.reflection_count, 0)
+            constraints.append(
+                maxwell_great_circle_constraint(
+                    observer.point_xyz,
+                    -observer.direction_xyz,
+                    mirror_radius=1.0,
+                )
+            )
+
+        fit = triangulate_maxwell_great_circles(constraints)
+        np.testing.assert_allclose(fit.point_xyz, source, atol=2e-14)
+        self.assertLess(fit.rms_plane_distance, 2e-15)
+        self.assertEqual(fit.forward_observation_count, len(constraints))
+
+    def test_closed_form_fit_rejects_an_underdetermined_axis(self) -> None:
+        constraint = maxwell_great_circle_constraint(
+            np.array([0.2, -0.35, 0.1]),
+            np.array([1.0, 0.0, 0.2]),
+            1.0,
+        )
+        with self.assertRaisesRegex(ValueError, "unique axis"):
+            triangulate_maxwell_great_circles([constraint, constraint])
 
     def test_translated_mirror_conjugate(self) -> None:
         centre = np.array([10.0, -3.0, 2.0])

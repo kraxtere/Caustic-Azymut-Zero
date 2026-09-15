@@ -87,6 +87,52 @@ odbić. Dopiero jeśli pierwszy interwał okaże się niewystarczający, wariant
 zapasowy może dodać ustaloną liczbę odbić i tę samą metrykę najbliższego
 zbliżenia krzywych.
 
+## Zamknięta triangulacja na S³
+
+W dwuwymiarowym przekroju pomocniczą geometrią jest `S^2` w `R^3`. Wtedy
+wielki okrąg ma jedną normalną `m = normalize(q × t)` i rozwiązanie można
+zapisać przez najmniejszy wektor własny `sum(m m^T)`.
+
+Pełny solver nie jest jednak przekrojem: przestrzeń fizyczna `R^3` mapuje się
+na `S^3` osadzoną w `R^4`. Wielki okrąg jest tam płaszczyzną dwuwymiarową,
+której dopełnienie normalne również ma wymiar dwa. Nie istnieje więc jeden
+iloczyn wektorowy ani jedna normalna `m`. Dla ortogonalnego projektora `P_i`
+na płaszczyznę rozpiętą przez `q_i` i `t_i` właściwe zadanie brzmi:
+
+```text
+A = sum(I - P_i)
+min X^T A X  przy  |X| = R.
+```
+
+Rozwiązaniem nadal jest najmniejszy wektor własny — tylko macierzy `4×4`.
+Funkcja `triangulate_maxwell_great_circles()` implementuje dokładnie ten
+odpowiednik dotychczasowej triangulacji. Sprawdza lukę widmową, wybiera znak
+przez warunek drogi w przód `t_i dot X >= 0`, skaluje do `R` i wykonuje
+odwrotną projekcję `S^3 -> R^3`.
+
+### Parzystość odbicia
+
+Jedna dekompozycja rozwiązuje przypadek, w którym wszystkie ograniczenia są
+zapisane w spójnych, wcześniej ustalonych gałęziach rozwiniętej sfery. Po
+złożeniu lustra fizyczna krzywa jednej obserwacji jest unią dwóch możliwości:
+
+```text
+X należy do P_i
+albo
+J X należy do P_i,
+```
+
+gdzie `J = diag(1,1,1,-1)` odbija względem równika. Przy nieznanej i różnej
+parzystości obserwacji funkcja celu zawiera minimum z dwóch form kwadratowych
+dla każdego promienia. Nie jest wtedy pojedynczym ilorazem Rayleigha.
+
+Nie wolno ukryć tego wyboru przez użycie jednej macierzy `3×3`: taka macierz
+odzyskałaby co najwyżej kierunek płaszczyzny orbitalnej w przestrzeni
+fizycznej, ale zgubiłaby czwartą współrzędną kodującą położenie radialne.
+Przed podłączeniem C-2/C-3 trzeba więc ustalić gałąź odbicia każdej obserwacji
+albo zastosować dyskretną ocenę gałęzi; nadal nie wymaga to dopasowania po
+ciągłym parametrze `alpha`.
+
 ## Zakres potwierdzenia
 
 Testy jednostkowe potwierdzają:
@@ -97,6 +143,9 @@ Testy jednostkowe potwierdzają:
 - zgodność z prawem odbicia na sferycznym lustrze,
 - dodatni, ograniczony pierwszy interwał drogi,
 - rozróżnienie krzywej obserwacyjnej od punktu sprzężonego.
+- zamkniętą rekonstrukcję wspólnego punktu przez dekompozycję własną `4×4`,
+- wybór znaku antypodalnego z kierunków obserwacji,
+- odrzucenie przypadku bez jednoznacznej osi przez kontrolę luki widmowej.
 
 Nie jest to jeszcze wynik C-2/C-3 dla mapy. Położenie i skala lustra nad
 płaszczyzną pozostają parametrami adaptera hybrydowego.

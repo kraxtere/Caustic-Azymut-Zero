@@ -13,6 +13,13 @@ Główną hipotezą jest teraz dokładny Maxwell. Analityczny adapter pierwszego
 interwału i lustra jest gotowy; następna bramka to rekonstrukcja wspólnego
 punktu ze złożonych krzywych wielu obserwatorów.
 
+Dla spójnie rozwiniętych wielkich okręgów funkcja
+`triangulate_maxwell_great_circles()` wykonuje tę rekonstrukcję w postaci
+zamkniętej: najmniejszy wektor własny macierzy `4×4`. Wymiar wynika z
+`S^3` osadzonej w `R^4`; wariant `3×3` z jedną normalną dotyczy jedynie
+dwuwymiarowego przekroju `S^2`. Przed pełnym pipeline'em pozostaje jawne
+ustalenie gałęzi przed/po odbiciu dla każdej złożonej krzywej.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -174,7 +181,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `geometry_flat.py` | projekcja AE, lokalna baza E/N/U, alt-az |
 | `field.py` | archiwalne pole `v1-falsified` i jego gradient analityczny |
 | `field_lens.py` | Maxwell v2 oraz archiwalny Luneburg, gradienty i analityka |
-| `maxwell_mirror.py` | dokładny pierwszy interwał Maxwella na `S^3` i złożenie lustra |
+| `maxwell_mirror.py` | dokładny Maxwell na `S^3`, złożenie lustra i triangulacja własna `4×4` |
 | `raytrace.py` | integracja eikonalna 3D i triangulacja prostych |
 | `demo_baseline.py` | kontrolny wynik bez pola |
 | `fit_field.py` | historyczne odtworzenie optymalizacji v1 |
