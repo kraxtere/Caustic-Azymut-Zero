@@ -79,6 +79,14 @@ pozostaje zablokowane. Kryteria i wynik opisują
 [`docs/V2_MAXWELL_CHEAP_GATE.md`](docs/V2_MAXWELL_CHEAP_GATE.md) oraz
 [`docs/V2_MAXWELL_CHEAP_GATE_RESULT.md`](docs/V2_MAXWELL_CHEAP_GATE_RESULT.md).
 
+Następny, wcześniej zamrożony skan samego `z0` przy stałym `R` dał
+**0/7 PASS**. Nie potwierdził prostego kompromisu między biegunami:
+`z0/R=+0,40` poprawia jednocześnie północ i południe, ale cztery grupy
+słoneczne łamią warunek drogi w przód. Przy `+0,10` i `+0,25` wszystkie grupy
+Słońca są ważne i mają jeszcze niższy RMS, lecz biegun północny staje się
+niefizyczny. Pełne C-2 nadal jest zablokowane; wynik opisuje
+[`docs/V2_MAXWELL_Z0_SCAN_RESULT.md`](docs/V2_MAXWELL_Z0_SCAN_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

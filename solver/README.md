@@ -43,6 +43,23 @@ przeszły: droga w przód, konsensus czterech ziaren, położenie źródeł oraz
 zapadnięcia biegunów. Wynik bramki to **FAIL** i pełne C-2 nie jest uruchamiane.
 Szczegóły: `../docs/V2_MAXWELL_CHEAP_GATE_RESULT.md`.
 
+### Zamknięty skan `z0` przy stałym `R`
+
+Po asymetrycznym wyniku domyślnym zamrożono siedem wartości
+`z0/R = -0,40; -0,25; -0,10; +0,10; +0,25; +0,40; 0`. Odtworzenie:
+
+```bash
+./.venv/Scripts/python.exe -m solver.scan_maxwell \
+  --output solver/results/v2-maxwell-z0-scan.json
+```
+
+Wynik to **0/7 PASS**. Najważniejszy punkt `+0,40` poprawia oba bieguny
+jednocześnie, ale cztery grupy Słońca naruszają drogę w przód. Punkty `+0,10`
+i `+0,25` poprawiają pełny słoneczny RMS, lecz tracą fizyczną gałąź północy.
+Nie ma zatem prostego monotonicznego sprzężenia N/S, ale samo `z0` nie domyka
+bramki przy stałym `R`. Pełne C-2 pozostaje zablokowane. Szczegóły:
+`../docs/V2_MAXWELL_Z0_SCAN_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -211,6 +228,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `validate_v1.py` | gęsta siatka oraz walidacja C-2 i C-3 bez refitu |
 | `validate_lens.py` | odtwarzalny adapter zamkniętej hybrydy Luneburga |
 | `validate_maxwell.py` | zamrożona tania bramka centrum Słońca i C-3 dla Maxwella |
+| `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |
 | `lenses.py` | zgodnościowy re-eksport API soczewek |
 | `tests/` | testy regresyjne matematyki i wyniku bazowego |
