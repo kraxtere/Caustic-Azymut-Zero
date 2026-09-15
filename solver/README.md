@@ -60,6 +60,22 @@ Nie ma zatem prostego monotonicznego sprzężenia N/S, ale samo `z0` nie domyka
 bramki przy stałym `R`. Pełne C-2 pozostaje zablokowane. Szczegóły:
 `../docs/V2_MAXWELL_Z0_SCAN_RESULT.md`.
 
+### Zakończony skan `R` przy stałym bezwzględnym `z0`
+
+Po wyniku `z0/R=+0,40` zamrożono jednostronny skan większego promienia przy
+stałym `z0=8006,034718 km`:
+
+```bash
+./.venv/Scripts/python.exe -m solver.scan_maxwell_radius \
+  --output solver/results/v2-maxwell-radius-scan.json
+```
+
+Wynik to **2/6 PASS**. `R/Rbase=1,20` i `1,35` spełniają całą tanią bramkę.
+Do pełnego C-2 promowany jest punkt `1,20`, który ma niższy RMS wszystkich
+trzech celów i większy margines drogi w przód niż drugi przechodzący punkt.
+Pełne C-2 jest odblokowane, ale nie zostało uruchomione w ramach skanu.
+Szczegóły: `../docs/V2_MAXWELL_RADIUS_SCAN_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
@@ -229,6 +245,7 @@ zamknięcie znajduje się w `../docs/V2_LUNEBURG_CLOSURE.md`.
 | `validate_lens.py` | odtwarzalny adapter zamkniętej hybrydy Luneburga |
 | `validate_maxwell.py` | zamrożona tania bramka centrum Słońca i C-3 dla Maxwella |
 | `scan_maxwell.py` | zakończony skan `z0` Maxwella przy stałym `R` |
+| `scan_maxwell_radius.py` | zakończony skan `R` Maxwella przy stałym bezwzględnym `z0` |
 | `scan_luneburg.py` | odtwarzalny, zakończony skan `z0` i `(R,z0)` |
 | `lenses.py` | zgodnościowy re-eksport API soczewek |
 | `tests/` | testy regresyjne matematyki i wyniku bazowego |

@@ -87,6 +87,15 @@ Słońca są ważne i mają jeszcze niższy RMS, lecz biegun północny staje si
 niefizyczny. Pełne C-2 nadal jest zablokowane; wynik opisuje
 [`docs/V2_MAXWELL_Z0_SCAN_RESULT.md`](docs/V2_MAXWELL_Z0_SCAN_RESULT.md).
 
+Jednowymiarowy skan większego `R` przy stałym bezwzględnym
+`z0=8006,034718 km` dał następnie **2/6 PASS**. Punkty `R/Rbase=1,20` i
+`1,35` odzyskały wszystkie drogi słoneczne w przód oraz jednocześnie pobiły
+`n=1` dla Słońca i obu biegunów. Do pełnego C-2 promowany jest `1,20`
+(`R=24018,104155 km`): poprawa wynosi `60,11%` dla centrów Słońca, `15,76%`
+dla bieguna N i `83,44%` dla bieguna S. Pełne C-2 jest odblokowane, ale nie
+zostało jeszcze uruchomione. Szczegóły:
+[`docs/V2_MAXWELL_RADIUS_SCAN_RESULT.md`](docs/V2_MAXWELL_RADIUS_SCAN_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego
