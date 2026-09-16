@@ -168,6 +168,12 @@ wartości oraz `0,05` odpadły. Nie wybrano jeszcze jednego zwycięzcy i nie
 uruchomiono C-2. Szczegóły:
 [`docs/V2_LOCAL_DIPOLE_C3_SCAN_RESULT.md`](docs/V2_LOCAL_DIPOLE_C3_SCAN_RESULT.md).
 
+Następna zamrożona bramka skali odrzuciła wszystkie trzy amplitudy (`0/3
+PASS`). Dodatni dipol poprawiający C-3 zwiększa CV średnicy oraz asymetrię
+skali na parach pośredniej i przesileniowej; pełny C-2 pozostaje zablokowany.
+Szczegóły:
+[`docs/V2_LOCAL_DIPOLE_SCALE_GATE_RESULT.md`](docs/V2_LOCAL_DIPOLE_SCALE_GATE_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

@@ -147,6 +147,11 @@ Skan C-3 na dziewięciu amplitudach zakończył się trzema wartościami PASS:
 `epsilon=0` i zachowuje konsensus minimów oraz warunki fizyczne. Raport:
 `../docs/V2_LOCAL_DIPOLE_C3_SCAN_RESULT.md`.
 
+Tania bramka skali na wspólnej kohorcie i pięciu deklinacjach zakończyła się
+`0/3 PASS`. Każda dodatnia amplituda pogarsza względem `epsilon=0` CV średnicy
+oraz obie zamrożone asymetrie par; pełny C-2 pozostaje zablokowany. Raport:
+`../docs/V2_LOCAL_DIPOLE_SCALE_GATE_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
