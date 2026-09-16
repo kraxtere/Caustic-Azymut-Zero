@@ -30,6 +30,7 @@ CLUSTER_FRACTION = 1e-4
 ALPHA_CONSENSUS_RAD = 1e-5
 COMPETITIVE_RELATIVE_COST = 0.01
 RANDOM_RESTARTS = 3
+CHECKPOINT_SCHEMA_VERSION = 2
 
 
 def _write_json(path: Path, payload: object) -> None:
@@ -206,6 +207,7 @@ def _boundary_task(
     alpha_rms = float(np.sqrt(np.mean((left["alphas_rad"] - right["alphas_rad"]) ** 2)))
     alpha_max_abs = float(np.max(np.abs(left["alphas_rad"] - right["alphas_rad"])))
     return {
+        "checkpoint_schema_version": CHECKPOINT_SCHEMA_VERSION,
         "declination_deg": declination,
         "observer_count": len(observers),
         "best_start": best["start"],
@@ -304,9 +306,11 @@ def run(
     for delta in DECLINATIONS_DEG:
         path = scan_dir / f"delta_{delta:+.2f}.json"
         if path.exists():
-            records_by_delta[delta] = _read_json(path)
-        else:
-            pending.append(delta)
+            cached = _read_json(path)
+            if cached.get("checkpoint_schema_version") == CHECKPOINT_SCHEMA_VERSION:
+                records_by_delta[delta] = cached
+                continue
+        pending.append(delta)
     print(
         f"[granica gałęzi] {len(records_by_delta)}/{len(DECLINATIONS_DEG)} z checkpointów, "
         f"pozostało {len(pending)}, workers={workers}",
