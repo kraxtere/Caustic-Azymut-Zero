@@ -26,6 +26,18 @@ analityczna konstrukcja wielkich okręgów. Raportowanym odpowiednikiem są:
 - odległość źródeł otrzymanych z obu stron,
 - liczba klastrów konkurencyjnych rozwiązań i ścisły konsensus restartów.
 
+„Ten sam basen” wymaga jednocześnie trzech zgodności:
+
+1. maksymalny rozrzut konkurencyjnych źródeł nie przekracza `1e-6 R`,
+2. pełne wektory liczby odbić obserwatorów są identyczne,
+3. maksymalna różnica dowolnej składowej `alpha` między konkurencyjnymi
+   restartami nie przekracza `1e-5 rad`.
+
+Nie wystarcza samo trafienie do tego samego klastra źródła. Dwie drogi
+kończące się w tym samym miejscu, ale mające różne `alpha`, są raportowane
+jako brak konsensusu. Oprócz progu maksymalnej składowej zapisywany jest też
+RMS różnicy całych wektorów `alpha`.
+
 ## Uruchomienie
 
 PowerShell:

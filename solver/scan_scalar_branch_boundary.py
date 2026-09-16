@@ -27,6 +27,7 @@ from .visualize_scalar_trajectory import _candidate_path
 DECLINATIONS_DEG = tuple(float(value) for value in np.linspace(-23.44, -11.72, 13))
 STRICT_CONSENSUS_FRACTION = 1e-6
 CLUSTER_FRACTION = 1e-4
+ALPHA_CONSENSUS_RAD = 1e-5
 COMPETITIVE_RELATIVE_COST = 0.01
 RANDOM_RESTARTS = 3
 
@@ -181,12 +182,29 @@ def _boundary_task(
         ),
         default=0.0,
     )
+    maximum_alpha_rms = max(
+        (
+            float(np.sqrt(np.mean((first["alphas_rad"] - second["alphas_rad"]) ** 2)))
+            for index, first in enumerate(competitive)
+            for second in competitive[index + 1 :]
+        ),
+        default=0.0,
+    )
+    maximum_alpha_abs = max(
+        (
+            float(np.max(np.abs(first["alphas_rad"] - second["alphas_rad"])))
+            for index, first in enumerate(competitive)
+            for second in competitive[index + 1 :]
+        ),
+        default=0.0,
+    )
     signature_hashes = {_signature_payload(item["signature"])["hash"] for item in competitive}
     by_start = {item["start"]: item for item in runs}
     left = by_start["left_endpoint"]
     right = by_start["right_endpoint"]
     two_sided_distance = float(np.linalg.norm(left["source_km"] - right["source_km"]))
     alpha_rms = float(np.sqrt(np.mean((left["alphas_rad"] - right["alphas_rad"]) ** 2)))
+    alpha_max_abs = float(np.max(np.abs(left["alphas_rad"] - right["alphas_rad"])))
     return {
         "declination_deg": declination,
         "observer_count": len(observers),
@@ -199,12 +217,21 @@ def _boundary_task(
         "competitive_cluster_count": len(set(labels)),
         "competitive_signature_count": len(signature_hashes),
         "maximum_competitive_source_spread_km": maximum_spread,
-        "strict_restart_consensus": maximum_spread <= strict_threshold and len(signature_hashes) == 1,
+        "maximum_competitive_alpha_rms_rad": maximum_alpha_rms,
+        "maximum_competitive_alpha_abs_rad": maximum_alpha_abs,
+        "competitive_alpha_consensus": maximum_alpha_abs <= ALPHA_CONSENSUS_RAD,
+        "strict_restart_consensus": bool(
+            maximum_spread <= strict_threshold
+            and len(signature_hashes) == 1
+            and maximum_alpha_abs <= ALPHA_CONSENSUS_RAD
+        ),
         "two_sided_source_distance_km": two_sided_distance,
         "two_sided_alpha_rms_rad": alpha_rms,
+        "two_sided_alpha_max_abs_rad": alpha_max_abs,
         "two_sided_signature_agreement": left["signature"] == right["signature"],
         "possible_branch_boundary": bool(
             two_sided_distance > cluster_threshold
+            or alpha_max_abs > ALPHA_CONSENSUS_RAD
             or left["signature"] != right["signature"]
             or len(set(labels)) > 1
             or len(signature_hashes) > 1
@@ -318,6 +345,7 @@ def run(
             ],
             "strict_consensus_fraction_of_radius": STRICT_CONSENSUS_FRACTION,
             "cluster_fraction_of_radius": CLUSTER_FRACTION,
+            "alpha_consensus_rad": ALPHA_CONSENSUS_RAD,
             "p_jpj_note": (
                 "The perturbed numerical field has no exact P/JPJ label. "
                 "Per-observer mirror-reflection counts and fitted alpha vectors are reported instead."
