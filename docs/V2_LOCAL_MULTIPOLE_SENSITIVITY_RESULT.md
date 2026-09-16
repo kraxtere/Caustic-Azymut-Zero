@@ -37,6 +37,12 @@ jednocześnie zwiększają eliptyczność. Najbardziej niezależny od dipola mon
 nie jest przez to najlepszym parametrem fizycznym — niezależność kierunku
 odpowiedzi nie wystarcza.
 
+Oktupol `M3` ma najbardziej atrakcyjne liczby surowe: największą korektę
+asymetrii i CV przy najmniejszym koszcie `axis_ratio`. Jest równocześnie
+najmniej wiarygodnym kandydatem, ponieważ jako jedyny nie zachowuje konsensusu
+po żadnej stronie różnicy centralnej. Najładniejsza pochodna pochodzi więc z
+najmniej ustabilizowanej diagnostyki i nie jest argumentem za promocją `M3`.
+
 ## Stabilność
 
 Różnice centralne nie są w pełni stabilne topologicznie:
@@ -57,5 +63,9 @@ najpierw rozdzielić rekonstrukcję kształtu tarczy od wyboru konkurencyjnego
 minimum — najlepiej przez diagnostykę całych krzywych i granic basenów dla
 jednej tarczy, zamiast dodawania kolejnych amplitud pola.
 
-Maszynowy raport: `solver/results/v2-local-mode-sensitivity.json`.
+Jeżeli po usunięciu wpływu granic basenów konflikt skala–kształt pozostanie,
+może to wskazywać na ograniczenie całej klasy skalarnego, lokalnego `n(x)`.
+Ośrodek zależny od kierunku promienia jest jednak osobną, znacznie bardziej
+złożoną hipotezą i nie jest autoryzowany przez ten wynik.
 
+Maszynowy raport: `solver/results/v2-local-mode-sensitivity.json`.

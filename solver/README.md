@@ -157,6 +157,11 @@ skanu 2D: każdy poprawia część skali kosztem `axis_ratio`, a część różn
 centralnych traci konsensus minimów. Raport:
 `../docs/V2_LOCAL_MULTIPOLE_SENSITIVITY_RESULT.md`.
 
+Diagnostyka basenów przy `delta=-11,72 deg` wskazała płaską dolinę źródeł,
+ale wszystkie 1024 kombinacje klastrów zachowują `axis_ratio > 1,286`.
+Niejednoznaczność punktu nie wyjaśnia porażki kształtu. Raport:
+`../docs/V2_LOCAL_BASIN_DIAGNOSTIC_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku

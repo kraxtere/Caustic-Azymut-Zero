@@ -180,6 +180,12 @@ eliptyczności, a różnice centralne częściowo przecinają granice konkurency
 minimów. Skan 2D i pełny C-2 pozostają zablokowane. Szczegóły:
 [`docs/V2_LOCAL_MULTIPOLE_SENSITIVITY_RESULT.md`](docs/V2_LOCAL_MULTIPOLE_SENSITIVITY_RESULT.md).
 
+Diagnostyka przypadku `delta=-11,72 deg` wykazała niemal płaską dolinę
+rozwiązań zamiast kilku izolowanych minimów. Nie jest ona jednak przyczyną
+eliptyczności: wszystkie 1024 kombinacje klastrów dają `axis_ratio` w zakresie
+`1,286–1,318`, powyżej limitu `1,10`. Szczegóły:
+[`docs/V2_LOCAL_BASIN_DIAGNOSTIC_RESULT.md`](docs/V2_LOCAL_BASIN_DIAGNOSTIC_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego
