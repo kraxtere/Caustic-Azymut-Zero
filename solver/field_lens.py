@@ -59,6 +59,9 @@ class LensFieldParams:
     n0: float = 1.0
     centre_km: tuple[float, float, float] = (0.0, 0.0, 0.0)
     dipole_epsilon: float = 0.0
+    monopole_epsilon: float = 0.0
+    quadrupole_epsilon: float = 0.0
+    octupole_epsilon: float = 0.0
 
     def validate(self) -> None:
         if self.family not in {"maxwell", "luneburg"}:
@@ -70,10 +73,16 @@ class LensFieldParams:
             raise ValueError("centre_km must be a finite three-vector")
         if self.family == "luneburg" and self.n0 != 1.0:
             raise ValueError("the specified Luneburg profile has fixed n0=1")
-        if not math.isfinite(self.dipole_epsilon):
-            raise ValueError("dipole_epsilon must be finite")
-        if self.family == "luneburg" and self.dipole_epsilon != 0.0:
-            raise ValueError("dipole_epsilon is only defined for Maxwell")
+        perturbations = (
+            self.dipole_epsilon,
+            self.monopole_epsilon,
+            self.quadrupole_epsilon,
+            self.octupole_epsilon,
+        )
+        if not all(math.isfinite(value) for value in perturbations):
+            raise ValueError("Maxwell perturbation amplitudes must be finite")
+        if self.family == "luneburg" and any(value != 0.0 for value in perturbations):
+            raise ValueError("local perturbations are only defined for Maxwell")
 
 
 def maxwell_fisheye_index(
@@ -120,23 +129,56 @@ def n_and_grad(
     if params.family == "maxwell":
         denominator = 1.0 + (radius / scale) ** 2
         base_index = 2.0 * params.n0 / denominator
-        epsilon = params.dipole_epsilon
-        if epsilon == 0.0:
+        amplitudes = (
+            params.dipole_epsilon,
+            params.monopole_epsilon,
+            params.quadrupole_epsilon,
+            params.octupole_epsilon,
+        )
+        if not any(amplitudes):
             gradient = -4.0 * params.n0 * relative / (
                 scale**2 * denominator**2
             )
             return base_index, gradient
         relative_z = float(relative[2])
         radius_squared = float(np.dot(relative, relative))
-        exponent = epsilon * (relative_z / scale) * (
-            1.0 - radius_squared / scale**2
-        )
+        x, y = float(relative[0]), float(relative[1])
+        q_squared = radius_squared / scale**2
+        envelope = 1.0 - q_squared
+        dipole = (relative_z / scale) * envelope
+        monopole = q_squared * envelope
+        quadrupole_core = (3.0 * relative_z**2 - radius_squared) / (2.0 * scale**2)
+        quadrupole = quadrupole_core * envelope
+        octupole_core = (
+            5.0 * relative_z**3 - 3.0 * relative_z * radius_squared
+        ) / (2.0 * scale**3)
+        octupole = octupole_core * envelope
+        epsilon, eta0, eta2, eta3 = amplitudes
+        exponent = epsilon * dipole + eta0 * monopole + eta2 * quadrupole + eta3 * octupole
         index = base_index * math.exp(exponent)
         gradient_log_base = -2.0 * relative / (scale**2 * denominator)
         axis = np.array([0.0, 0.0, 1.0])
-        gradient_exponent = epsilon * (
+        gradient_envelope = -2.0 * relative / scale**2
+        gradient_dipole = (
             axis / scale * (1.0 - radius_squared / scale**2)
             - 2.0 * relative_z * relative / scale**3
+        )
+        gradient_monopole = 2.0 * relative / scale**2 * (1.0 - 2.0 * q_squared)
+        gradient_quadrupole_core = np.array([-x, -y, 2.0 * relative_z]) / scale**2
+        gradient_quadrupole = gradient_quadrupole_core * envelope + quadrupole_core * gradient_envelope
+        gradient_octupole_core = np.array(
+            [
+                -3.0 * relative_z * x / scale**3,
+                -3.0 * relative_z * y / scale**3,
+                (3.0 * relative_z**2 - 1.5 * (x**2 + y**2)) / scale**3,
+            ]
+        )
+        gradient_octupole = gradient_octupole_core * envelope + octupole_core * gradient_envelope
+        gradient_exponent = (
+            epsilon * gradient_dipole
+            + eta0 * gradient_monopole
+            + eta2 * gradient_quadrupole
+            + eta3 * gradient_octupole
         )
         gradient = index * (gradient_log_base + gradient_exponent)
         return index, gradient

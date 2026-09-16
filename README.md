@@ -174,6 +174,12 @@ skali na parach pośredniej i przesileniowej; pełny C-2 pozostaje zablokowany.
 Szczegóły:
 [`docs/V2_LOCAL_DIPOLE_SCALE_GATE_RESULT.md`](docs/V2_LOCAL_DIPOLE_SCALE_GATE_RESULT.md).
 
+Ekran czułości monopolu, kwadrupola i oktupola nie wyłonił drugiego parametru:
+każdy składnik po orientacji znaku poprawia asymetrię i CV kosztem większej
+eliptyczności, a różnice centralne częściowo przecinają granice konkurencyjnych
+minimów. Skan 2D i pełny C-2 pozostają zablokowane. Szczegóły:
+[`docs/V2_LOCAL_MULTIPOLE_SENSITIVITY_RESULT.md`](docs/V2_LOCAL_MULTIPOLE_SENSITIVITY_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

@@ -152,6 +152,11 @@ Tania bramka skali na wspólnej kohorcie i pięciu deklinacjach zakończyła si�
 oraz obie zamrożone asymetrie par; pełny C-2 pozostaje zablokowany. Raport:
 `../docs/V2_LOCAL_DIPOLE_SCALE_GATE_RESULT.md`.
 
+Ekran lokalnych modów `M0`, `M2`, `M3` nie promował żadnego składnika do
+skanu 2D: każdy poprawia część skali kosztem `axis_ratio`, a część różnic
+centralnych traci konsensus minimów. Raport:
+`../docs/V2_LOCAL_MULTIPOLE_SENSITIVITY_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku

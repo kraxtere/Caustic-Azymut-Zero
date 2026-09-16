@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "pre_registered_contract": "docs/V2_LOCAL_MULTIPOLE_SENSITIVITY.md",
+  "design": {
+    "dipole_centre": 0.2,
+    "step": 0.05,
+    "declinations_deg": [
+      -23.44,
+      0.0,
+      23.44
+    ],
+    "modes": [
+      "monopole_epsilon",
+      "quadrupole_epsilon",
+      "octupole_epsilon"
+    ]
+  },
+  "dipole_reference": {
+    "minus": {
+      "dipole_epsilon": 0.15000000000000002,
+      "mode": null,
+      "amplitude": 0.0,
+      "metrics": {
+        "north_rms": 943.4482257237215,
+        "south_rms": 5084.021133674159,
+        "solstice_asymmetry": 0.14357778976832763,
+        "diameter_cv": 0.06635380998049083,
+        "mean_axis_ratio": 1.443914897136847
+      },
+      "restart_consensus_all_targets": true
+    },
+    "plus": {
+      "dipole_epsilon": 0.25,
+      "mode": null,
+      "amplitude": 0.0,
+      "metrics": {
+        "north_rms": 921.1805337429255,
+        "south_rms": 4564.437454938195,
+        "solstice_asymmetry": 0.16155531720723407,
+        "diameter_cv": 0.07088531164609532,
+        "mean_axis_ratio": 1.42089411186316
+      },
+      "restart_consensus_all_targets": false
+    },
+    "log_sensitivity": {
+      "north_rms": -0.23885452295405507,
+      "south_rms": -1.0780723378850077,
+      "solstice_asymmetry": 1.17970628122251,
+      "diameter_cv": 0.6606206046897389,
+      "mean_axis_ratio": -0.16071773528557765
+    }
+  },
+  "records": [
+    {
+      "mode": "monopole_epsilon",
+      "minus": {
+        "dipole_epsilon": 0.2,
+        "mode": "monopole_epsilon",
+        "amplitude": -0.05,
+        "metrics": {
+          "north_rms": 924.4214277167796,
+          "south_rms": 5136.741095615923,
+          "solstice_asymmetry": 0.15494011274852532,
+          "diameter_cv": 0.06954942020969959,
+          "mean_axis_ratio": 1.4061189735425492
+        },
+        "restart_consensus_all_targets": true
+      },
+      "plus": {
+        "dipole_epsilon": 0.2,
+        "mode": "monopole_epsilon",
+        "amplitude": 0.05,
+        "metrics": {
+          "north_rms": 940.260357239877,
+          "south_rms": 4565.964792001993,
+          "solstice_asymmetry": 0.14990914248607629,
+          "diameter_cv": 0.06738882085365429,
+          "mean_axis_ratio": 1.4598101521445705
+        },
+        "restart_consensus_all_targets": false
+      },
+      "log_sensitivity": {
+        "north_rms": 0.1698875443388559,
+        "south_rms": -1.177890131243693,
+        "solstice_asymmetry": -0.3300927907876283,
+        "diameter_cv": -0.3155844056947288,
+        "mean_axis_ratio": 0.3747298622770989
+      },
+      "preferred_orientation": 1.0,
+      "oriented_log_sensitivity": {
+        "north_rms": 0.1698875443388559,
+        "south_rms": -1.177890131243693,
+        "solstice_asymmetry": -0.3300927907876283,
+        "diameter_cv": -0.3155844056947288,
+        "mean_axis_ratio": 0.3747298622770989
+      },
+      "absolute_cosine_with_dipole": 0.24521579104732802,
+      "useful_for_scale_and_shape": false
+    },
+    {
+      "mode": "quadrupole_epsilon",
+      "minus": {
+        "dipole_epsilon": 0.2,
+        "mode": "quadrupole_epsilon",
+        "amplitude": -0.05,
+        "metrics": {
+          "north_rms": 923.7021456569717,
+          "south_rms": 4887.374016248607,
+          "solstice_asymmetry": 0.15150273202436867,
+          "diameter_cv": 0.06811435802397442,
+          "mean_axis_ratio": 1.443703891248355
+        },
+        "restart_consensus_all_targets": false
+      },
+      "plus": {
+        "dipole_epsilon": 0.2,
+        "mode": "quadrupole_epsilon",
+        "amplitude": 0.05,
+        "metrics": {
+          "north_rms": 940.9606081763146,
+          "south_rms": 4753.124769151811,
+          "solstice_asymmetry": 0.152656999471644,
+          "diameter_cv": 0.06867618289802806,
+          "mean_axis_ratio": 1.4218511550428772
+        },
+        "restart_consensus_all_targets": true
+      },
+      "log_sensitivity": {
+        "north_rms": 0.185116105577956,
+        "south_rms": -0.278529003547785,
+        "solstice_asymmetry": 0.07589913252020075,
+        "diameter_cv": 0.08214428124099005,
+        "mean_axis_ratio": -0.15252305043476022
+      },
+      "preferred_orientation": -1.0,
+      "oriented_log_sensitivity": {
+        "north_rms": -0.185116105577956,
+        "south_rms": 0.278529003547785,
+        "solstice_asymmetry": -0.07589913252020075,
+        "diameter_cv": -0.08214428124099005,
+        "mean_axis_ratio": 0.15252305043476022
+      },
+      "absolute_cosine_with_dipole": 0.6300615400470186,
+      "useful_for_scale_and_shape": false
+    },
+    {
+      "mode": "octupole_epsilon",
+      "minus": {
+        "dipole_epsilon": 0.2,
+        "mode": "octupole_epsilon",
+        "amplitude": -0.05,
+        "metrics": {
+          "north_rms": 934.8885053680128,
+          "south_rms": 4815.384841597506,
+          "solstice_asymmetry": 0.15842732256530756,
+          "diameter_cv": 0.07013674719173667,
+          "mean_axis_ratio": 1.426791857897511
+        },
+        "restart_consensus_all_targets": false
+      },
+      "plus": {
+        "dipole_epsilon": 0.2,
+        "mode": "octupole_epsilon",
+        "amplitude": 0.05,
+        "metrics": {
+          "north_rms": 929.7686489639295,
+          "south_rms": 4827.235194582363,
+          "solstice_asymmetry": 0.1457049128937082,
+          "diameter_cv": 0.06670367548839752,
+          "mean_axis_ratio": 1.4378252670946943
+        },
+        "restart_consensus_all_targets": false
+      },
+      "log_sensitivity": {
+        "north_rms": -0.05491485937304752,
+        "south_rms": 0.024579126640649207,
+        "solstice_asymmetry": -0.8371252357237213,
+        "diameter_cv": -0.5018681152209226,
+        "mean_axis_ratio": 0.07703272916619264
+      },
+      "preferred_orientation": 1.0,
+      "oriented_log_sensitivity": {
+        "north_rms": -0.05491485937304752,
+        "south_rms": 0.024579126640649207,
+        "solstice_asymmetry": -0.8371252357237213,
+        "diameter_cv": -0.5018681152209226,
+        "mean_axis_ratio": 0.07703272916619264
+      },
+      "absolute_cosine_with_dipole": 0.7820730709066432,
+      "useful_for_scale_and_shape": false
+    }
+  ],
+  "selected_mode_for_2d_scan": null,
+  "rule_frozen_before_run": true
+}

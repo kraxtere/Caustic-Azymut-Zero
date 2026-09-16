@@ -90,6 +90,7 @@ def fit_group(
     group: TargetGroup,
     epsilon: float,
     analytic_seed: dict[str, object],
+    additional_amplitudes: dict[str, float] | None = None,
 ) -> dict[str, object]:
     centre = np.array([0.0, 0.0, SELECTED_CENTRE_Z_KM])
     params = LensFieldParams(
@@ -97,6 +98,7 @@ def fit_group(
         SELECTED_RADIUS_KM,
         centre_km=tuple(centre),
         dipole_epsilon=epsilon,
+        **(additional_amplitudes or {}),
     )
     curves = tuple(
         build_local_maxwell_curve(origin, direction, params)
