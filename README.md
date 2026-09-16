@@ -186,6 +186,12 @@ eliptyczności: wszystkie 1024 kombinacje klastrów dają `axis_ratio` w zakresi
 `1,286–1,318`, powyżej limitu `1,10`. Szczegóły:
 [`docs/V2_LOCAL_BASIN_DIAGNOSTIC_RESULT.md`](docs/V2_LOCAL_BASIN_DIAGNOSTIC_RESULT.md).
 
+Przed pełnym testem osiągalności dodano regularną bazę skalarnego `n(rho,z)`.
+Techniczna walidacja pochodnych promienia przy `epsilon=0`, `0,20`, `0,40`
+przeszła z marginesem około pięciu rzędów wielkości. Nie jest to jeszcze wynik
+SVD ani no-go. Szczegóły:
+[`docs/V2_SCALAR_NX_TECHNICAL_RESULT.md`](docs/V2_SCALAR_NX_TECHNICAL_RESULT.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

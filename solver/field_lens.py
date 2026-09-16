@@ -62,6 +62,7 @@ class LensFieldParams:
     monopole_epsilon: float = 0.0
     quadrupole_epsilon: float = 0.0
     octupole_epsilon: float = 0.0
+    scalar_basis_terms: tuple[tuple[int, int, float], ...] = ()
 
     def validate(self) -> None:
         if self.family not in {"maxwell", "luneburg"}:
@@ -83,6 +84,17 @@ class LensFieldParams:
             raise ValueError("Maxwell perturbation amplitudes must be finite")
         if self.family == "luneburg" and any(value != 0.0 for value in perturbations):
             raise ValueError("local perturbations are only defined for Maxwell")
+        for radial_power, axial_power, coefficient in self.scalar_basis_terms:
+            if (
+                not isinstance(radial_power, int)
+                or not isinstance(axial_power, int)
+                or radial_power < 0
+                or axial_power < 0
+                or not math.isfinite(coefficient)
+            ):
+                raise ValueError("scalar basis terms require non-negative integer powers and finite coefficients")
+        if self.family == "luneburg" and self.scalar_basis_terms:
+            raise ValueError("scalar_basis_terms are only defined for Maxwell")
 
 
 def maxwell_fisheye_index(
@@ -135,7 +147,7 @@ def n_and_grad(
             params.quadrupole_epsilon,
             params.octupole_epsilon,
         )
-        if not any(amplitudes):
+        if not any(amplitudes) and not params.scalar_basis_terms:
             gradient = -4.0 * params.n0 * relative / (
                 scale**2 * denominator**2
             )
@@ -180,6 +192,37 @@ def n_and_grad(
             + eta2 * gradient_quadrupole
             + eta3 * gradient_octupole
         )
+        radial_coordinate = (x**2 + y**2) / scale**2
+        axial_coordinate = relative_z / scale
+        gradient_radial_coordinate = np.array([2.0 * x / scale**2, 2.0 * y / scale**2, 0.0])
+        gradient_axial_coordinate = axis / scale
+        gradient_envelope = -gradient_radial_coordinate - 2.0 * axial_coordinate * gradient_axial_coordinate
+        for radial_power, axial_power, coefficient in params.scalar_basis_terms:
+            radial_factor = radial_coordinate**radial_power
+            axial_factor = axial_coordinate**axial_power
+            basis_value = radial_factor * axial_factor * envelope
+            exponent += coefficient * basis_value
+            gradient_basis = radial_factor * axial_factor * gradient_envelope
+            if radial_power:
+                gradient_basis += (
+                    radial_power
+                    * radial_coordinate ** (radial_power - 1)
+                    * axial_factor
+                    * envelope
+                    * gradient_radial_coordinate
+                )
+            if axial_power:
+                gradient_basis += (
+                    axial_power
+                    * radial_factor
+                    * axial_coordinate ** (axial_power - 1)
+                    * envelope
+                    * gradient_axial_coordinate
+                )
+            gradient_exponent += coefficient * gradient_basis
+        # Generic basis terms are assembled after the named modes, therefore
+        # recompute the positive index with the complete exponent.
+        index = base_index * math.exp(exponent)
         gradient = index * (gradient_log_base + gradient_exponent)
         return index, gradient
 

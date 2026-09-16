@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "pre_registered_contract": "docs/V2_SCALAR_NX_SVD_CONTRACT.md",
+  "basis_term": [
+    1,
+    1
+  ],
+  "step": 0.02,
+  "maximum_relative_difference": 0.01,
+  "records": [
+    {
+      "dipole_epsilon": 0.0,
+      "coarse_point_derivative": [
+        -40.513360431395995,
+        -14.724626444996147,
+        -70.62086814248687
+      ],
+      "fine_point_derivative": [
+        -40.51336813117814,
+        -14.724619919741144,
+        -70.62085592724543
+      ],
+      "coarse_direction_derivative": [
+        0.015743721327195898,
+        -0.00110908628793982,
+        -0.003234626129383633
+      ],
+      "fine_direction_derivative": [
+        0.015743716461315282,
+        -0.0011090865900856284,
+        -0.0032346274838168654
+      ],
+      "point_relative_difference": 1.9151509121808808e-07,
+      "direction_relative_difference": 3.1406897773538644e-07,
+      "gate": {
+        "passed": true,
+        "checks": {
+          "finite_derivatives": true,
+          "point_derivative_converged": true,
+          "direction_derivative_converged": true
+        }
+      }
+    },
+    {
+      "dipole_epsilon": 0.2,
+      "coarse_point_derivative": [
+        -33.75932048447794,
+        -10.731214968228642,
+        -65.24462721804412
+      ],
+      "fine_point_derivative": [
+        -33.759327930147265,
+        -10.731210414655834,
+        -65.24461811713991
+      ],
+      "coarse_direction_derivative": [
+        0.01583938157170839,
+        -0.0007980635595136731,
+        -0.0027971188871128705
+      ],
+      "fine_direction_derivative": [
+        0.015839377482436412,
+        -0.0007980638978374865,
+        -0.0027971203479748574
+      ],
+      "point_relative_difference": 1.6984572256217065e-07,
+      "direction_relative_difference": 2.704591261623663e-07,
+      "gate": {
+        "passed": true,
+        "checks": {
+          "finite_derivatives": true,
+          "point_derivative_converged": true,
+          "direction_derivative_converged": true
+        }
+      }
+    },
+    {
+      "dipole_epsilon": 0.4,
+      "coarse_point_derivative": [
+        -28.545655064749553,
+        -7.5701261138249265,
+        -59.895177051021165
+      ],
+      "fine_point_derivative": [
+        -28.545661800626476,
+        -7.570122865070061,
+        -59.89517031466676
+      ],
+      "coarse_direction_derivative": [
+        0.0156684199687826,
+        -0.000615835937822079,
+        -0.002347502149294134
+      ],
+      "fine_direction_derivative": [
+        0.015668416599250168,
+        -0.000615836246971313,
+        -0.002347503607319501
+      ],
+      "point_relative_difference": 1.5071887708790658e-07,
+      "direction_relative_difference": 2.3238017753756586e-07,
+      "gate": {
+        "passed": true,
+        "checks": {
+          "finite_derivatives": true,
+          "point_derivative_converged": true,
+          "direction_derivative_converged": true
+        }
+      }
+    }
+  ],
+  "gate": {
+    "passed": true
+  },
+  "scope": "technical finite-difference gate; not an observational fit or no-go result"
+}

@@ -78,6 +78,26 @@ class LocalDipoleFieldTests(unittest.TestCase):
         relative_error = np.linalg.norm(gradient - numerical) / np.linalg.norm(gradient)
         self.assertLessEqual(relative_error, 1e-6)
 
+    def test_generic_scalar_basis_gradient_matches_central_difference(self) -> None:
+        params = LensFieldParams(
+            "maxwell",
+            self.radius,
+            dipole_epsilon=0.2,
+            scalar_basis_terms=((0, 0, 0.1), (1, 0, -0.2), (0, 2, 0.3), (1, 1, -0.1)),
+        )
+        point = np.array([1.2, -0.9, 1.7])
+        _, gradient = n_and_grad(point, params)
+        step = 1e-5
+        numerical = np.zeros(3)
+        for axis in range(3):
+            offset = np.zeros(3)
+            offset[axis] = step
+            plus, _ = n_and_grad(point + offset, params)
+            minus, _ = n_and_grad(point - offset, params)
+            numerical[axis] = (plus - minus) / (2.0 * step)
+        relative_error = np.linalg.norm(gradient - numerical) / np.linalg.norm(gradient)
+        self.assertLessEqual(relative_error, 1e-6)
+
 
 if __name__ == "__main__":
     unittest.main()

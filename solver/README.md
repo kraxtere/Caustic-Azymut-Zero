@@ -162,6 +162,11 @@ ale wszystkie 1024 kombinacje klastrów zachowują `axis_ratio > 1,286`.
 Niejednoznaczność punktu nie wyjaśnia porażki kształtu. Raport:
 `../docs/V2_LOCAL_BASIN_DIAGNOSTIC_RESULT.md`.
 
+Ogólna regularna baza skalarna `B_ab=u^a v^b(1-u-v^2)` przeszła techniczną
+bramkę różnic promienia w trzech punktach bazowych. Jest to walidacja
+infrastruktury przed pełnym SVD, nie wynik osiągalności. Raport:
+`../docs/V2_SCALAR_NX_TECHNICAL_RESULT.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku
