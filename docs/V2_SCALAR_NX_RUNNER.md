@@ -13,8 +13,11 @@ Runner wykonuje:
 - nieliniową walidację dziewięciu kandydatów w czterech krokach kontynuacji,
 - C-3 oraz pięć elementów każdej tarczy.
 
-Każdy zakończony cel jest zapisywany w katalogu checkpointów. Ponowne
-uruchomienie tej samej komendy wznawia pracę i nie liczy gotowych elementów.
+Każdy zakończony cel jest natychmiast zapisywany w katalogu checkpointów.
+Terminal pokazuje etap, licznik, procent, czas etapu i estymowane ETA. Pierwszy
+wiersz postępu może pojawić się dopiero po ukończeniu najkrótszego celu;
+następne aktualizacje pojawiają się regularnie. Ponowne uruchomienie tej samej
+komendy wznawia pracę i nie liczy gotowych elementów.
 
 ## Windows PowerShell
 
@@ -68,4 +71,3 @@ Tryb smoke, używany wyłącznie do kontroli instalacji:
 
 Smoke używa czterech obserwatorów, jednego punktu bazowego i jednej kolumny.
 Nie wolno interpretować go jako wyniku fizycznego.
-

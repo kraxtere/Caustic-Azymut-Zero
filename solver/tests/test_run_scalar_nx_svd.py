@@ -3,10 +3,14 @@ import unittest
 
 import numpy as np
 
-from solver.run_scalar_nx_svd import ALL_TERMS, BASIS_LEVELS, _residual
+from solver.run_scalar_nx_svd import ALL_TERMS, BASIS_LEVELS, _duration, _residual
 
 
 class ScalarNxSvdRunnerTests(unittest.TestCase):
+    def test_duration_format(self) -> None:
+        self.assertEqual(_duration(0), "00:00:00")
+        self.assertEqual(_duration(3661), "01:01:01")
+
     def test_basis_levels_are_nested_and_have_frozen_sizes(self) -> None:
         self.assertEqual([len(BASIS_LEVELS[name]) for name in BASIS_LEVELS], [3, 6, 10])
         self.assertEqual(tuple(BASIS_LEVELS["degree_3"]), ALL_TERMS)

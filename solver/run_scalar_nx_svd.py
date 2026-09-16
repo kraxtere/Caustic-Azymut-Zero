@@ -8,6 +8,7 @@ import itertools
 import json
 import math
 import os
+import time
 from dataclasses import replace
 from pathlib import Path
 from typing import Iterable
@@ -166,17 +167,6 @@ def _candidate_task(
     return result
 
 
-def _run_tasks(tasks, worker, workers: int):
-    output = {}
-    with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as pool:
-        futures = {pool.submit(worker, *arguments): key for key, arguments in tasks}
-        for future in concurrent.futures.as_completed(futures):
-            key = futures[future]
-            output[key] = future.result()
-            print(f"complete {key}", flush=True)
-    return output
-
-
 def _disk(results: dict[str, dict[str, object]], delta: float):
     return _disk_shape({sample: {"source_km": results[f"disk:{delta:+.2f}:{sample}"]["source_km"]} for sample in SAMPLE_IDS})
 
@@ -214,7 +204,20 @@ def _residual(observables: np.ndarray, fit: bool, c3_target: tuple[float, float]
     ])
 
 
-def _checkpointed_tasks(specs, worker, checkpoint_dir: Path, workers: int):
+def _duration(seconds: float) -> str:
+    seconds = max(0, int(round(seconds)))
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
+
+def _checkpointed_tasks(
+    specs,
+    worker,
+    checkpoint_dir: Path,
+    workers: int,
+    stage_name: str,
+):
     results = {}
     pending = []
     for key, arguments in specs:
@@ -223,10 +226,38 @@ def _checkpointed_tasks(specs, worker, checkpoint_dir: Path, workers: int):
             results[key] = _read_json(path)
         else:
             pending.append((key, arguments))
-    for key, result in _run_tasks(pending, worker, workers).items():
-        path = checkpoint_dir / f"{_slug(key)}.json"
-        _write_json(path, result)
-        results[key] = result
+    total = len(specs)
+    completed = len(results)
+    print(
+        f"[{stage_name}] start: {completed}/{total} z checkpointów, "
+        f"pozostało {len(pending)}, workers={workers}",
+        flush=True,
+    )
+    if not pending:
+        print(f"[{stage_name}] 100.0% ({total}/{total}) — gotowe z checkpointów", flush=True)
+        return results
+
+    started = time.monotonic()
+    newly_completed = 0
+    with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(worker, *arguments): key for key, arguments in pending}
+        for future in concurrent.futures.as_completed(futures):
+            key = futures[future]
+            result = future.result()
+            path = checkpoint_dir / f"{_slug(key)}.json"
+            _write_json(path, result)
+            results[key] = result
+            completed += 1
+            newly_completed += 1
+            elapsed = time.monotonic() - started
+            rate = newly_completed / elapsed if elapsed > 0.0 else 0.0
+            eta = (total - completed) / rate if rate > 0.0 else 0.0
+            print(
+                f"[{stage_name}] {100.0 * completed / total:6.2f}% "
+                f"({completed}/{total}) | czas {_duration(elapsed)} | "
+                f"ETA {_duration(eta)} | {key}",
+                flush=True,
+            )
     return results
 
 
@@ -238,7 +269,9 @@ def run(output: Path, checkpoint_dir: Path, workers: int, smoke: bool = False) -
     group_ids = tuple(build_groups(observer_limit))
 
     anchor_specs = [(group_id, (group_id, observer_limit, base_dipoles)) for group_id in group_ids]
-    anchor_payloads = _checkpointed_tasks(anchor_specs, _anchor_task, checkpoint_dir / "anchors", workers)
+    anchor_payloads = _checkpointed_tasks(
+        anchor_specs, _anchor_task, checkpoint_dir / "anchors", workers, "1/3 kotwice"
+    )
     anchors = {
         dipole: {group_id: anchor_payloads[group_id]["anchors"][str(dipole)] for group_id in group_ids}
         for dipole in base_dipoles
@@ -254,7 +287,9 @@ def run(output: Path, checkpoint_dir: Path, workers: int, smoke: bool = False) -
         key = f"base={dipole}:term={a}_{b}:sign={sign}:group={group_id}"
         amplitudes = ((a, b, sign * COLUMN_STEP),)
         column_specs.append((key, (group_id, observer_limit, dipole, amplitudes, anchors[dipole][group_id]["alphas_rad"])))
-    column_results = _checkpointed_tasks(column_specs, _evaluation_task, checkpoint_dir / "columns", workers)
+    column_results = _checkpointed_tasks(
+        column_specs, _evaluation_task, checkpoint_dir / "columns", workers, "2/3 Jacobian"
+    )
 
     analyses = []
     candidate_specs = []
@@ -305,7 +340,9 @@ def run(output: Path, checkpoint_dir: Path, workers: int, smoke: bool = False) -
                 "predicted_heldout_residual": predicted_heldout.tolist(),
             }
 
-    candidate_results = _checkpointed_tasks(candidate_specs, _candidate_task, checkpoint_dir / "candidates", workers)
+    candidate_results = _checkpointed_tasks(
+        candidate_specs, _candidate_task, checkpoint_dir / "candidates", workers, "3/3 walidacja nieliniowa"
+    )
     for candidate_id, metadata in candidate_metadata.items():
         results = {group_id: candidate_results[f"{candidate_id}:group={group_id}"] for group_id in group_ids}
         nonlinear_fit = _residual(_observables(results, True), True, c3_target)
