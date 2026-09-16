@@ -192,6 +192,11 @@ przeszła z marginesem około pięciu rzędów wielkości. Nie jest to jeszcze w
 SVD ani no-go. Szczegóły:
 [`docs/V2_SCALAR_NX_TECHNICAL_RESULT.md`](docs/V2_SCALAR_NX_TECHNICAL_RESULT.md).
 
+Pełny, wznawialny i równoległy runner SVD jest gotowy. Obejmuje trzy punkty
+bazowe, bazy 3/6/10 funkcji, oryginalny podział fit/held-out i nieliniową
+kontrolę dziewięciu kroków. Instrukcja uruchomienia:
+[`docs/V2_SCALAR_NX_RUNNER.md`](docs/V2_SCALAR_NX_RUNNER.md).
+
 Pierwszy przebieg ustawienia `R=20015 km`, `z0=0` ujawnił błędne kryterium
 wyjścia z kulistego pola; zostało ono zastąpione rzeczywistym przecięciem
 sferycznej granicy bez zmiany równania RK45. Dalsza ścieżka używa etapowego

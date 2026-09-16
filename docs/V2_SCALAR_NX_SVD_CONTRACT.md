@@ -53,6 +53,22 @@ Kandydat na numeryczny no-go wymaga dodatniej podłogi residuum jednocześnie:
 
 Sam brak rzędu w jednym lokalnym Jacobianie nie wystarcza.
 
+Zamrożone poziomy bazy zawierają wszystkie pary `(a,b)` o `a+b<=1`, następnie
+`a+b<=2` i `a+b<=3`, czyli odpowiednio `3`, `6` i `10` kolumn. Centralny krok
+kolumn wynosi `0,01`. Rząd SVD używa względnego progu `1e-8` największej
+wartości osobliwej.
+
+Minimalnonormowe rozwiązanie liniowe jest ograniczane do kuli zaufania
+`||c||2<=0,25`. Jeżeli pseudoodwrotność wychodzi poza kulę, wektor jest
+skalowany do jej brzegu. Każdy taki krok jest następnie liczony ponownie pełnym
+propagatorem; przewidywanie liniowe samo nie może zaliczyć bramki.
+
+Obserwable fit to logarytmy RMS obu biegunów, podpisany logarytm stosunku
+średnic `delta=-23,44/+23,44` oraz logarytmy `axis_ratio` obu tarcz. Celem C-3
+jest najlepszy RMS osiągnięty przez trzy zamrożone punkty bazowe, celem skali
+jest zero, a celem kształtu próg `axis_ratio=1,10`. Held-out używa analogicznych
+metryk tarczy dla `+-11,72 deg`.
+
 ## Bramka techniczna przed pełnym przebiegiem
 
 Dla jednego modu `B_11` sprawdzamy centralne różnice końcowego punktu i
@@ -65,4 +81,3 @@ punktach bazowych. Wymagania:
   pokryte testami jednostkowymi.
 
 Ta bramka waliduje infrastrukturę różniczkowania, nie hipotezę no-go.
-

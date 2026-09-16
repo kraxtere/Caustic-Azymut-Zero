@@ -167,6 +167,10 @@ bramkę różnic promienia w trzech punktach bazowych. Jest to walidacja
 infrastruktury przed pełnym SVD, nie wynik osiągalności. Raport:
 `../docs/V2_SCALAR_NX_TECHNICAL_RESULT.md`.
 
+Pełny test uruchamia `run_scalar_nx_svd.py`. Jest równoległy i wznawialny,
+a skrypty `run_full_scalar_svd.ps1` oraz `run_full_scalar_svd.sh` ustawiają
+standardowe ścieżki wyników. Instrukcja: `../docs/V2_SCALAR_NX_RUNNER.md`.
+
 ## Historyczna hipoteza v1
 
 Dla jednego obiektu i jednej chwili prowadzimy promienie wstecz od kilku

@@ -9,3 +9,5 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 solver/results/latest-fit.json
+solver/results/*-checkpoints/
+solver/results/smoke-*.json
